@@ -9,4 +9,21 @@ export const siteConfig = {
   playStoreUrl:
     import.meta.env.PUBLIC_PLAY_STORE_URL ??
     'https://play.google.com/store/apps/details?id=com.ykn.edefidelegados',
+  contacto: {
+    horarios: [
+      'Lunes a jueves de 17:30 hs a 20:30 hs',
+      'Viernes de 17:00 hs a 19:30 hs',
+    ],
+    direccion: 'Juan B. Justo 550, Haedo. Bs. As',
+    cp: '1706',
+    telefono: '+541121958389',
+    telefonoDisplay: '21958389',
+    email: 'edefiargentina@hotmail.com',
+    mapsUrl:
+      'https://www.google.com/maps/search/?api=1&query=Juan+B.+Justo+550,+Haedo,+Buenos+Aires',
+  },
+  redes: {
+    instagram: 'https://www.instagram.com/liga_edefi/',
+    facebook: 'https://www.facebook.com/ligaedefi/',
+  },
 } as const;

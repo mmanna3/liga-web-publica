@@ -40,7 +40,25 @@ const icons: Record<IconName, IconShape[]> = {
       type: 'path',
       linecap: 'round',
       linejoin: 'round',
-      d: 'M17 20h5v-2a4 4 0 00-5-3.87M9 20H2v-2a4 4 0 015-3.87M16 7a4 4 0 11-8 0 4 4 0 018 0zM23 20v-2a4 4 0 00-3-3.87M1 20v-2a4 4 0 013-3.87',
+      d: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2',
+    },
+    {
+      type: 'path',
+      linecap: 'round',
+      linejoin: 'round',
+      d: 'M9 11a4 4 0 100-8 4 4 0 000 8z',
+    },
+    {
+      type: 'path',
+      linecap: 'round',
+      linejoin: 'round',
+      d: 'M23 21v-2a4 4 0 00-3-3.87',
+    },
+    {
+      type: 'path',
+      linecap: 'round',
+      linejoin: 'round',
+      d: 'M16 3.13a4 4 0 010 7.75',
     },
   ],
   layers: [
@@ -118,6 +136,20 @@ const icons: Record<IconName, IconShape[]> = {
       linecap: 'round',
       linejoin: 'round',
       d: 'M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z',
+    },
+  ],
+  mail: [
+    {
+      type: 'path',
+      linecap: 'round',
+      linejoin: 'round',
+      d: 'M4 6h16a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2z',
+    },
+    {
+      type: 'path',
+      linecap: 'round',
+      linejoin: 'round',
+      d: 'M22 8l-10 7L2 8',
     },
   ],
 };

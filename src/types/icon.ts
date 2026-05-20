@@ -10,4 +10,5 @@ export type IconName =
   | 'smartphone'
   | 'mobile-phone'
   | 'arrow-right'
-  | 'alert';
+  | 'alert'
+  | 'mail';
