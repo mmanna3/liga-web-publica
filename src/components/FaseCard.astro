@@ -5,9 +5,10 @@ import ZonaBadge from '@components/ZonaBadge.astro';
 
 interface Props {
   fase: Fase;
+  accentClass?: string;
 }
 
-const { fase } = Astro.props;
+const { fase, accentClass } = Astro.props;
 ---
 
 <Card class="border-l-2 border-l-white/10" hover={false}>
@@ -16,7 +17,14 @@ const { fase } = Astro.props;
   {
     fase.zonas.length > 0 ? (
       <div class="mt-4">
-        <p class="font-display mb-2 text-[10px] tracking-[0.2em] text-zinc-500 uppercase">Zonas</p>
+        <p
+          class:list={[
+            'mb-2 inline-block text-[10px] font-bold tracking-[0.3em] uppercase',
+            accentClass ?? 'text-zinc-500',
+          ]}
+        >
+          Zonas
+        </p>
         <div class="flex flex-wrap gap-2">
           {fase.zonas.map((zona) => (
             <ZonaBadge nombre={zona.nombre} />

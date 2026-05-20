@@ -80,6 +80,13 @@
   .stagger-4 {
     animation-delay: 0.4s;
   }
+
+  .hero-bg-photo {
+    object-fit: cover;
+    object-position: 72% 42%;
+    transform: scale(1.06);
+    filter: brightness(0.82) saturate(0.88) contrast(1.08);
+  }
 }
 
 @keyframes fade-up {

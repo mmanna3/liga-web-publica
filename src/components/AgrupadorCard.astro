@@ -54,6 +54,6 @@ const staggerClass = `stagger-${Math.min(index + 1, 4)}`;
   </header>
 
   <div class="relative z-10 grid gap-6 lg:grid-cols-2">
-    {agrupador.torneos.map((torneo) => <TorneoCard torneo={torneo} />)}
+    {agrupador.torneos.map((torneo) => <TorneoCard torneo={torneo} accentClass={theme.accent} />)}
   </div>
 </article>

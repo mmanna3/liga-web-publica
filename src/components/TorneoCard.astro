@@ -5,9 +5,10 @@ import FaseCard from '@components/FaseCard.astro';
 
 interface Props {
   torneo: Torneo;
+  accentClass?: string;
 }
 
-const { torneo } = Astro.props;
+const { torneo, accentClass } = Astro.props;
 ---
 
 <Card>
@@ -16,6 +17,6 @@ const { torneo } = Astro.props;
   </h3>
 
   <div class="mt-6 space-y-4">
-    {torneo.fases.map((fase) => <FaseCard fase={fase} />)}
+    {torneo.fases.map((fase) => <FaseCard fase={fase} accentClass={accentClass} />)}
   </div>
 </Card>
