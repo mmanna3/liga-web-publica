@@ -3,7 +3,10 @@ import BrandName from '@components/BrandName.astro';
 import Logo from '@components/Logo.astro';
 import Icon from '@components/ui/Icon.astro';
 
-const navLinks = [{ href: '#torneos', label: 'Torneos' }];
+const navLinks = [
+  { href: '#nosotros', label: 'Nosotros', icon: 'users' as const },
+  { href: '#torneos', label: 'Torneos', icon: 'trophy' as const },
+];
 const homeUrl = import.meta.env.BASE_URL;
 ---
 
@@ -25,7 +28,7 @@ const homeUrl = import.meta.env.BASE_URL;
             href={link.href}
             class="font-display inline-flex items-center gap-2 leading-none [&_svg]:-translate-y-px text-sm tracking-wide text-zinc-400 uppercase transition-colors hover:text-white"
           >
-            <Icon name="trophy" size="sm" />
+            <Icon name={link.icon} size="sm" />
             {link.label}
           </a>
         ))
