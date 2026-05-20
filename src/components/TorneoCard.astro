@@ -1,0 +1,21 @@
+---
+import type { Torneo } from '@types/torneo';
+import Card from '@components/ui/Card.astro';
+import FaseCard from '@components/FaseCard.astro';
+
+interface Props {
+  torneo: Torneo;
+}
+
+const { torneo } = Astro.props;
+---
+
+<Card>
+  <h3 class="font-display text-2xl tracking-wide text-white uppercase sm:text-3xl">
+    {torneo.nombre}
+  </h3>
+
+  <div class="mt-6 space-y-4">
+    {torneo.fases.map((fase) => <FaseCard fase={fase} />)}
+  </div>
+</Card>

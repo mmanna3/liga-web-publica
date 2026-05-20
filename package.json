@@ -1,0 +1,36 @@
+{
+  "name": "liga-web-publica",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "BASE_PATH=/ astro dev",
+    "preview:gh-pages": "BASE_PATH=/liga-web-publica/ astro preview",
+    "build": "astro build",
+    "build:local": "BASE_PATH=/ astro build",
+    "build:gh-pages": "BASE_PATH=/liga-web-publica/ astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.0",
+    "astro": "^6.3.5",
+    "tailwindcss": "^4.3.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.4.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-astro": "^1.7.0",
+    "eslint-plugin-prettier": "^5.5.5",
+    "prettier": "^3.8.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "typescript-eslint": "^8.59.4"
+  }
+}

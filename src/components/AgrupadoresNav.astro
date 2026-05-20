@@ -1,0 +1,43 @@
+---
+import type { AgrupadorDeTorneo } from '@types/torneo';
+import { getAgrupadorTheme } from '@lib/colors';
+
+interface Props {
+  agrupadores: AgrupadorDeTorneo[];
+}
+
+const { agrupadores } = Astro.props;
+---
+
+{
+  agrupadores.length > 0 && (
+    <section id="categorias" class="scroll-mt-24 border-y border-white/5 py-16">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <ul class="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+          {agrupadores.map((a) => {
+            const theme = getAgrupadorTheme(a.color);
+            return (
+              <li>
+                <a
+                  href="#torneos"
+                  class:list={[
+                    'glass glass-hover flex items-center gap-3 rounded-full px-6 py-3 transition-all duration-300',
+                    theme.border,
+                  ]}
+                >
+                  <span
+                    class:list={['h-2 w-2 rounded-full bg-current', theme.accent]}
+                    aria-hidden="true"
+                  />
+                  <span class="font-display text-lg tracking-wide text-white uppercase">
+                    {a.nombre}
+                  </span>
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </section>
+  )
+}

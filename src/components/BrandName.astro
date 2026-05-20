@@ -1,0 +1,13 @@
+---
+import { siteConfig } from '@lib/site';
+
+interface Props {
+  class?: string;
+  as?: 'span' | 'p' | 'h1' | 'h2' | 'dd';
+}
+
+const { class: className = '', as = 'span' } = Astro.props;
+const Tag = as;
+---
+
+<Tag class:list={['font-brand uppercase', className]}>{siteConfig.nombre}</Tag>

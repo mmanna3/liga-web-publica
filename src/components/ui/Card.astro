@@ -1,0 +1,20 @@
+---
+interface Props {
+  class?: string;
+  hover?: boolean;
+  as?: 'article' | 'div';
+}
+
+const { class: className = '', hover = true, as = 'article' } = Astro.props;
+const Tag = as === 'article' ? 'article' : 'div';
+---
+
+<Tag
+  class:list={[
+    'glass rounded-2xl p-5 sm:p-6',
+    hover && 'glass-hover hover:-translate-y-0.5',
+    className,
+  ]}
+>
+  <slot />
+</Tag>

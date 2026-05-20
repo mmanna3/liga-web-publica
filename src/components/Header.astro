@@ -1,0 +1,40 @@
+---
+import BrandName from '@components/BrandName.astro';
+import Logo from '@components/Logo.astro';
+
+const navLinks = [{ href: '#torneos', label: 'Torneos' }];
+const homeUrl = import.meta.env.BASE_URL;
+---
+
+<header
+  class="fixed top-0 right-0 left-0 z-50 border-b border-white/5 bg-surface/80 backdrop-blur-xl transition-colors duration-300"
+>
+  <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <a href={homeUrl} class="group flex items-center gap-3">
+      <Logo size="md" variant="emblem" />
+      <BrandName
+        class="text-xl tracking-widest text-white transition-colors group-hover:text-accent-hot"
+      />
+    </a>
+
+    <nav class="hidden items-center gap-8 md:flex" aria-label="Principal">
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            class="font-display text-sm tracking-wide text-zinc-400 uppercase transition-colors hover:text-white"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <a
+      href="#torneos"
+      class="font-display rounded-full bg-white px-4 py-2 text-xs tracking-widest text-black uppercase transition-transform duration-200 hover:scale-105 active:scale-95"
+    >
+      Ver torneos
+    </a>
+  </div>
+</header>

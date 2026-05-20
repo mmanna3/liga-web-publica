@@ -1,0 +1,16 @@
+---
+interface Props {
+  lines?: number;
+}
+
+const { lines = 3 } = Astro.props;
+const widths = ['w-2/3', 'w-full', 'w-5/6'] as const;
+---
+
+<div class="animate-pulse-soft space-y-4" aria-hidden="true">
+  {
+    Array.from({ length: lines }).map((_, i) => (
+      <div class:list={['h-4 rounded-lg bg-white/10', widths[i % widths.length]]} />
+    ))
+  }
+</div>

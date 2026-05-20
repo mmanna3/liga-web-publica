@@ -1,0 +1,59 @@
+---
+import type { AgrupadorDeTorneo } from '@types/torneo';
+import { getAgrupadorTheme } from '@lib/colors';
+import TorneoCard from '@components/TorneoCard.astro';
+
+interface Props {
+  agrupador: AgrupadorDeTorneo;
+  index?: number;
+}
+
+const { agrupador, index = 0 } = Astro.props;
+const theme = getAgrupadorTheme(agrupador.color);
+const staggerClass = `stagger-${Math.min(index + 1, 4)}`;
+---
+
+<article
+  class:list={[
+    'animate-fade-up relative overflow-hidden rounded-3xl border p-6 sm:p-8 md:p-10',
+    theme.border,
+    theme.glow,
+    'shadow-2xl transition-shadow duration-500 hover:shadow-[0_24px_80px_-12px_rgba(0,0,0,0.6)]',
+    staggerClass,
+  ]}
+>
+  <div
+    class:list={['pointer-events-none absolute inset-0 bg-linear-to-br opacity-60', theme.gradient]}
+    aria-hidden="true"
+  >
+  </div>
+  <div class="noise-overlay pointer-events-none absolute inset-0 opacity-30" aria-hidden="true">
+  </div>
+
+  <header
+    class="relative z-10 mb-10 flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-8"
+  >
+    <div>
+      <span
+        class:list={[
+          'mb-2 inline-block text-[10px] font-bold tracking-[0.3em] uppercase',
+          theme.accent,
+        ]}
+      >
+        {agrupador.color}
+      </span>
+      <h3
+        class="font-display text-4xl leading-none tracking-wide text-white uppercase sm:text-5xl md:text-6xl"
+      >
+        {agrupador.nombre}
+      </h3>
+    </div>
+    <span class="glass rounded-full px-4 py-1.5 text-sm font-medium text-zinc-400">
+      {agrupador.torneos.length} torneos
+    </span>
+  </header>
+
+  <div class="relative z-10 grid gap-6 lg:grid-cols-2">
+    {agrupador.torneos.map((torneo) => <TorneoCard torneo={torneo} />)}
+  </div>
+</article>

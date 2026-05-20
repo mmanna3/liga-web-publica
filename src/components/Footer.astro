@@ -1,0 +1,40 @@
+---
+import { siteConfig } from '@lib/site';
+import BrandName from '@components/BrandName.astro';
+import Logo from '@components/Logo.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-white/5 bg-surface-elevated/50 py-16">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
+      <div class="flex gap-4">
+        <Logo size="lg" variant="emblem" />
+        <div>
+          <BrandName class="text-3xl tracking-wide text-white" as="p" />
+          <p class="mt-2 max-w-sm text-sm text-zinc-500">{siteConfig.descripcion}</p>
+        </div>
+      </div>
+
+      <nav class="flex flex-wrap gap-8" aria-label="Pie de página">
+        <a href="#torneos" class="text-sm text-zinc-400 transition-colors hover:text-white">
+          Torneos
+        </a>
+        <a href="#categorias" class="text-sm text-zinc-400 transition-colors hover:text-white">
+          Categorías
+        </a>
+      </nav>
+    </div>
+
+    <div
+      class="mt-12 flex flex-col gap-2 border-t border-white/5 pt-8 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p class="text-xs text-zinc-600">
+        © {year}
+        <BrandName class="inline text-xs" />. Todos los derechos reservados.
+      </p>
+      <p class="text-xs text-zinc-500">Web desarrollada por <a href="https://www.linkedin.com/in/nicolas-sanz-610500251/" class="text-zinc-400 hover:text-white">YKN Studio</a></p>
+    </div>
+  </div>
+</footer>

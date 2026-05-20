@@ -1,0 +1,113 @@
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'Coalition';
+  src: url('../assets/fonts/Coalition.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'D3 Euronism';
+  src: url('../assets/fonts/D3Euronism.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-display: 'Coalition', ui-sans-serif, system-ui, sans-serif;
+  --font-brand: 'D3 Euronism', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  --color-surface: #0a0a0b;
+  --color-surface-elevated: #121214;
+  --color-border-glass: rgb(255 255 255 / 0.08);
+  --color-accent-hot: #22c55e;
+  --color-accent-cool: #00d4ff;
+
+  --animate-fade-up: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-fade-in: fade-in 0.5s ease both;
+  --animate-pulse-soft: pulse-soft 2.5s ease-in-out infinite;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-surface font-sans text-zinc-100 antialiased;
+  }
+
+  ::selection {
+    @apply bg-accent-hot/40 text-white;
+  }
+}
+
+@layer utilities {
+  .font-brand {
+    font-family: var(--font-brand);
+    letter-spacing: 0.06em;
+  }
+
+  .text-gradient-hero {
+    @apply bg-linear-to-r from-white via-zinc-200 to-zinc-500 bg-clip-text text-transparent;
+  }
+
+  .glass {
+    @apply border border-border-glass bg-white/5 backdrop-blur-xl;
+  }
+
+  .glass-hover {
+    @apply transition-all duration-300 hover:border-white/15 hover:bg-white/8 hover:shadow-lg;
+  }
+
+  .noise-overlay {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  }
+
+  .stagger-1 {
+    animation-delay: 0.1s;
+  }
+  .stagger-2 {
+    animation-delay: 0.2s;
+  }
+  .stagger-3 {
+    animation-delay: 0.3s;
+  }
+  .stagger-4 {
+    animation-delay: 0.4s;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}

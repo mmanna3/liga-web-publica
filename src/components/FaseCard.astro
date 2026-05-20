@@ -1,0 +1,30 @@
+---
+import type { Fase } from '@types/torneo';
+import Card from '@components/ui/Card.astro';
+import ZonaBadge from '@components/ZonaBadge.astro';
+
+interface Props {
+  fase: Fase;
+}
+
+const { fase } = Astro.props;
+---
+
+<Card class="border-l-2 border-l-white/10" hover={false}>
+  <h4 class="font-display text-xl tracking-wide text-white uppercase">{fase.nombre}</h4>
+
+  {
+    fase.zonas.length > 0 ? (
+      <div class="mt-4">
+        <p class="font-display mb-2 text-[10px] tracking-[0.2em] text-zinc-500 uppercase">Zonas</p>
+        <div class="flex flex-wrap gap-2">
+          {fase.zonas.map((zona) => (
+            <ZonaBadge nombre={zona.nombre} />
+          ))}
+        </div>
+      </div>
+    ) : (
+      <p class="mt-3 text-sm text-zinc-600 italic">Sin zonas asignadas</p>
+    )
+  }
+</Card>

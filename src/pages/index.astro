@@ -1,0 +1,26 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/Hero.astro';
+import AgrupadoresNav from '@components/AgrupadoresNav.astro';
+import TorneosSection from '@components/TorneosSection.astro';
+import { getAgrupadoresDeTorneo, ApiError } from '@lib/api';
+import type { AgrupadorDeTorneo } from '@types/torneo';
+
+let agrupadores: AgrupadorDeTorneo[] = [];
+let fetchError: string | null = null;
+
+try {
+  agrupadores = await getAgrupadoresDeTorneo();
+} catch (error) {
+  fetchError =
+    error instanceof ApiError ? error.message : 'Ocurrió un error inesperado al cargar los torneos';
+}
+
+const totalTorneos = agrupadores.reduce((acc, a) => acc + a.torneos.length, 0);
+---
+
+<BaseLayout>
+  <Hero totalAgrupadores={agrupadores.length} totalTorneos={totalTorneos} />
+  <AgrupadoresNav agrupadores={agrupadores} />
+  <TorneosSection agrupadores={agrupadores} error={fetchError} />
+</BaseLayout>
