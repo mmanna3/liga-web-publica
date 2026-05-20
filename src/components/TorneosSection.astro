@@ -1,7 +1,11 @@
 ---
 import type { AgrupadorDeTorneo } from '@types/torneo';
 import SectionHeading from '@components/ui/SectionHeading.astro';
+import Icon from '@components/ui/Icon.astro';
 import AgrupadorCard from '@components/AgrupadorCard.astro';
+import { assetUrl } from '@lib/paths';
+
+const sectionBgImage = assetUrl('from-ball-white-line.jpg');
 
 interface Props {
   agrupadores: AgrupadorDeTorneo[];
@@ -11,12 +15,24 @@ interface Props {
 const { agrupadores, error } = Astro.props;
 ---
 
-<section id="torneos" class="scroll-mt-24 py-20 sm:py-28">
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<section id="torneos" class="relative scroll-mt-24 overflow-hidden py-20 sm:py-28">
+  <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+    <img
+      src={sectionBgImage}
+      alt=""
+      width="1920"
+      height="1080"
+      class="absolute -right-[20%] top-1/2 h-[70%] max-h-[600px] w-auto -translate-y-1/2 object-cover opacity-[0.06] mix-blend-screen"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+  <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <SectionHeading
       eyebrow="Competencias"
       title="Torneos"
       description="Explorá torneos y zonas de la liga. Datos en tiempo real."
+      icon="trophy"
     />
 
     {
@@ -25,6 +41,7 @@ const { agrupadores, error } = Astro.props;
           class="glass animate-fade-in rounded-2xl border border-red-500/30 bg-red-950/20 p-8 text-center"
           role="alert"
         >
+          <Icon name="alert" size="xl" class="mx-auto mb-4 text-red-400" />
           <p class="font-display text-2xl tracking-wide text-red-400 uppercase">
             No se pudo cargar
           </p>
@@ -32,6 +49,7 @@ const { agrupadores, error } = Astro.props;
         </div>
       ) : agrupadores.length === 0 ? (
         <div class="glass animate-fade-in rounded-2xl p-12 text-center">
+          <Icon name="ball" size="xl" class="mx-auto mb-4 text-zinc-600" />
           <p class="text-zinc-500">No hay torneos publicados en este momento.</p>
         </div>
       ) : (

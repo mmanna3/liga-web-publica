@@ -1,24 +1,47 @@
 ---
+import Icon from '@components/ui/Icon.astro';
+import type { IconName } from '@types/icon';
+
 interface Props {
   eyebrow?: string;
   title: string;
   description?: string;
   id?: string;
+  icon?: IconName;
 }
 
-const { eyebrow, title, description, id } = Astro.props;
+const { eyebrow, title, description, id, icon } = Astro.props;
 ---
 
 <header class="mb-12 max-w-3xl animate-fade-up" id={id}>
   {
     eyebrow && (
-      <p class="font-display mb-3 text-xs tracking-[0.25em] text-accent-hot uppercase">{eyebrow}</p>
+      <p class="font-display mb-3 flex items-center gap-2 text-xs tracking-[0.25em] text-accent-hot uppercase">
+        {icon && (
+          <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-accent-hot/15">
+            <Icon name={icon} size="sm" class="text-accent-hot" />
+          </span>
+        )}
+        {eyebrow}
+      </p>
     )
   }
-  <h2
-    class="font-display text-4xl leading-none tracking-wide text-white uppercase sm:text-5xl md:text-6xl"
-  >
-    {title}
-  </h2>
+  <div class="flex items-start gap-4">
+    {
+      icon && !eyebrow && (
+        <span
+          class="mt-1 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/5"
+          aria-hidden="true"
+        >
+          <Icon name={icon} size="lg" class="text-accent-hot" />
+        </span>
+      )
+    }
+    <h2
+      class="font-display text-4xl leading-none tracking-wide text-white uppercase sm:text-5xl md:text-6xl"
+    >
+      {title}
+    </h2>
+  </div>
   {description && <p class="mt-4 text-lg leading-relaxed text-zinc-400">{description}</p>}
 </header>

@@ -1,6 +1,7 @@
 ---
 import type { AgrupadorDeTorneo } from '@types/torneo';
 import { getAgrupadorTheme } from '@lib/colors';
+import Icon from '@components/ui/Icon.astro';
 import TorneoCard from '@components/TorneoCard.astro';
 
 interface Props {
@@ -30,17 +31,28 @@ const staggerClass = `stagger-${Math.min(index + 1, 4)}`;
   <div class="noise-overlay pointer-events-none absolute inset-0 opacity-30" aria-hidden="true">
   </div>
 
+  <Icon
+    name="ball"
+    class:list={[
+      'pointer-events-none absolute -right-4 -top-4 h-40 w-40 opacity-[0.07] sm:h-52 sm:w-52',
+      theme.accent,
+    ]}
+    aria-hidden="true"
+  />
+
   <header
     class="relative z-10 mb-10 flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-8"
   >
-    <div>
+    <div class="flex items-start gap-4">
       <span
         class:list={[
-          'mb-2 inline-block text-[10px] font-bold tracking-[0.3em] uppercase',
+          'flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border bg-white/5',
+          theme.border,
           theme.accent,
         ]}
+        aria-hidden="true"
       >
-        {agrupador.color}
+        <Icon name="users" size="lg" />
       </span>
       <h3
         class="font-display text-4xl leading-none tracking-wide text-white uppercase sm:text-5xl md:text-6xl"
@@ -48,12 +60,19 @@ const staggerClass = `stagger-${Math.min(index + 1, 4)}`;
         {agrupador.nombre}
       </h3>
     </div>
-    <span class="glass rounded-full px-4 py-1.5 text-sm font-medium text-zinc-400">
+    <span class="glass inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium text-zinc-400">
+      <Icon name="trophy" size="sm" class={theme.accent} />
       {agrupador.torneos.length} torneos
     </span>
   </header>
 
   <div class="relative z-10 grid gap-6 lg:grid-cols-2">
-    {agrupador.torneos.map((torneo) => <TorneoCard torneo={torneo} accentClass={theme.accent} />)}
+    {agrupador.torneos.map((torneo) => (
+      <TorneoCard
+        torneo={torneo}
+        accentClass={theme.accent}
+        pillHoverClass={theme.pillHover}
+      />
+    ))}
   </div>
 </article>

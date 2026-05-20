@@ -1,38 +1,51 @@
 ---
 import type { Fase } from '@types/torneo';
 import Card from '@components/ui/Card.astro';
+import Icon from '@components/ui/Icon.astro';
 import ZonaBadge from '@components/ZonaBadge.astro';
 
 interface Props {
   fase: Fase;
   accentClass?: string;
+  pillHoverClass?: string;
 }
 
-const { fase, accentClass } = Astro.props;
+const { fase, accentClass, pillHoverClass } = Astro.props;
 ---
 
 <Card class="border-l-2 border-l-white/10" hover={false}>
-  <h4 class="font-display text-xl tracking-wide text-white uppercase">{fase.nombre}</h4>
+  <div class="flex items-center gap-2.5">
+    <Icon name="layers" size="md" class="text-zinc-500" />
+    <h4 class="font-display text-xl tracking-wide text-white uppercase">{fase.nombre}</h4>
+  </div>
 
   {
     fase.zonas.length > 0 ? (
       <div class="mt-4">
         <p
           class:list={[
-            'mb-2 inline-block text-[10px] font-bold tracking-[0.3em] uppercase',
+            'mb-2 inline-flex items-center gap-1.5 text-[10px] font-bold tracking-[0.3em] uppercase',
             accentClass ?? 'text-zinc-500',
           ]}
         >
+          <Icon name="grid" size="sm" />
           Zonas
         </p>
-        <div class="flex flex-wrap gap-2">
+        <div class="flex flex-wrap gap-3">
           {fase.zonas.map((zona) => (
-            <ZonaBadge nombre={zona.nombre} />
+            <ZonaBadge
+              nombre={zona.nombre}
+              accentClass={accentClass}
+              pillHoverClass={pillHoverClass}
+            />
           ))}
         </div>
       </div>
     ) : (
-      <p class="mt-3 text-sm text-zinc-600 italic">Sin zonas asignadas</p>
+      <p class="mt-3 flex items-center gap-2 text-sm text-zinc-600 italic">
+        <Icon name="grid" size="sm" />
+        Sin zonas asignadas
+      </p>
     )
   }
 </Card>

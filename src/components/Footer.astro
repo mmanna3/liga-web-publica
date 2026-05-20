@@ -2,6 +2,7 @@
 import { siteConfig } from '@lib/site';
 import BrandName from '@components/BrandName.astro';
 import Logo from '@components/Logo.astro';
+import Icon from '@components/ui/Icon.astro';
 
 const year = new Date().getFullYear();
 ---
@@ -18,10 +19,18 @@ const year = new Date().getFullYear();
       </div>
 
       <nav class="flex flex-wrap gap-8" aria-label="Pie de página">
-        <a href="#torneos" class="text-sm text-zinc-400 transition-colors hover:text-white">
+        <a
+          href="#torneos"
+          class="inline-flex items-center gap-2 text-sm text-zinc-400 transition-colors hover:text-white"
+        >
+          <Icon name="trophy" size="sm" />
           Torneos
         </a>
-        <a href="#categorias" class="text-sm text-zinc-400 transition-colors hover:text-white">
+        <a
+          href="#categorias"
+          class="inline-flex items-center gap-2 text-sm text-zinc-400 transition-colors hover:text-white"
+        >
+          <Icon name="grid" size="sm" />
           Categorías
         </a>
       </nav>

@@ -1,6 +1,7 @@
 ---
 import { siteConfig } from '@lib/site';
 import BrandName from '@components/BrandName.astro';
+import Icon from '@components/ui/Icon.astro';
 import { assetUrl } from '@lib/paths';
 
 interface Props {
@@ -52,8 +53,9 @@ const heroImage = assetUrl('from-ball-white-line.jpg');
 
   <div class="relative z-10 mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
     <p
-      class="font-display animate-fade-up mb-4 text-xs tracking-[0.35em] text-accent-hot uppercase"
+      class="font-display animate-fade-up mb-4 flex items-center gap-2 text-xs tracking-[0.35em] text-accent-hot uppercase"
     >
+      <Icon name="calendar" size="sm" />
       Temporada en curso
     </p>
 
@@ -76,25 +78,15 @@ const heroImage = assetUrl('from-ball-white-line.jpg');
         href="#torneos"
         class="font-display inline-flex items-center gap-2 rounded-full bg-accent-hot px-8 py-3.5 text-sm tracking-widest text-white uppercase transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-accent-hot/30"
       >
+        <Icon name="trophy" size="sm" />
         Explorar torneos
-        <svg
-          class="h-4 w-4"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          aria-hidden="true"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-        </svg>
+        <Icon name="arrow-right" size="sm" />
       </a>
       <a
         href="#categorias"
-        class="font-display glass glass-hover inline-flex items-center rounded-full px-8 py-3.5 text-sm tracking-widest text-zinc-200 uppercase"
+        class="font-display glass glass-hover inline-flex items-center gap-2 rounded-full px-8 py-3.5 text-sm tracking-widest text-zinc-200 uppercase"
       >
+        <Icon name="grid" size="sm" />
         Categorías
       </a>
     </div>
@@ -103,19 +95,24 @@ const heroImage = assetUrl('from-ball-white-line.jpg');
       totalAgrupadores > 0 && (
         <dl class="animate-fade-up stagger-4 mt-16 grid grid-cols-2 gap-6 border-t border-white/15 pt-10 sm:grid-cols-3 sm:gap-10">
           <div>
-            <dt class="font-display text-[10px] tracking-[0.2em] text-zinc-400 uppercase">
+            <dt class="font-display flex items-center gap-2 text-[10px] tracking-[0.2em] text-zinc-400 uppercase">
+              <Icon name="grid" size="sm" class="text-accent-hot" />
               Categorías
             </dt>
             <dd class="font-display mt-1 text-4xl text-white sm:text-5xl">{totalAgrupadores}</dd>
           </div>
           <div>
-            <dt class="font-display text-[10px] tracking-[0.2em] text-zinc-400 uppercase">
+            <dt class="font-display flex items-center gap-2 text-[10px] tracking-[0.2em] text-zinc-400 uppercase">
+              <Icon name="trophy" size="sm" class="text-accent-hot" />
               Torneos
             </dt>
             <dd class="font-display mt-1 text-4xl text-white sm:text-5xl">{totalTorneos}</dd>
           </div>
           <div class="col-span-2 sm:col-span-1">
-            <dt class="font-display text-[10px] tracking-[0.2em] text-zinc-400 uppercase">Liga</dt>
+            <dt class="font-display flex items-center gap-2 text-[10px] tracking-[0.2em] text-zinc-400 uppercase">
+              <Icon name="shield" size="sm" class="text-accent-hot" />
+              Liga
+            </dt>
             <dd class="mt-1 text-4xl text-accent-cool sm:text-5xl">
               <BrandName />
             </dd>
