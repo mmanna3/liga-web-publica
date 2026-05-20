@@ -23,7 +23,7 @@ const homeUrl = import.meta.env.BASE_URL;
         navLinks.map((link) => (
           <a
             href={link.href}
-            class="font-display inline-flex items-center gap-2 text-sm tracking-wide text-zinc-400 uppercase transition-colors hover:text-white"
+            class="font-display inline-flex items-center gap-2 leading-none [&_svg]:-translate-y-px text-sm tracking-wide text-zinc-400 uppercase transition-colors hover:text-white"
           >
             <Icon name="trophy" size="sm" />
             {link.label}
@@ -34,10 +34,10 @@ const homeUrl = import.meta.env.BASE_URL;
 
     <a
       href="#torneos"
-      class="font-display inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs tracking-widest text-black uppercase transition-transform duration-200 hover:scale-105 active:scale-95"
+      class="font-display inline-flex items-center gap-2 leading-none [&_svg]:-translate-y-px rounded-full bg-white px-4 py-2 text-xs tracking-widest text-black uppercase transition-transform duration-200 hover:scale-105 active:scale-95"
     >
       <Icon name="ball" size="sm" />
-      Ver torneos
+      Ver resultados
     </a>
   </div>
 </header>
