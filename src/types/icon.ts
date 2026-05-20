@@ -7,5 +7,7 @@ export type IconName =
   | 'grid'
   | 'shield'
   | 'calendar'
+  | 'smartphone'
+  | 'mobile-phone'
   | 'arrow-right'
   | 'alert';
