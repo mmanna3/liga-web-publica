@@ -42,7 +42,7 @@ const staggerClass = `stagger-${Math.min(index + 1, 4)}`;
   <header
     class="relative z-10 mb-10 flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-8"
   >
-    <div class="flex items-start gap-4">
+    <div class="flex items-center gap-4">
       <span
         class:list={[
           'flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border bg-white/5',
@@ -54,7 +54,7 @@ const staggerClass = `stagger-${Math.min(index + 1, 4)}`;
         <Icon name="trophy" size="lg" />
       </span>
       <h3
-        class="font-display text-4xl leading-none tracking-wide text-white uppercase sm:text-5xl md:text-6xl"
+        class="font-display pt-1.5 text-4xl leading-none tracking-wide text-white uppercase sm:pt-2 sm:text-5xl md:pt-2.5 md:text-6xl"
       >
         {agrupador.nombre}
       </h3>
