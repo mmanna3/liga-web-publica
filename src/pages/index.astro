@@ -5,19 +5,32 @@ import NosotrosSection from '@components/NosotrosSection.astro';
 import ContactoSection from '@components/ContactoSection.astro';
 import AppSection from '@components/AppSection.astro';
 import SponsorsSection from '@components/SponsorsSection.astro';
+import EscudosClubesSection from '@components/EscudosClubesSection.astro';
 import AgrupadoresNav from '@components/AgrupadoresNav.astro';
 import TorneosSection from '@components/TorneosSection.astro';
-import { getAgrupadoresDeTorneo, ApiError } from '@lib/api';
+import { getAgrupadoresDeTorneo, getEscudosDeClubes, ApiError } from '@lib/api';
 import type { AgrupadorDeTorneo } from '@types/torneo';
+import type { EscudoClub } from '@types/club';
 
 let agrupadores: AgrupadorDeTorneo[] = [];
+let escudos: EscudoClub[] = [];
 let fetchError: string | null = null;
 
-try {
-  agrupadores = await getAgrupadoresDeTorneo();
-} catch (error) {
+const [agrupadoresResult, escudosResult] = await Promise.allSettled([
+  getAgrupadoresDeTorneo(),
+  getEscudosDeClubes(),
+]);
+
+if (agrupadoresResult.status === 'fulfilled') {
+  agrupadores = agrupadoresResult.value;
+} else {
+  const error = agrupadoresResult.reason;
   fetchError =
     error instanceof ApiError ? error.message : 'Ocurrió un error inesperado al cargar los torneos';
+}
+
+if (escudosResult.status === 'fulfilled') {
+  escudos = escudosResult.value;
 }
 
 const totalTorneos = agrupadores.reduce((acc, a) => acc + a.torneos.length, 0);
@@ -26,6 +39,7 @@ const totalTorneos = agrupadores.reduce((acc, a) => acc + a.torneos.length, 0);
 <BaseLayout>
   <Hero totalAgrupadores={agrupadores.length} totalTorneos={totalTorneos} />
   <SponsorsSection />
+  <EscudosClubesSection escudos={escudos} />
   <AppSection />
   <AgrupadoresNav agrupadores={agrupadores} />
   <TorneosSection agrupadores={agrupadores} error={fetchError} />

@@ -1,0 +1,40 @@
+---
+import { escudoUrl } from '@lib/api';
+import type { EscudoClub } from '@types/club';
+
+interface Props {
+  escudos: EscudoClub[];
+}
+
+const { escudos } = Astro.props;
+---
+
+{
+  escudos.length > 0 && (
+    <section
+      class="escudos-bar border-b border-white/5 bg-surface py-8 sm:py-10"
+      aria-label="Clubes de la liga"
+    >
+      <p class="font-display mb-8 text-center text-[10px] tracking-[0.35em] text-zinc-500 uppercase">
+        Clubes de la liga
+      </p>
+
+      <div class="escudos-marquee">
+        <div class="escudos-track">
+          {[...escudos, ...escudos].map((club) => (
+            <div class="escudos-item" title={club.nombre}>
+              <img
+                src={escudoUrl(club.escudo)}
+                alt={`Escudo de ${club.nombre}`}
+                width="72"
+                height="72"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}

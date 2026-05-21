@@ -175,6 +175,49 @@
       mask-image: none;
     }
   }
+
+  .escudos-marquee {
+    overflow: hidden;
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%
+    );
+  }
+
+  .escudos-track {
+    display: flex;
+    width: max-content;
+    animation: escudos-scroll 50s linear infinite;
+  }
+
+  .escudos-item {
+    @apply flex shrink-0 items-center justify-center px-6 sm:px-10;
+  }
+
+  .escudos-item img {
+    @apply h-14 w-14 object-contain opacity-80 transition-opacity duration-300 sm:h-16 sm:w-16;
+  }
+
+  .escudos-item:hover img {
+    @apply opacity-100;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .escudos-track {
+      animation: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      gap: 1rem 1.5rem;
+    }
+
+    .escudos-marquee {
+      mask-image: none;
+    }
+  }
 }
 
 @keyframes fade-up {
@@ -251,6 +294,15 @@
 }
 
 @keyframes sponsors-scroll {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes escudos-scroll {
   from {
     transform: translateX(-50%);
   }
