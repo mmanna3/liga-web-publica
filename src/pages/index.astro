@@ -7,37 +7,22 @@ import AppSection from '@components/AppSection.astro';
 import SponsorsSection from '@components/SponsorsSection.astro';
 import EscudosClubesSection from '@components/EscudosClubesSection.astro';
 import TorneosSection from '@components/TorneosSection.astro';
-import { getAgrupadoresDeTorneo, ApiError } from '@lib/api';
 import { getEscudosProcesadosParaUi } from '@lib/escudos';
 import type { EscudoClubDisplay } from '@lib/escudos';
-import type { AgrupadorDeTorneo } from '@types/torneo';
 
-let agrupadores: AgrupadorDeTorneo[] = [];
-let escudos: EscudoClubDisplay[] = [];
-let fetchError: string | null = null;
-
-try {
-  agrupadores = await getAgrupadoresDeTorneo();
-} catch (error) {
-  fetchError =
-    error instanceof ApiError ? error.message : 'Ocurrió un error inesperado al cargar los torneos';
-}
-
-escudos = await getEscudosProcesadosParaUi();
-
-const totalTorneos = agrupadores.reduce((acc, a) => acc + a.torneos.length, 0);
+let escudos: EscudoClubDisplay[] = await getEscudosProcesadosParaUi();
 ---
 
 <BaseLayout>
-  <Hero
-    agrupadores={agrupadores}
-    totalAgrupadores={agrupadores.length}
-    totalTorneos={totalTorneos}
-  />
+  <Hero />
   <SponsorsSection />
   <EscudosClubesSection escudos={escudos} />
   <AppSection />
-  <TorneosSection agrupadores={agrupadores} error={fetchError} />
+  <TorneosSection />
   <NosotrosSection />
   <ContactoSection />
 </BaseLayout>
+
+<script>
+  import '../scripts/home-torneos.ts';
+</script>

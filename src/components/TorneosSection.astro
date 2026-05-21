@@ -1,19 +1,9 @@
 ---
-import type { AgrupadorDeTorneo } from '@types/torneo';
 import SectionHeading from '@components/ui/SectionHeading.astro';
-import BallDecor from '@components/ui/BallDecor.astro';
-import Icon from '@components/ui/Icon.astro';
-import AgrupadorCard from '@components/AgrupadorCard.astro';
+import LoadingSkeleton from '@components/ui/LoadingSkeleton.astro';
 import { assetUrl } from '@lib/paths';
 
 const sectionBgImage = assetUrl('from-ball-white-line.jpg');
-
-interface Props {
-  agrupadores: AgrupadorDeTorneo[];
-  error?: string | null;
-}
-
-const { agrupadores, error } = Astro.props;
 ---
 
 <section id="torneos" class="relative scroll-mt-24 overflow-hidden py-20 sm:py-28">
@@ -36,30 +26,10 @@ const { agrupadores, error } = Astro.props;
       icon="trophy"
     />
 
-    {
-      error ? (
-        <div
-          class="glass animate-fade-in rounded-2xl border border-red-500/30 bg-red-950/20 p-8 text-center"
-          role="alert"
-        >
-          <Icon name="alert" size="xl" class="mx-auto mb-4 text-red-400" />
-          <p class="font-display text-2xl tracking-wide text-red-400 uppercase">
-            No se pudo cargar
-          </p>
-          <p class="mt-2 text-zinc-400">{error}</p>
-        </div>
-      ) : agrupadores.length === 0 ? (
-        <div class="glass animate-fade-in rounded-2xl p-12 text-center">
-          <BallDecor class="mx-auto mb-4 h-14 w-14 opacity-40" />
-          <p class="text-zinc-500">No hay torneos publicados en este momento.</p>
-        </div>
-      ) : (
-        <div class="space-y-12 md:space-y-16">
-          {agrupadores.map((agrupador, index) => (
-            <AgrupadorCard agrupador={agrupador} index={index} />
-          ))}
-        </div>
-      )
-    }
+    <div id="torneos-root" class="min-h-[200px]">
+      <div class="glass rounded-2xl p-8">
+        <LoadingSkeleton lines={5} />
+      </div>
+    </div>
   </div>
 </section>

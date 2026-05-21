@@ -1,0 +1,37 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import LoadingSkeleton from '@components/ui/LoadingSkeleton.astro';
+---
+
+<BaseLayout title="Zona" description="Posiciones, fixture, jornadas y clubes de la zona.">
+  <section class="relative scroll-mt-24 py-16 sm:py-24">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <nav id="zona-breadcrumb" class="mb-6 flex flex-wrap items-center gap-2 text-sm" aria-label="Breadcrumb">
+        <span class="text-zinc-600">Cargando…</span>
+      </nav>
+
+      <div id="zona-resumen" class="mb-10">
+        <LoadingSkeleton lines={2} />
+      </div>
+
+      <nav
+        id="zona-section-nav"
+        class="sticky top-20 z-20 mb-10 flex gap-2 overflow-x-auto rounded-2xl border border-white/10 bg-surface/90 p-2 backdrop-blur-xl"
+        aria-label="Secciones de la zona"
+      >
+      </nav>
+
+      <div id="zona-root" class="space-y-12">
+        <div class="glass rounded-2xl p-8">
+          <LoadingSkeleton lines={6} />
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<span id="zona-page-title" class="sr-only">Zona</span>
+
+<script>
+  import '../../scripts/zona-detalle.ts';
+</script>

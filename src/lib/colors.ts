@@ -1,7 +1,14 @@
 /** Mapea el nombre de color de la API a tokens visuales Tailwind */
 const COLOR_MAP: Record<
   string,
-  { accent: string; glow: string; border: string; gradient: string; pillHover: string }
+  {
+    accent: string;
+    glow: string;
+    border: string;
+    gradient: string;
+    pillHover: string;
+    chipActive: string;
+  }
 > = {
   verde: {
     accent: 'text-emerald-400',
@@ -10,6 +17,7 @@ const COLOR_MAP: Record<
     gradient: 'from-emerald-600/40 via-emerald-900/20 to-transparent',
     pillHover:
       'hover:border-emerald-400/90 hover:bg-emerald-500/30 hover:shadow-lg hover:shadow-emerald-500/50',
+    chipActive: 'bg-emerald-600',
   },
   rojo: {
     accent: 'text-red-400',
@@ -18,6 +26,7 @@ const COLOR_MAP: Record<
     gradient: 'from-red-600/40 via-red-900/20 to-transparent',
     pillHover:
       'hover:border-red-400/90 hover:bg-red-500/30 hover:shadow-lg hover:shadow-red-500/50',
+    chipActive: 'bg-red-600',
   },
   azul: {
     accent: 'text-sky-400',
@@ -26,6 +35,7 @@ const COLOR_MAP: Record<
     gradient: 'from-sky-600/40 via-sky-900/20 to-transparent',
     pillHover:
       'hover:border-sky-400/90 hover:bg-sky-500/30 hover:shadow-lg hover:shadow-sky-500/50',
+    chipActive: 'bg-sky-600',
   },
   amarillo: {
     accent: 'text-amber-400',
@@ -34,6 +44,7 @@ const COLOR_MAP: Record<
     gradient: 'from-amber-600/40 via-amber-900/20 to-transparent',
     pillHover:
       'hover:border-amber-400/90 hover:bg-amber-500/30 hover:shadow-lg hover:shadow-amber-500/50',
+    chipActive: 'bg-amber-600',
   },
   naranja: {
     accent: 'text-orange-400',
@@ -42,6 +53,7 @@ const COLOR_MAP: Record<
     gradient: 'from-orange-600/40 via-orange-900/20 to-transparent',
     pillHover:
       'hover:border-orange-400/90 hover:bg-orange-500/30 hover:shadow-lg hover:shadow-orange-500/50',
+    chipActive: 'bg-orange-600',
   },
 };
 
@@ -52,6 +64,7 @@ const DEFAULT_THEME = {
   gradient: 'from-zinc-600/40 via-zinc-900/20 to-transparent',
   pillHover:
     'hover:border-white/50 hover:bg-white/20 hover:shadow-lg hover:shadow-white/25',
+  chipActive: 'bg-zinc-600',
 };
 
 export type AgrupadorTheme = typeof DEFAULT_THEME & { raw: string };

@@ -1,17 +1,7 @@
 ---
 import { siteConfig } from '@lib/site';
-import Icon from '@components/ui/Icon.astro';
 import { assetUrl } from '@lib/paths';
-import { getAgrupadorTheme } from '@lib/colors';
-import type { AgrupadorDeTorneo } from '@types/torneo';
 
-interface Props {
-  agrupadores?: AgrupadorDeTorneo[];
-  totalAgrupadores?: number;
-  totalTorneos?: number;
-}
-
-const { agrupadores = [], totalAgrupadores = 0, totalTorneos = 0 } = Astro.props;
 const heroImages = [
   { src: assetUrl('from-ball-white-line.jpg'), position: 'hero-bg-slide--ball' },
   { src: assetUrl('mate.png'), position: 'hero-bg-slide--mate' },
@@ -38,23 +28,19 @@ const heroImages = [
       }
     </div>
 
-    <!-- Tinte verde + oscurecido general -->
     <div class="absolute inset-0 bg-emerald-950/55 mix-blend-multiply"></div>
     <div class="absolute inset-0 bg-surface/45"></div>
 
-    <!-- Legibilidad del copy: más oscuro a la izquierda -->
     <div
       class="absolute inset-0 bg-[linear-gradient(105deg,rgb(10_10_11/0.92)_0%,rgb(10_10_11/0.72)_42%,rgb(10_10_11/0.25)_72%,transparent_100%)]"
     >
     </div>
 
-    <!-- Transición suave hacia la siguiente sección -->
     <div
       class="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_0%,transparent_55%,var(--color-surface)_100%)]"
     >
     </div>
 
-    <!-- Brillo verde sutil del lado del texto -->
     <div
       class="absolute -top-24 left-0 h-[420px] w-[520px] rounded-full bg-accent-hot/15 blur-[100px]"
     >
@@ -67,7 +53,6 @@ const heroImages = [
     <p
       class="font-display animate-fade-up mb-4 flex items-center gap-2 text-xs tracking-[0.35em] text-accent-hot uppercase"
     >
-      <!-- <Icon name="calendar" size="sm" /> -->
       EDEFI
     </p>
 
@@ -85,67 +70,14 @@ const heroImages = [
       {siteConfig.descripcion}
     </p>
 
-    {
-      agrupadores.length > 0 && (
-        <ul class="animate-fade-up stagger-3 mt-10 flex flex-wrap items-center gap-4 sm:gap-6">
-          {agrupadores.map((a) => {
-            const theme = getAgrupadorTheme(a.color);
-            return (
-              <li>
-                <a
-                  href={`#agrupador-${a.id}`}
-                  class:list={[
-                    'glass glass-hover flex items-center gap-3 rounded-full px-6 py-3 transition-all duration-300',
-                    theme.border,
-                  ]}
-                >
-                  <span
-                    class:list={[
-                      'flex h-9 w-9 items-center justify-center rounded-full bg-white/5',
-                      theme.accent,
-                    ]}
-                    aria-hidden="true"
-                  >
-                    <Icon name="ball" size="sm" />
-                  </span>
-                  <span class="font-display text-lg tracking-wide text-white uppercase">
-                    {a.nombre}
-                  </span>
-                </a>
-              </li>
-            );
-          })}
-        </ul>
-      )
-    }
+    <div id="hero-agrupadores-nav" class="animate-fade-up stagger-3 mt-10 min-h-[52px]">
+      <div class="animate-pulse-soft flex flex-wrap gap-4">
+        <div class="h-12 w-36 rounded-full bg-white/10"></div>
+        <div class="h-12 w-40 rounded-full bg-white/10"></div>
+      </div>
+    </div>
 
-    {
-      totalAgrupadores > 0 && (
-        <dl class="animate-fade-up stagger-4 mt-16 grid grid-cols-2 gap-6 border-t border-white/15 pt-10 sm:grid-cols-3 sm:gap-10">
-          <div class="text-center">
-            <dt class="font-display flex items-center justify-center gap-2 text-[10px] tracking-[0.2em] text-zinc-400 uppercase">
-              <Icon name="shield" size="sm" class="text-accent-hot" />
-              Equipos
-            </dt>
-            <dd class="font-display mt-1 text-4xl text-white sm:text-5xl">+500</dd>
-          </div>
-          <div class="text-center">
-            <dt class="font-display flex items-center justify-center gap-2 text-[10px] tracking-[0.2em] text-zinc-400 uppercase">
-              <Icon name="trophy" size="sm" class="text-accent-hot" />
-              Torneos
-            </dt>
-            <dd class="font-display mt-1 text-4xl text-white sm:text-5xl">{totalTorneos}</dd>
-          </div>
-          <div class="col-span-2 text-center sm:col-span-1">
-            <dt class="font-display flex items-center justify-center gap-2 text-[10px] tracking-[0.2em] text-zinc-400 uppercase">
-              <Icon name="calendar" size="sm" class="text-accent-hot" />
-              Partidos
-            </dt>
-            <dd class="font-display mt-1 text-4xl text-white sm:text-5xl">+12000</dd>
-          </div>
-        </dl>
-      )
-    }
+    <div id="hero-stats" class="mt-16 min-h-[120px]"></div>
   </div>
 
   <div
