@@ -119,20 +119,6 @@
     animation: hero-bg-fade-3 21s ease-in-out infinite;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .hero-bg-slide {
-      animation: none;
-    }
-
-    .hero-bg-slide:first-child {
-      opacity: 1;
-    }
-
-    .hero-bg-slide:not(:first-child) {
-      opacity: 0;
-    }
-  }
-
   .sponsors-marquee {
     overflow: hidden;
     mask-image: linear-gradient(
@@ -181,25 +167,6 @@
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .sponsors-track {
-      animation: none;
-      flex-wrap: wrap;
-      justify-content: center;
-      width: 100%;
-      gap: 1rem 2rem;
-    }
-
-    .sponsors-marquee {
-      -webkit-mask-image: none;
-      mask-image: none;
-    }
-
-    .sponsors-logo--clone {
-      display: none;
-    }
-  }
-
   .escudos-marquee {
     @apply relative w-full max-w-full py-1;
     overflow: hidden;
@@ -244,16 +211,6 @@
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .escudos-track {
-      animation: none;
-    }
-
-    .escudos-marquee {
-      -webkit-mask-image: none;
-      mask-image: none;
-    }
-  }
 }
 
 @keyframes fade-up {
