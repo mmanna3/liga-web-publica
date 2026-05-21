@@ -1,0 +1,20 @@
+---
+import { assetUrl } from '@lib/paths';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<img
+  src={assetUrl('pelota-f5.png')}
+  alt=""
+  width="208"
+  height="208"
+  class:list={['pointer-events-none block object-contain select-none', className]}
+  loading="lazy"
+  decoding="async"
+  aria-hidden="true"
+/>

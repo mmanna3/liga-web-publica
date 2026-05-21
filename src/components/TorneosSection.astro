@@ -1,6 +1,7 @@
 ---
 import type { AgrupadorDeTorneo } from '@types/torneo';
 import SectionHeading from '@components/ui/SectionHeading.astro';
+import BallDecor from '@components/ui/BallDecor.astro';
 import Icon from '@components/ui/Icon.astro';
 import AgrupadorCard from '@components/AgrupadorCard.astro';
 import { assetUrl } from '@lib/paths';
@@ -49,7 +50,7 @@ const { agrupadores, error } = Astro.props;
         </div>
       ) : agrupadores.length === 0 ? (
         <div class="glass animate-fade-in rounded-2xl p-12 text-center">
-          <Icon name="ball" size="xl" class="mx-auto mb-4 text-zinc-600" />
+          <BallDecor class="mx-auto mb-4 h-14 w-14 opacity-40" />
           <p class="text-zinc-500">No hay torneos publicados en este momento.</p>
         </div>
       ) : (

@@ -1,8 +1,7 @@
-name: Deploy to GitHub Pages
+name: Deploy with escudo processing
 
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -25,6 +24,12 @@ jobs:
           cache: npm
 
       - run: npm ci
+
+      - name: Process and dedupe escudos
+        run: npm run process-escudos && npm run dedupe-escudos
+        env:
+          API_BASE_URL: https://admin.edefi.com.ar/api/carnet-digital
+          API_ORIGIN: https://admin.edefi.com.ar
 
       - name: Build for GitHub Pages
         run: npm run build:gh-pages
