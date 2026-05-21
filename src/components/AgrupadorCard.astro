@@ -16,8 +16,9 @@ const staggerClass = `stagger-${Math.min(index + 1, 4)}`;
 ---
 
 <article
+  id={`agrupador-${agrupador.id}`}
   class:list={[
-    'animate-fade-up relative overflow-hidden rounded-3xl border p-6 sm:p-8 md:p-10',
+    'animate-fade-up relative scroll-mt-28 overflow-hidden rounded-3xl border p-6 sm:p-8 md:p-10',
     theme.border,
     theme.glow,
     'shadow-2xl transition-shadow duration-500 hover:shadow-[0_24px_80px_-12px_rgba(0,0,0,0.6)]',

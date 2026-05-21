@@ -2,13 +2,16 @@
 import { siteConfig } from '@lib/site';
 import Icon from '@components/ui/Icon.astro';
 import { assetUrl } from '@lib/paths';
+import { getAgrupadorTheme } from '@lib/colors';
+import type { AgrupadorDeTorneo } from '@types/torneo';
 
 interface Props {
+  agrupadores?: AgrupadorDeTorneo[];
   totalAgrupadores?: number;
   totalTorneos?: number;
 }
 
-const { totalAgrupadores = 0, totalTorneos = 0 } = Astro.props;
+const { agrupadores = [], totalAgrupadores = 0, totalTorneos = 0 } = Astro.props;
 const heroImages = [
   { src: assetUrl('from-ball-white-line.jpg'), position: 'hero-bg-slide--ball' },
   { src: assetUrl('mate.png'), position: 'hero-bg-slide--mate' },
@@ -82,23 +85,39 @@ const heroImages = [
       {siteConfig.descripcion}
     </p>
 
-    <div class="animate-fade-up stagger-3 mt-10 flex flex-wrap gap-4">
-      <a
-        href="#torneos"
-        class="font-display inline-flex items-center gap-2 rounded-full bg-accent-hot px-8 py-3.5 text-sm tracking-widest text-white uppercase transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-accent-hot/30"
-      >
-        <Icon name="trophy" size="sm" />
-        Ver resultados
-        <Icon name="arrow-right" size="sm" />
-      </a>
-      <a
-        href="#app"
-        class="font-display glass glass-hover inline-flex items-center gap-2 rounded-full px-8 py-3.5 text-sm tracking-widest text-zinc-200 uppercase"
-      >
-        <Icon name="smartphone" size="sm" />
-        Descargá la app
-      </a>
-    </div>
+    {
+      agrupadores.length > 0 && (
+        <ul class="animate-fade-up stagger-3 mt-10 flex flex-wrap items-center gap-4 sm:gap-6">
+          {agrupadores.map((a) => {
+            const theme = getAgrupadorTheme(a.color);
+            return (
+              <li>
+                <a
+                  href={`#agrupador-${a.id}`}
+                  class:list={[
+                    'glass glass-hover flex items-center gap-3 rounded-full px-6 py-3 transition-all duration-300',
+                    theme.border,
+                  ]}
+                >
+                  <span
+                    class:list={[
+                      'flex h-9 w-9 items-center justify-center rounded-full bg-white/5',
+                      theme.accent,
+                    ]}
+                    aria-hidden="true"
+                  >
+                    <Icon name="ball" size="sm" />
+                  </span>
+                  <span class="font-display text-lg tracking-wide text-white uppercase">
+                    {a.nombre}
+                  </span>
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      )
+    }
 
     {
       totalAgrupadores > 0 && (
