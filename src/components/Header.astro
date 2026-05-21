@@ -37,12 +37,130 @@ const homeUrl = import.meta.env.BASE_URL;
       }
     </nav>
 
-    <a
-      href="#torneos"
-      class="font-display inline-flex items-center gap-2 leading-none [&_svg]:-translate-y-px rounded-full bg-white px-4 py-2 text-xs tracking-widest text-black uppercase transition-transform duration-200 hover:scale-105 active:scale-95"
-    >
-      <Icon name="ball" size="sm" />
-      Ver resultados
-    </a>
+    <div class="flex items-center gap-3">
+      <a
+        href="#torneos"
+        class="font-display hidden items-center gap-2 leading-none [&_svg]:-translate-y-px rounded-full bg-white px-4 py-2 text-xs tracking-widest text-black uppercase transition-transform duration-200 hover:scale-105 active:scale-95 md:inline-flex"
+      >
+        <Icon name="ball" size="sm" />
+        Ver resultados
+      </a>
+
+      <button
+        type="button"
+        id="mobile-menu-toggle"
+        class="inline-flex h-10 w-10 items-center justify-center rounded-lg text-zinc-400 transition-colors hover:bg-white/5 hover:text-white md:hidden"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+      >
+        <svg
+          class="h-5 w-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          aria-hidden="true"
+        >
+          <path
+            class="mobile-menu-icon-open"
+            stroke-linecap="round"
+            d="M4 7h16M4 12h16M4 17h16"></path>
+          <path
+            class="mobile-menu-icon-close hidden"
+            stroke-linecap="round"
+            d="M6 6l12 12M18 6L6 18"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div
+    id="mobile-nav-backdrop"
+    class="fixed inset-0 top-16 z-40 hidden bg-black/40 backdrop-blur-sm md:hidden"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div
+    id="mobile-nav"
+    class="fixed inset-x-0 top-16 z-50 hidden border-b border-white/5 bg-surface/95 backdrop-blur-xl md:hidden"
+    aria-hidden="true"
+  >
+    <nav class="mx-auto flex max-w-7xl flex-col px-4 py-4 sm:px-6" aria-label="Principal">
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            data-mobile-nav-link
+            class="font-display inline-flex items-center gap-3 border-b border-white/5 py-4 text-sm tracking-wide text-zinc-400 uppercase transition-colors last:border-b-0 hover:text-white"
+          >
+            <Icon name={link.icon} size="sm" />
+            {link.label}
+          </a>
+        ))
+      }
+
+      <a
+        href="#torneos"
+        data-mobile-nav-link
+        class="font-display mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-xs tracking-widest text-black uppercase transition-transform duration-200 hover:scale-[1.02] active:scale-95"
+      >
+        <Icon name="ball" size="sm" />
+        Ver resultados
+      </a>
+    </nav>
   </div>
 </header>
+
+<script>
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const menu = document.getElementById('mobile-nav');
+  const backdrop = document.getElementById('mobile-nav-backdrop');
+  const iconOpen = toggle?.querySelector('.mobile-menu-icon-open');
+  const iconClose = toggle?.querySelector('.mobile-menu-icon-close');
+  const navLinks = document.querySelectorAll('[data-mobile-nav-link]');
+
+  if (toggle && menu && backdrop && iconOpen && iconClose) {
+    let isOpen = false;
+
+    const setMenuOpen = (open: boolean) => {
+      isOpen = open;
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+      menu.classList.toggle('hidden', !open);
+      backdrop.classList.toggle('hidden', !open);
+      menu.setAttribute('aria-hidden', String(!open));
+      backdrop.setAttribute('aria-hidden', String(!open));
+      iconOpen.classList.toggle('hidden', open);
+      iconClose.classList.toggle('hidden', !open);
+      document.body.classList.toggle('overflow-hidden', open);
+    };
+
+    toggle.addEventListener('click', () => {
+      setMenuOpen(!isOpen);
+    });
+
+    backdrop.addEventListener('click', () => {
+      setMenuOpen(false);
+    });
+
+    navLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        setMenuOpen(false);
+      });
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && isOpen) {
+        setMenuOpen(false);
+      }
+    });
+
+    window.matchMedia('(min-width: 768px)').addEventListener('change', (event) => {
+      if (event.matches) {
+        setMenuOpen(false);
+      }
+    });
+  }
+</script>
