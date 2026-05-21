@@ -1,0 +1,46 @@
+---
+import { assetUrl } from '@lib/paths';
+
+const sponsors = [
+  { name: 'Nike', src: assetUrl('sponsors/nike.svg') },
+  { name: 'Adidas', src: assetUrl('sponsors/adidas.svg') },
+  { name: 'Puma', src: assetUrl('sponsors/puma.svg') },
+  { name: 'Reebok', src: assetUrl('sponsors/reebok.svg') },
+  { name: 'Under Armour', src: assetUrl('sponsors/under-armour.svg') },
+  { name: 'New Balance', src: assetUrl('sponsors/new-balance.svg') },
+  { name: 'Asics', src: assetUrl('sponsors/asics.svg') },
+  { name: 'Umbro', src: assetUrl('sponsors/umbro.svg') },
+  { name: 'Gatorade', src: assetUrl('sponsors/gatorade.svg') },
+  { name: 'Coca-Cola', src: assetUrl('sponsors/coca-cola.svg') },
+];
+---
+
+<section
+  class="sponsors-bar border-y border-white/5 bg-surface py-8 sm:py-10"
+  aria-label="Sponsors de la liga"
+>
+  <p
+    class="font-display mb-8 text-center text-[10px] tracking-[0.35em] text-zinc-500 uppercase"
+  >
+    Nuestros sponsors
+  </p>
+
+  <div class="sponsors-marquee">
+    <div class="sponsors-track">
+      {
+        [...sponsors, ...sponsors].map((sponsor) => (
+          <div class="sponsors-logo">
+            <img
+              src={sponsor.src}
+              alt={sponsor.name}
+              width="160"
+              height="48"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
