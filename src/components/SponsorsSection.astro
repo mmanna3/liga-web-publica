@@ -28,11 +28,25 @@ const sponsors = [
   <div class="sponsors-marquee">
     <div class="sponsors-track">
       {
-        [...sponsors, ...sponsors].map((sponsor) => (
+        sponsors.map((sponsor) => (
           <div class="sponsors-logo">
             <img
               src={sponsor.src}
               alt={sponsor.name}
+              width="160"
+              height="48"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        ))
+      }
+      {
+        sponsors.map((sponsor) => (
+          <div class="sponsors-logo sponsors-logo--clone" aria-hidden="true">
+            <img
+              src={sponsor.src}
+              alt=""
               width="160"
               height="48"
               loading="lazy"

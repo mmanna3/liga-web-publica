@@ -162,6 +162,25 @@
     @apply opacity-75;
   }
 
+  .sponsors-logo--clone {
+    @apply max-sm:hidden;
+  }
+
+  @media (max-width: 639px) {
+    .sponsors-track {
+      animation: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      gap: 1rem 2rem;
+    }
+
+    .sponsors-marquee {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .sponsors-track {
       animation: none;
@@ -172,7 +191,12 @@
     }
 
     .sponsors-marquee {
+      -webkit-mask-image: none;
       mask-image: none;
+    }
+
+    .sponsors-logo--clone {
+      display: none;
     }
   }
 
