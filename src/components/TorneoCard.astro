@@ -15,41 +15,22 @@ const { torneo, accentClass, pillHoverClass } = Astro.props;
 
 <Card>
   {/* Mobile: acordeón colapsable */}
-  <details class="group md:hidden">
+  <details class="md:hidden">
     <summary
-      class="flex cursor-pointer list-none items-start justify-between gap-3 rounded-xl -mx-1 px-1 py-0.5 transition-colors active:bg-white/5 [&::-webkit-details-marker]:hidden"
+      class="flex cursor-pointer list-none items-center gap-3 rounded-xl -mx-1 px-1 py-0.5 transition-colors active:bg-white/5 [&::-webkit-details-marker]:hidden"
     >
-      <div class="flex min-w-0 flex-1 items-start gap-3">
-        <span
-          class:list={[
-            'flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5',
-            accentClass,
-          ]}
-          aria-hidden="true"
-        >
-          <Icon name="trophy" size="md" />
-        </span>
-        <h3 class="font-display text-2xl leading-tight tracking-wide text-white uppercase">
-          {torneo.nombre}
-        </h3>
-      </div>
       <span
-        class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-zinc-400 transition-transform duration-200 group-open:rotate-180"
+        class:list={[
+          'flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5',
+          accentClass,
+        ]}
         aria-hidden="true"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="h-4 w-4"
-        >
-          <path d="M6 9l6 6 6-6"></path>
-        </svg>
+        <Icon name="trophy" size="md" />
       </span>
+      <h3 class="font-display pt-0.5 text-2xl leading-tight tracking-wide text-white uppercase">
+        {torneo.nombre}
+      </h3>
     </summary>
 
     <div class="mt-6 space-y-4 border-t border-white/5 pt-6">
