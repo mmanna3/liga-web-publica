@@ -8,9 +8,12 @@
   "scripts": {
     "dev": "BASE_PATH=/ astro dev",
     "preview:gh-pages": "BASE_PATH=/liga-web-publica/ astro preview",
-    "build": "astro build",
-    "build:local": "BASE_PATH=/ astro build",
-    "build:gh-pages": "BASE_PATH=/liga-web-publica/ astro build",
+    "process-escudos": "node scripts/process-escudos.mjs",
+    "dedupe-escudos": "node scripts/dedupe-escudos.mjs",
+    "build": "npm run process-escudos && astro build",
+    "build:local": "BASE_PATH=/ npm run process-escudos && BASE_PATH=/ astro build",
+    "build:gh-pages": "BASE_PATH=/liga-web-publica/ npm run process-escudos && BASE_PATH=/liga-web-publica/ astro build",
+    "build:skip-escudos": "astro build",
     "preview": "astro preview",
     "astro": "astro",
     "lint": "eslint .",
@@ -24,6 +27,7 @@
     "tailwindcss": "^4.3.0"
   },
   "devDependencies": {
+    "@imgly/background-removal-node": "^1.4.5",
     "@eslint/js": "^10.0.1",
     "eslint": "^10.4.0",
     "eslint-config-prettier": "^10.1.8",

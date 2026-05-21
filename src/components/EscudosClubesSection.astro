@@ -1,33 +1,50 @@
 ---
-import { escudoUrl } from '@lib/api';
-import type { EscudoClub } from '@types/club';
+import type { EscudoClubDisplay } from '@lib/escudos';
 
 interface Props {
-  escudos: EscudoClub[];
+  escudos: EscudoClubDisplay[];
 }
 
 const { escudos } = Astro.props;
+
+function shuffle<T>(items: T[]): T[] {
+  const copy = [...items];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+/** ~4s por escudo en el carrusel (sponsors ~10 → 40s). */
+const escudosMezclados = shuffle(escudos);
+const scrollDurationSec = Math.max(180, Math.round(escudos.length * 4));
 ---
 
 {
   escudos.length > 0 && (
     <section
-      class="escudos-bar border-b border-white/5 bg-surface py-8 sm:py-10"
+      class="escudos-bar border-b border-white/5 bg-surface py-5 sm:py-6"
       aria-label="Clubes de la liga"
     >
-      <p class="font-display mb-8 text-center text-[10px] tracking-[0.35em] text-zinc-500 uppercase">
+      <p
+        class="font-display mb-5 text-center text-[10px] tracking-[0.35em] text-zinc-500 uppercase"
+      >
         Clubes de la liga
       </p>
 
       <div class="escudos-marquee">
-        <div class="escudos-track">
-          {[...escudos, ...escudos].map((club) => (
+        <div
+          class="escudos-track"
+          style={`--escudos-duration: ${scrollDurationSec}s`}
+        >
+          {[...escudosMezclados, ...escudosMezclados].map((club) => (
             <div class="escudos-item" title={club.nombre}>
               <img
-                src={escudoUrl(club.escudo)}
+                src={club.imgSrc}
                 alt={`Escudo de ${club.nombre}`}
-                width="72"
-                height="72"
+                width="48"
+                height="48"
                 loading="lazy"
                 decoding="async"
               />

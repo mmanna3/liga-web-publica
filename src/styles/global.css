@@ -177,12 +177,13 @@
   }
 
   .escudos-marquee {
+    @apply py-1;
     overflow: hidden;
     mask-image: linear-gradient(
       to right,
       transparent 0%,
-      black 8%,
-      black 92%,
+      black 6%,
+      black 94%,
       transparent 100%
     );
   }
@@ -190,19 +191,22 @@
   .escudos-track {
     display: flex;
     width: max-content;
-    animation: escudos-scroll 50s linear infinite;
+    animation: escudos-scroll var(--escudos-duration, 180s) linear infinite;
   }
 
   .escudos-item {
-    @apply flex shrink-0 items-center justify-center px-6 sm:px-10;
+    @apply flex shrink-0 items-center justify-center px-6 py-2 sm:px-10;
   }
 
   .escudos-item img {
-    @apply h-14 w-14 object-contain opacity-80 transition-opacity duration-300 sm:h-16 sm:w-16;
+    @apply h-11 w-11 object-contain opacity-100 transition-transform duration-300 sm:h-12 sm:w-12;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    transform-origin: center center;
   }
 
   .escudos-item:hover img {
-    @apply opacity-100;
+    transform: translate3d(0, 0, 0) scale(1.1);
   }
 
   @media (prefers-reduced-motion: reduce) {

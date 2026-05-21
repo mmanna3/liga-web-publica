@@ -31,6 +31,7 @@ jobs:
         run: npm run build:gh-pages
         env:
           API_BASE_URL: https://admin.edefi.com.ar/api/carnet-digital
+          API_ORIGIN: https://admin.edefi.com.ar
           PUBLIC_SITE_URL: https://${{ github.repository_owner }}.github.io/liga-web-publica
           PUBLIC_LIGA_NOMBRE: EDEFI
 
