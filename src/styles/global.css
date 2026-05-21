@@ -148,25 +148,6 @@
     @apply opacity-75;
   }
 
-  .sponsors-logo--clone {
-    @apply max-sm:hidden;
-  }
-
-  @media (max-width: 639px) {
-    .sponsors-track {
-      animation: none;
-      flex-wrap: wrap;
-      justify-content: center;
-      width: 100%;
-      gap: 1rem 2rem;
-    }
-
-    .sponsors-marquee {
-      -webkit-mask-image: none;
-      mask-image: none;
-    }
-  }
-
   .escudos-marquee {
     @apply relative w-full max-w-full py-1;
     overflow: hidden;
