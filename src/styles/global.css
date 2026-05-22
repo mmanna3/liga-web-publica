@@ -284,3 +284,9 @@
     transform: translate3d(0, 0, 0);
   }
 }
+
+@media (max-width: 767px) {
+  .posiciones-tabla-inner {
+    min-width: var(--tabla-min);
+  }
+}

@@ -65,23 +65,36 @@ function valorCelda(label: string, r: PosicionDelEquipoDTO): string {
 
 function celdaHtml(
   content: string,
-  ancho: number,
+  ancho: number | 'flex',
   align: 'left' | 'center' = 'left',
   bold = false,
   tabular = false,
 ): string {
-  return `<div class="shrink-0 px-1.5 py-2 text-sm leading-5 text-zinc-200 ${bold ? 'font-semibold' : ''} ${tabular ? 'tabular-nums' : ''}" style="width:${ancho}px;min-width:${ancho}px;text-align:${align}">${escapeHtml(content)}</div>`;
+  const base = `py-2 text-sm leading-5 text-zinc-200 ${bold ? 'font-semibold' : ''} ${tabular ? 'tabular-nums' : ''}`;
+  const alignClass = align === 'center' ? 'text-center' : 'text-left';
+
+  if (ancho === 'flex') {
+    return `<div class="min-w-[120px] flex-1 shrink px-1.5 ${base} ${alignClass}">${escapeHtml(content)}</div>`;
+  }
+
+  return `<div class="shrink-0 px-1.5 ${base} ${alignClass}" style="width:${ancho}px;min-width:${ancho}px">${escapeHtml(content)}</div>`;
+}
+
+function anchoCelda(label: string, i: number, mostrarGoles: boolean, n: number): number | 'flex' {
+  if (label === 'Equipo') return 'flex';
+  return anchoColumna(i, mostrarGoles, n);
 }
 
 function filaEncabezadoHtml(mostrarGoles: boolean): string {
   const titulos = titulosTabla(mostrarGoles);
   const n = titulos.length;
   const cells = titulos
-    .map((h, i) =>
-      celdaHtml(h, anchoColumna(i, mostrarGoles, n), i <= 2 ? 'left' : 'center', true, i >= 3),
-    )
+    .map((h, i) => {
+      const ancho = anchoCelda(h, i, mostrarGoles, n);
+      return celdaHtml(h, ancho, i <= 2 ? 'left' : 'center', true, i >= 3);
+    })
     .join('');
-  return `<div class="flex">${cells}</div>`;
+  return `<div class="flex w-full min-w-0">${cells}</div>`;
 }
 
 function filaEquipoHtml(r: PosicionDelEquipoDTO, mostrarGoles: boolean): string {
@@ -89,15 +102,16 @@ function filaEquipoHtml(r: PosicionDelEquipoDTO, mostrarGoles: boolean): string 
   const n = titulos.length;
   const cells = titulos
     .map((label, i) => {
-      const ancho = anchoColumna(i, mostrarGoles, n);
+      const ancho = anchoCelda(label, i, mostrarGoles, n);
       if (label === 'Esc') {
-        return `<div class="flex shrink-0 items-center justify-center px-1 py-1.5" style="width:${ancho}px;min-width:${ancho}px">${escudoImgHtml(r.escudo)}</div>`;
+        const w = anchoColumna(i, mostrarGoles, n);
+        return `<div class="flex shrink-0 items-center justify-center px-1 py-1.5" style="width:${w}px;min-width:${w}px">${escudoImgHtml(r.escudo)}</div>`;
       }
       const align: 'left' | 'center' = label === 'Equipo' ? 'left' : 'center';
       return celdaHtml(valorCelda(label, r), ancho, align, false, label !== 'Equipo');
     })
     .join('');
-  return `<div class="flex border-b border-white/5 last:border-b-0">${cells}</div>`;
+  return `<div class="flex w-full min-w-0 border-b border-white/5 last:border-b-0">${cells}</div>`;
 }
 
 function tablaCategoriaHtml(bloque: CategoriasConPosicionesDTO, mostrarGoles: boolean): string {
@@ -117,17 +131,17 @@ function tablaCategoriaHtml(bloque: CategoriasConPosicionesDTO, mostrarGoles: bo
   </div>`;
   }
 
-  const tabla = `<div class="overflow-x-auto">
-      <div class="mx-auto w-fit max-w-full overflow-hidden rounded-xl border border-white/10 bg-white/5">
+  const tabla = `<div class="max-md:overflow-x-auto">
+      <div class="mx-auto w-full max-w-full overflow-hidden rounded-xl border border-white/10 bg-white/5">
         <div class="border-b border-white/20 bg-white/10">
-          <div class="overflow-x-auto px-4">
-            <div class="mx-auto" style="width:${anchoTotal}px;max-width:100%">
+          <div class="max-md:overflow-x-auto px-4">
+            <div class="posiciones-tabla-inner mx-auto w-full" style="--tabla-min:${anchoTotal}px">
               ${filaEncabezadoHtml(mostrarGoles)}
             </div>
           </div>
         </div>
-        <div class="overflow-x-auto px-4 py-1">
-          <div class="mx-auto" style="width:${anchoTotal}px;max-width:100%">
+        <div class="max-md:overflow-x-auto px-4 py-1">
+          <div class="posiciones-tabla-inner mx-auto w-full" style="--tabla-min:${anchoTotal}px">
             ${renglones.map((r) => filaEquipoHtml(r, mostrarGoles)).join('')}
           </div>
         </div>
