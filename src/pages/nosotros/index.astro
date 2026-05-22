@@ -1,0 +1,21 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import NosotrosSection from '@components/NosotrosSection.astro';
+import { homeUrl } from '@lib/paths';
+---
+
+<BaseLayout
+  title="Nosotros"
+  description="Conocé la historia, misión, visión y valores de la Liga EDEFI."
+>
+  <div class="relative scroll-mt-24 pt-24 sm:pt-28">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <nav class="mb-6 flex flex-wrap items-center gap-2 text-sm" aria-label="Breadcrumb">
+        <a href={homeUrl()} class="text-zinc-500 transition-colors hover:text-white">Inicio</a>
+        <span class="text-zinc-600">/</span>
+        <span class="text-accent-hot">Nosotros</span>
+      </nav>
+    </div>
+    <NosotrosSection />
+  </div>
+</BaseLayout>

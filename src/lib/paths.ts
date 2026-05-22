@@ -14,3 +14,7 @@ export function homeUrl(hash = ''): string {
   const normalizedHash = hash.startsWith('#') ? hash : hash ? `#${hash}` : '';
   return `${siteBaseUrl()}${normalizedHash}`;
 }
+
+export function nosotrosUrl(): string {
+  return `${siteBaseUrl()}nosotros/`;
+}

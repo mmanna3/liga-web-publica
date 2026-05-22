@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Hero from '@components/Hero.astro';
-import NosotrosSection from '@components/NosotrosSection.astro';
 import ContactoSection from '@components/ContactoSection.astro';
 import AppSection from '@components/AppSection.astro';
 import SponsorsSection from '@components/SponsorsSection.astro';
@@ -19,7 +18,6 @@ let escudos: EscudoClubDisplay[] = await getEscudosProcesadosParaUi();
   <EscudosClubesSection escudos={escudos} />
   <AppSection />
   <TorneosSection />
-  <NosotrosSection />
   <ContactoSection />
 </BaseLayout>
 

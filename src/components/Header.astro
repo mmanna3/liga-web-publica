@@ -2,11 +2,11 @@
 import BrandName from '@components/BrandName.astro';
 import Logo from '@components/Logo.astro';
 import Icon from '@components/ui/Icon.astro';
-import { homeUrl } from '@lib/paths';
+import { homeUrl, nosotrosUrl } from '@lib/paths';
 
 const navLinks = [
   { href: homeUrl('#torneos'), label: 'Torneos', icon: 'trophy' as const },
-  { href: homeUrl('#nosotros'), label: 'Nosotros', icon: 'users' as const },
+  { href: nosotrosUrl(), label: 'Nosotros', icon: 'users' as const },
   { href: homeUrl('#contacto'), label: 'Contacto', icon: 'mail' as const },
   { href: homeUrl('#app'), label: 'App', icon: 'smartphone' as const },
 ];

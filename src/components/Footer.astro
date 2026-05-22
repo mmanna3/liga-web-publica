@@ -3,7 +3,7 @@ import { siteConfig } from '@lib/site';
 import BrandName from '@components/BrandName.astro';
 import Logo from '@components/Logo.astro';
 import Icon from '@components/ui/Icon.astro';
-import { homeUrl } from '@lib/paths';
+import { homeUrl, nosotrosUrl } from '@lib/paths';
 
 const year = new Date().getFullYear();
 ---
@@ -28,7 +28,7 @@ const year = new Date().getFullYear();
           Torneos
         </a>
         <a
-          href={homeUrl('#nosotros')}
+          href={nosotrosUrl()}
           class="inline-flex items-center gap-2 text-sm text-zinc-400 transition-colors hover:text-white"
         >
           <Icon name="users" size="sm" />
