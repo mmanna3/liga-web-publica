@@ -3,6 +3,7 @@ import { siteConfig } from '@lib/site';
 import BrandName from '@components/BrandName.astro';
 import Logo from '@components/Logo.astro';
 import Icon from '@components/ui/Icon.astro';
+import { homeUrl } from '@lib/paths';
 
 const year = new Date().getFullYear();
 ---
@@ -20,28 +21,28 @@ const year = new Date().getFullYear();
 
       <nav class="flex flex-wrap gap-8" aria-label="Pie de página">
         <a
-          href="#torneos"
+          href={homeUrl('#torneos')}
           class="inline-flex items-center gap-2 text-sm text-zinc-400 transition-colors hover:text-white"
         >
           <Icon name="trophy" size="sm" />
           Torneos
         </a>
         <a
-          href="#nosotros"
+          href={homeUrl('#nosotros')}
           class="inline-flex items-center gap-2 text-sm text-zinc-400 transition-colors hover:text-white"
         >
           <Icon name="users" size="sm" />
           Nosotros
         </a>
         <a
-          href="#contacto"
+          href={homeUrl('#contacto')}
           class="inline-flex items-center gap-2 text-sm text-zinc-400 transition-colors hover:text-white"
         >
           <Icon name="mail" size="sm" />
           Contacto
         </a>
         <a
-          href="#app"
+          href={homeUrl('#app')}
           class="inline-flex items-center gap-2 text-sm text-zinc-400 transition-colors hover:text-white"
         >
           <Icon name="smartphone" size="sm" />
