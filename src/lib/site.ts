@@ -11,8 +11,7 @@ export const siteConfig = {
     'https://play.google.com/store/apps/details?id=com.ykn.edefidelegados',
   contacto: {
     horarios: [
-      'Lunes a jueves de 17:30 hs a 20:30 hs',
-      'Viernes de 17:00 hs a 19:30 hs',
+      'Lunes a viernes de 17:00 hs a 20:00 hs'
     ],
     direccion: 'Juan B. Justo 550, Haedo. Bs. As',
     cp: '1706',
