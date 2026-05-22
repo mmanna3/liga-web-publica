@@ -186,8 +186,20 @@
     transform-origin: center center;
   }
 
+  .escudo-frame {
+    @apply block h-11 w-11 shrink-0 overflow-hidden rounded-lg sm:h-12 sm:w-12;
+  }
+
+  .escudo-frame img {
+    @apply h-full w-full object-cover;
+  }
+
   @media (hover: hover) {
     .escudos-item:hover img {
+      transform: scale(1.1);
+    }
+
+    .escudos-item:hover .escudo-frame img {
       transform: scale(1.1);
     }
   }

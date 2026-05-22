@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import { readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
-import { getEscudosDeClubes } from '@lib/api';
+import { escudoUrl, getEscudosDeClubes } from '@lib/api';
 import { assetUrl } from '@lib/paths';
 import type { EscudoClub } from '@types/club';
 
@@ -56,4 +56,22 @@ export async function getEscudosProcesadosParaUi(): Promise<EscudoClubDisplay[]>
   }
 
   return result.sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
+}
+
+/** Escudos desde el backend (ruta relativa en `escudo` → URL absoluta). */
+export async function getEscudosDeApiParaUi(): Promise<EscudoClubDisplay[]> {
+  let fromApi: EscudoClub[] = [];
+  try {
+    fromApi = await getEscudosDeClubes();
+  } catch {
+    return [];
+  }
+
+  return fromApi
+    .filter((club) => club.escudo.trim())
+    .map((club) => ({
+      ...club,
+      imgSrc: escudoUrl(club.escudo),
+    }))
+    .sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
 }

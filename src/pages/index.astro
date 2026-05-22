@@ -6,16 +6,20 @@ import AppSection from '@components/AppSection.astro';
 import SponsorsSection from '@components/SponsorsSection.astro';
 import EscudosClubesSection from '@components/EscudosClubesSection.astro';
 import TorneosSection from '@components/TorneosSection.astro';
-import { getEscudosProcesadosParaUi } from '@lib/escudos';
-import type { EscudoClubDisplay } from '@lib/escudos';
+import { getEscudosDeApiParaUi, getEscudosProcesadosParaUi } from '@lib/escudos';
 
-let escudos: EscudoClubDisplay[] = await getEscudosProcesadosParaUi();
+const [escudos, escudosApi] = await Promise.all([
+  getEscudosProcesadosParaUi(),
+  getEscudosDeApiParaUi(),
+]);
 ---
 
 <BaseLayout>
   <Hero />
   <SponsorsSection />
   <EscudosClubesSection escudos={escudos} />
+  <EscudosClubesSection escudos={escudosApi} variant="light" />
+  <EscudosClubesSection escudos={escudosApi} roundedEscudos />
   <AppSection />
   <TorneosSection />
   <ContactoSection />

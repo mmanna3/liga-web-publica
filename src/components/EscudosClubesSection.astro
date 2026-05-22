@@ -3,9 +3,12 @@ import type { EscudoClubDisplay } from '@lib/escudos';
 
 interface Props {
   escudos: EscudoClubDisplay[];
+  variant?: 'dark' | 'light';
+  roundedEscudos?: boolean;
 }
 
-const { escudos } = Astro.props;
+const { escudos, variant = 'dark', roundedEscudos = false } = Astro.props;
+const isLight = variant === 'light';
 
 function shuffle<T>(items: T[]): T[] {
   const copy = [...items];
@@ -24,7 +27,10 @@ const scrollDurationSec = Math.max(180, Math.round(escudos.length * 4));
 {
   escudos.length > 0 && (
     <section
-      class="escudos-bar border-b border-white/5 bg-surface py-5 sm:py-6"
+      class:list={[
+        'escudos-bar py-5 sm:py-6',
+        isLight ? 'border-b border-zinc-200 bg-white' : 'border-b border-white/5 bg-surface',
+      ]}
       aria-label="Clubes de la liga"
     >
       <p
@@ -40,14 +46,27 @@ const scrollDurationSec = Math.max(180, Math.round(escudos.length * 4));
         >
           {[...escudosMezclados, ...escudosMezclados].map((club) => (
             <div class="escudos-item" title={club.nombre}>
-              <img
-                src={club.imgSrc}
-                alt={`Escudo de ${club.nombre}`}
-                width="48"
-                height="48"
-                loading="lazy"
-                decoding="async"
-              />
+              {roundedEscudos ? (
+                <span class="escudo-frame">
+                  <img
+                    src={club.imgSrc}
+                    alt={`Escudo de ${club.nombre}`}
+                    width="48"
+                    height="48"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </span>
+              ) : (
+                <img
+                  src={club.imgSrc}
+                  alt={`Escudo de ${club.nombre}`}
+                  width="48"
+                  height="48"
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
             </div>
           ))}
         </div>
