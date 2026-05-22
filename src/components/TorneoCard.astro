@@ -14,10 +14,9 @@ const { torneo, accentClass, pillHoverClass } = Astro.props;
 ---
 
 <Card>
-  {/* Mobile: acordeón colapsable */}
-  <details class="md:hidden">
+  <details>
     <summary
-      class="flex cursor-pointer list-none items-center gap-3 rounded-xl -mx-1 px-1 py-0.5 transition-colors active:bg-white/5 [&::-webkit-details-marker]:hidden"
+      class="flex cursor-pointer list-none items-center gap-3 rounded-xl -mx-1 px-1 py-0.5 transition-colors hover:bg-white/5 active:bg-white/5 [&::-webkit-details-marker]:hidden"
     >
       <span
         class:list={[
@@ -28,7 +27,9 @@ const { torneo, accentClass, pillHoverClass } = Astro.props;
       >
         <Icon name="trophy" size="md" />
       </span>
-      <h3 class="font-display pt-0.5 text-2xl leading-tight tracking-wide text-white uppercase">
+      <h3
+        class="font-display pt-0.5 text-2xl leading-tight tracking-wide text-white uppercase sm:text-3xl"
+      >
         {torneo.nombre}
       </h3>
     </summary>
@@ -39,28 +40,4 @@ const { torneo, accentClass, pillHoverClass } = Astro.props;
       ))}
     </div>
   </details>
-
-  {/* Desktop: layout original siempre visible */}
-  <div class="hidden md:block">
-    <div class="flex items-center gap-3">
-      <span
-        class:list={[
-          'flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5',
-          accentClass,
-        ]}
-        aria-hidden="true"
-      >
-        <Icon name="trophy" size="md" />
-      </span>
-      <h3 class="font-display text-2xl tracking-wide text-white uppercase sm:text-3xl">
-        {torneo.nombre}
-      </h3>
-    </div>
-
-    <div class="mt-6 space-y-4">
-      {torneo.fases.map((fase) => (
-        <FaseCard fase={fase} accentClass={accentClass} pillHoverClass={pillHoverClass} />
-      ))}
-    </div>
-  </div>
 </Card>

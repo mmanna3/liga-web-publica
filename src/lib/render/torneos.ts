@@ -72,27 +72,15 @@ function torneoCardHtml(
     .map((f) => faseCardHtml(f, torneo, agrupador, accentClass, pillHoverClass))
     .join('');
 
-  const header = `<div class="flex items-center gap-3">
-    <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 ${accentClass}" aria-hidden="true">
-      ${iconSvg('trophy', 'h-5 w-5')}
-    </span>
-    <h3 class="font-display text-2xl tracking-wide text-white uppercase sm:text-3xl">${escapeHtml(torneo.nombre)}</h3>
+  return `<div class="glass glass-hover rounded-2xl border border-white/10 p-6">
+    <details>
+      <summary class="flex cursor-pointer list-none items-center gap-3 rounded-xl -mx-1 px-1 py-0.5 transition-colors hover:bg-white/5 active:bg-white/5 [&::-webkit-details-marker]:hidden">
+        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 ${accentClass}" aria-hidden="true">${iconSvg('trophy', 'h-5 w-5')}</span>
+        <h3 class="font-display pt-0.5 text-2xl leading-tight tracking-wide text-white uppercase sm:text-3xl">${escapeHtml(torneo.nombre)}</h3>
+      </summary>
+      <div class="mt-6 space-y-4 border-t border-white/5 pt-6">${fasesHtml}</div>
+    </details>
   </div>`;
-
-  const mobile = `<details class="md:hidden">
-    <summary class="flex cursor-pointer list-none items-center gap-3 rounded-xl -mx-1 px-1 py-0.5 transition-colors active:bg-white/5 [&::-webkit-details-marker]:hidden">
-      <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 ${accentClass}" aria-hidden="true">${iconSvg('trophy', 'h-5 w-5')}</span>
-      <h3 class="font-display pt-0.5 text-2xl leading-tight tracking-wide text-white uppercase">${escapeHtml(torneo.nombre)}</h3>
-    </summary>
-    <div class="mt-6 space-y-4 border-t border-white/5 pt-6">${fasesHtml}</div>
-  </details>`;
-
-  const desktop = `<div class="hidden md:block">
-    ${header}
-    <div class="mt-6 space-y-4">${fasesHtml}</div>
-  </div>`;
-
-  return `<div class="glass glass-hover rounded-2xl border border-white/10 p-6">${mobile}${desktop}</div>`;
 }
 
 function agrupadorCardHtml(agrupador: AgrupadorDeTorneo, index: number): string {
@@ -117,7 +105,7 @@ function agrupadorCardHtml(agrupador: AgrupadorDeTorneo, index: number): string 
         ${iconSvg('trophy', 'h-4 w-4')} ${agrupador.torneos.length} torneos
       </span>
     </header>
-    <div class="relative z-10 grid gap-6 lg:grid-cols-2">${torneosHtml}</div>
+    <div class="relative z-10 grid grid-cols-1 gap-6">${torneosHtml}</div>
   </article>`;
 }
 
