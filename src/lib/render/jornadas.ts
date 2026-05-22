@@ -79,7 +79,7 @@ export function cardFechaJornadasHtml(fecha: FechasParaJornadasDTO): string {
     return `<div class="overflow-hidden rounded-xl border border-white/10 bg-white/5 px-3 py-2">
     <div class="mb-1 flex items-baseline justify-between gap-2 border-b border-white/10 px-2 py-2">
       <span class="shrink text-base font-semibold text-white">${escapeHtml(textoOGuion(fecha.titulo))}</span>
-      <span class="shrink-0 text-sm text-zinc-500">${escapeHtml(textoOGuion(fecha.dia))}</span>
+      <span class="shrink-0 text-sm font-medium text-white">${escapeHtml(textoOGuion(fecha.dia))}</span>
     </div>
     <p class="px-2 py-4 text-sm text-zinc-500">No hay partidos en esta fecha.</p>
   </div>`;
@@ -94,12 +94,14 @@ export function cardFechaJornadasHtml(fecha: FechasParaJornadasDTO): string {
         </div>`;
     })
     .join('');
-  const body = `<div class="overflow-x-auto"><div style="width:${anchoTotal}px;min-width:100%">${filaEncabezadoHtml(nombresCategorias)}${filas}</div></div>`;
+  const body = `<div class="overflow-x-auto">
+    <div class="mx-auto" style="width:${anchoTotal}px;max-width:100%">${filaEncabezadoHtml(nombresCategorias)}${filas}</div>
+  </div>`;
 
   return `<div class="overflow-hidden rounded-xl border border-white/10 bg-white/5 px-3 py-2">
     <div class="mb-1 flex items-baseline justify-between gap-2 border-b border-white/10 px-2 py-2">
       <span class="shrink text-base font-semibold text-white">${escapeHtml(textoOGuion(fecha.titulo))}</span>
-      <span class="shrink-0 text-sm text-zinc-500">${escapeHtml(textoOGuion(fecha.dia))}</span>
+      <span class="shrink-0 text-sm font-medium text-white">${escapeHtml(textoOGuion(fecha.dia))}</span>
     </div>
     ${body}
   </div>`;

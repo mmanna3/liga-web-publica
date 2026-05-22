@@ -14,10 +14,10 @@ function filaPartidoHtml(partido: FixturePartidoDTO): string {
 
 function cardFechaHtml(fecha: FixtureFechaDTO): string {
   const partidos = fecha.partidos ?? [];
-  return `<div class="mb-4 overflow-hidden rounded-xl border border-white/10 bg-white/5 px-3 py-2">
+  return `<div class="min-w-0 overflow-hidden rounded-xl border border-white/10 bg-white/5 px-3 py-2">
     <div class="mb-1 flex items-baseline justify-between gap-2 border-b border-white/10 px-2 py-2">
       <span class="shrink text-base font-semibold text-white">${escapeHtml(textoOGuion(fecha.titulo))}</span>
-      <span class="shrink-0 text-sm text-zinc-500">${escapeHtml(textoOGuion(fecha.dia))}</span>
+      <span class="shrink-0 text-sm font-medium text-white">${escapeHtml(textoOGuion(fecha.dia))}</span>
     </div>
     ${partidos.map((p) => filaPartidoHtml(p)).join('')}
   </div>`;
@@ -28,5 +28,6 @@ export function renderFixtureTctHtml(data: FixtureDTO | undefined): string {
   if (fechas.length === 0) {
     return emptyStateHtml('No hay fechas para esta zona.');
   }
-  return fechas.map((f) => cardFechaHtml(f)).join('');
+  const cards = fechas.map((f) => cardFechaHtml(f)).join('');
+  return `<div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">${cards}</div>`;
 }

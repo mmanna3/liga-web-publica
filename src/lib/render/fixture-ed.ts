@@ -69,10 +69,10 @@ function filaPartidoHtml(partido: PartidoEliminacionDirectaDTO): string {
 
 function cardInstanciaHtml(instancia: InstanciasDTO): string {
   const partidos = instancia.partidos ?? [];
-  return `<div class="mb-4 overflow-hidden rounded-xl border border-white/10 bg-white/5 px-3 py-2">
+  return `<div class="min-w-0 overflow-hidden rounded-xl border border-white/10 bg-white/5 px-3 py-2">
     <div class="mb-1 border-b border-white/10 px-2 py-2 text-center">
       <p class="text-base font-semibold text-white">${escapeHtml(textoOGuion(instancia.titulo))}</p>
-      <p class="mt-1 text-sm text-zinc-500">${escapeHtml(textoOGuion(instancia.dia))}</p>
+      <p class="mt-1 text-sm font-medium text-white">${escapeHtml(textoOGuion(instancia.dia))}</p>
     </div>
     ${partidos.map((p) => filaPartidoHtml(p)).join('')}
   </div>`;
@@ -103,6 +103,7 @@ export function renderFixtureEdHtml(data: EliminacionDirectaDTO | undefined): st
   const instanciaFinal = instancias.find((i) => esInstanciaFinal(i));
   const partidoDeLaFinal = instanciaFinal ? partidoFinalConResultados(instanciaFinal) : null;
   const campeon = partidoDeLaFinal ? bloqueCampeonHtml(partidoDeLaFinal) : '';
+  const instanciasHtml = instancias.map((i) => cardInstanciaHtml(i)).join('');
 
-  return `${campeon}${instancias.map((i) => cardInstanciaHtml(i)).join('')}`;
+  return `${campeon}<div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">${instanciasHtml}</div>`;
 }

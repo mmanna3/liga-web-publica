@@ -81,7 +81,7 @@ function filaEncabezadoHtml(mostrarGoles: boolean): string {
       celdaHtml(h, anchoColumna(i, mostrarGoles, n), i <= 2 ? 'left' : 'center', true, i >= 3),
     )
     .join('');
-  return `<div class="flex border-b border-white/20 bg-white/10">${cells}</div>`;
+  return `<div class="flex">${cells}</div>`;
 }
 
 function filaEquipoHtml(r: PosicionDelEquipoDTO, mostrarGoles: boolean): string {
@@ -97,7 +97,7 @@ function filaEquipoHtml(r: PosicionDelEquipoDTO, mostrarGoles: boolean): string 
       return celdaHtml(valorCelda(label, r), ancho, align, false, label !== 'Equipo');
     })
     .join('');
-  return `<div class="flex border-b border-white/5">${cells}</div>`;
+  return `<div class="flex border-b border-white/5 last:border-b-0">${cells}</div>`;
 }
 
 function tablaCategoriaHtml(bloque: CategoriasConPosicionesDTO, mostrarGoles: boolean): string {
@@ -105,12 +105,12 @@ function tablaCategoriaHtml(bloque: CategoriasConPosicionesDTO, mostrarGoles: bo
   const anchoTotal = anchoTablaTotal(mostrarGoles);
   const titulo = escapeHtml(textoOGuion(bloque.categoria));
   const leyenda = (bloque.leyenda ?? '').trim();
+  const leyendaHtml = leyenda
+    ? `<p class="mt-2 text-sm leading-5 text-zinc-500">${escapeHtml(leyenda)}</p>`
+    : '';
 
   if (renglones.length === 0) {
-    const leyendaHtml = leyenda
-      ? `<p class="mt-2 text-sm leading-5 text-zinc-500">${escapeHtml(leyenda)}</p>`
-      : '';
-    return `<div class="my-6">
+    return `<div class="min-w-0">
     <h4 class="font-display mb-3 text-center text-xl tracking-wide text-white uppercase">${titulo}</h4>
     <p class="text-sm text-zinc-500">Aún no hay partidos en esta categoría</p>
     ${leyendaHtml}
@@ -118,17 +118,23 @@ function tablaCategoriaHtml(bloque: CategoriasConPosicionesDTO, mostrarGoles: bo
   }
 
   const tabla = `<div class="overflow-x-auto">
-      <div style="width:${anchoTotal}px;min-width:100%">
-        ${filaEncabezadoHtml(mostrarGoles)}
-        ${renglones.map((r) => filaEquipoHtml(r, mostrarGoles)).join('')}
+      <div class="mx-auto w-fit max-w-full overflow-hidden rounded-xl border border-white/10 bg-white/5">
+        <div class="border-b border-white/20 bg-white/10">
+          <div class="overflow-x-auto px-4">
+            <div class="mx-auto" style="width:${anchoTotal}px;max-width:100%">
+              ${filaEncabezadoHtml(mostrarGoles)}
+            </div>
+          </div>
+        </div>
+        <div class="overflow-x-auto px-4 py-1">
+          <div class="mx-auto" style="width:${anchoTotal}px;max-width:100%">
+            ${renglones.map((r) => filaEquipoHtml(r, mostrarGoles)).join('')}
+          </div>
+        </div>
       </div>
     </div>`;
 
-  const leyendaHtml = leyenda
-    ? `<p class="mt-2 text-sm leading-5 text-zinc-500">${escapeHtml(leyenda)}</p>`
-    : '';
-
-  return `<div class="my-6">
+  return `<div class="min-w-0">
     <h4 class="font-display mb-3 text-center text-xl tracking-wide text-white uppercase">${titulo}</h4>
     ${tabla}
     ${leyendaHtml}
@@ -141,5 +147,6 @@ export function renderPosicionesHtml(data: PosicionesDTO | undefined): string {
     return emptyStateHtml('No hay posiciones para esta zona.');
   }
   const mostrarGoles = data?.verGoles !== false;
-  return categorias.map((b) => tablaCategoriaHtml(b, mostrarGoles)).join('');
+  const tablas = categorias.map((b) => tablaCategoriaHtml(b, mostrarGoles)).join('');
+  return `<div class="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">${tablas}</div>`;
 }
