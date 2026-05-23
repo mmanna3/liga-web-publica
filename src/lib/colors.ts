@@ -3,6 +3,7 @@ const COLOR_MAP: Record<
   string,
   {
     accent: string;
+    accentColor: string;
     glow: string;
     border: string;
     gradient: string;
@@ -15,6 +16,7 @@ const COLOR_MAP: Record<
 > = {
   verde: {
     accent: 'text-emerald-400',
+    accentColor: 'var(--color-emerald-400)',
     glow: 'shadow-emerald-500/20',
     border: 'border-emerald-500/30',
     gradient: 'from-emerald-600/40 via-emerald-900/20 to-transparent',
@@ -28,6 +30,7 @@ const COLOR_MAP: Record<
   },
   rojo: {
     accent: 'text-red-400',
+    accentColor: 'var(--color-red-400)',
     glow: 'shadow-red-500/20',
     border: 'border-red-500/30',
     gradient: 'from-red-600/40 via-red-900/20 to-transparent',
@@ -41,6 +44,7 @@ const COLOR_MAP: Record<
   },
   azul: {
     accent: 'text-sky-400',
+    accentColor: 'var(--color-sky-400)',
     glow: 'shadow-sky-500/20',
     border: 'border-sky-500/30',
     gradient: 'from-sky-600/40 via-sky-900/20 to-transparent',
@@ -54,6 +58,7 @@ const COLOR_MAP: Record<
   },
   amarillo: {
     accent: 'text-amber-400',
+    accentColor: 'var(--color-amber-400)',
     glow: 'shadow-amber-500/20',
     border: 'border-amber-500/30',
     gradient: 'from-amber-600/40 via-amber-900/20 to-transparent',
@@ -67,6 +72,7 @@ const COLOR_MAP: Record<
   },
   naranja: {
     accent: 'text-orange-400',
+    accentColor: 'var(--color-orange-400)',
     glow: 'shadow-orange-500/20',
     border: 'border-orange-500/30',
     gradient: 'from-orange-600/40 via-orange-900/20 to-transparent',
@@ -82,6 +88,7 @@ const COLOR_MAP: Record<
 
 const DEFAULT_THEME = {
   accent: 'text-white',
+  accentColor: 'var(--color-white)',
   glow: 'shadow-white/10',
   border: 'border-white/20',
   gradient: 'from-zinc-600/40 via-zinc-900/20 to-transparent',

@@ -23,7 +23,7 @@ function direccionHtml(direccion: string | undefined, localidad: string | undefi
       href="${escapeHtml(mapsUrl)}"
       target="_blank"
       rel="noopener noreferrer"
-      class="inline-flex items-start gap-1.5 text-accent-hot underline-offset-2 transition-colors hover:text-white hover:underline"
+      class="text-zona-accent inline-flex items-start gap-1.5 underline-offset-2 transition-colors hover:text-white hover:underline"
       aria-label="Ver ${escapeHtml(texto)} en Google Maps"
     >
       ${iconSvg('map-pin', 'h-4 w-4 shrink-0 translate-y-0.5')}

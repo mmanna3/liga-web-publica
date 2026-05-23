@@ -143,6 +143,10 @@ async function loadZonaDetalle(): Promise<void> {
   const theme = getAgrupadorTheme(params.color);
   const secciones = getSeccionesVisibles(params.tipoDeFase);
 
+  if (root) {
+    root.style.setProperty('--zona-accent', theme.accentColor);
+  }
+
   const titleEl = document.getElementById('zona-page-title');
   if (titleEl) {
     titleEl.textContent = `${params.zonaNombre} · ${params.torneoNombre}`;
