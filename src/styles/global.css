@@ -258,7 +258,7 @@
   }
 
   .jornadas-tabla > .flex,
-  .jornadas-tabla > div > .flex {
+  .jornadas-tabla .tabla-body-escudos .flex {
     width: 100%;
   }
 

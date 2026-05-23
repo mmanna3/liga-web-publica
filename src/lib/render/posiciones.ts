@@ -131,17 +131,13 @@ function tablaCategoriaHtml(bloque: CategoriasConPosicionesDTO, mostrarGoles: bo
   </div>`;
   }
 
-  const tabla = `<div class="max-md:overflow-x-auto">
-      <div class="mx-auto w-full max-w-full overflow-hidden rounded-xl border border-white/10 bg-white/5">
-        <div class="border-b border-white/20 bg-white/10">
-          <div class="max-md:overflow-x-auto px-4">
-            <div class="posiciones-tabla-inner mx-auto w-full" style="--tabla-min:${anchoTotal}px">
-              ${filaEncabezadoHtml(mostrarGoles)}
-            </div>
+  const tabla = `<div class="mx-auto w-full max-w-full overflow-hidden rounded-xl border border-white/10 bg-white/5">
+      <div class="max-md:overflow-x-auto">
+        <div class="posiciones-tabla-inner w-full" style="--tabla-min:${anchoTotal}px">
+          <div class="border-b border-white/20 bg-white/10 px-4">
+            ${filaEncabezadoHtml(mostrarGoles)}
           </div>
-        </div>
-        <div class="${CLASE_BODY_TABLA_ESCUDO} max-md:overflow-x-auto py-1">
-          <div class="posiciones-tabla-inner mx-auto w-full px-4" style="--tabla-min:${anchoTotal}px">
+          <div class="${CLASE_BODY_TABLA_ESCUDO} py-1 px-4">
             ${renglones.map((r) => filaEquipoHtml(r, mostrarGoles)).join('')}
           </div>
         </div>

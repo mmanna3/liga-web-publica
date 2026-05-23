@@ -101,10 +101,12 @@ export function cardFechaJornadasHtml(fecha: FechasParaJornadasDTO): string {
         </div>`;
     })
     .join('');
-  const body = `<div class="flex justify-center overflow-x-auto py-1">
-    <div class="${CLASE_BODY_TABLA_ESCUDO} jornadas-tabla max-w-full" style="width:min(100%, ${anchoTabla}px)">
+  const body = `<div class="overflow-x-auto py-1">
+    <div class="jornadas-tabla mx-auto w-full" style="min-width:${anchoTabla}px">
       ${filaEncabezadoHtml(nombresCategorias)}
-      ${filas}
+      <div class="${CLASE_BODY_TABLA_ESCUDO}">
+        ${filas}
+      </div>
     </div>
   </div>`;
 
