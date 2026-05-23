@@ -8,19 +8,26 @@ import EscudosClubesSection from '@components/EscudosClubesSection.astro';
 import TorneosSection from '@components/TorneosSection.astro';
 import { getEscudosDeApiParaUi, getEscudosProcesadosParaUi } from '@lib/escudos';
 
-const [escudos, escudosApi] = await Promise.all([
-  getEscudosProcesadosParaUi(),
-  getEscudosDeApiParaUi(),
-]);
+const showEscudosClubesSection = false;
+
+const [escudos, escudosApi] = showEscudosClubesSection
+  ? await Promise.all([getEscudosProcesadosParaUi(), getEscudosDeApiParaUi()])
+  : [[], []];
 ---
 
 <BaseLayout>
   <Hero />
   <SponsorsSection />
-  <EscudosClubesSection escudos={escudos} />
-  <EscudosClubesSection escudos={escudosApi} variant="light" />
-  <EscudosClubesSection escudos={escudosApi} variant="light-grunge" />
-  <EscudosClubesSection escudos={escudosApi} roundedEscudos />
+  {
+    showEscudosClubesSection && (
+      <>
+        <EscudosClubesSection escudos={escudos} />
+        <EscudosClubesSection escudos={escudosApi} variant="light" />
+        <EscudosClubesSection escudos={escudosApi} variant="light-grunge" />
+        <EscudosClubesSection escudos={escudosApi} roundedEscudos />
+      </>
+    )
+  }
   <AppSection />
   <TorneosSection />
   <ContactoSection />
