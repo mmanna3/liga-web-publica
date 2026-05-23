@@ -42,11 +42,11 @@ export function zonaSectionIcon(sectionId: keyof typeof ZONA_SECTION_ICONS): Ico
 export function renderZonaSectionNavLink(
   sectionId: keyof typeof ZONA_SECTION_ICONS,
   titulo: string,
-  theme: { accent: string; pillHover: string },
+  theme: { pillHover: string; pillActive: string; iconHover: string; iconActive: string },
 ): string {
   const icon = ZONA_SECTION_ICONS[sectionId];
-  return `<a href="#zona-${sectionId}" class="group inline-flex min-w-0 flex-1 flex-col items-center justify-center gap-1.5 rounded-full border border-border-glass bg-white/5 px-1 py-2 text-[10px] font-semibold leading-none tracking-normal text-zinc-200 backdrop-blur-xl transition-colors duration-300 ease-out active:text-white sm:inline-flex sm:w-auto sm:shrink-0 sm:flex-none sm:flex-row sm:items-center sm:gap-3 sm:px-4 sm:py-2.5 sm:text-sm sm:font-medium tracking-wide sm:text-zinc-300 sm:transition-all sm:duration-300 sm:ease-out sm:hover:-translate-y-1 sm:hover:text-white sm:px-5 sm:text-base sm:hover:scale-[1.05] ${theme.pillHover}">
-    <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/5 transition-all duration-300 group-active:scale-105 group-active:bg-white/15 sm:h-9 sm:w-9 sm:group-hover:scale-110 sm:group-hover:bg-white/20 ${theme.accent}" aria-hidden="true">
+  return `<a href="#zona-${sectionId}" data-zona-nav-link data-section="${sectionId}" class="group inline-flex min-w-0 flex-1 flex-col items-center justify-center gap-1.5 rounded-full border border-border-glass bg-white/5 px-1 py-2 text-[10px] font-semibold leading-none tracking-normal text-zinc-400 backdrop-blur-xl transition-all duration-300 ease-out active:text-white sm:inline-flex sm:w-auto sm:shrink-0 sm:flex-none sm:flex-row sm:items-center sm:gap-3 sm:px-4 sm:py-2.5 sm:text-sm sm:font-medium tracking-wide sm:text-zinc-300 sm:transition-all sm:duration-300 sm:ease-out sm:hover:-translate-y-1 sm:hover:text-white sm:px-5 sm:text-base sm:hover:scale-[1.05] ${theme.pillHover} ${theme.pillActive}">
+    <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/5 text-zinc-500 transition-all duration-300 group-active:scale-105 group-active:bg-white/15 sm:h-9 sm:w-9 sm:group-hover:scale-110 sm:group-hover:bg-white/20 ${theme.iconHover} ${theme.iconActive}" aria-hidden="true">
       ${iconSvg(icon, 'h-4 w-4 sm:h-5 sm:w-5')}
     </span>
     <span class="text-center sm:text-left">${escapeHtml(titulo)}</span>

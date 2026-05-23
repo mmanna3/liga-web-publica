@@ -7,6 +7,9 @@ const COLOR_MAP: Record<
     border: string;
     gradient: string;
     pillHover: string;
+    pillActive: string;
+    iconHover: string;
+    iconActive: string;
     chipActive: string;
   }
 > = {
@@ -17,6 +20,10 @@ const COLOR_MAP: Record<
     gradient: 'from-emerald-600/40 via-emerald-900/20 to-transparent',
     pillHover:
       'hover:border-emerald-400/90 hover:bg-emerald-500/30 hover:shadow-lg hover:shadow-emerald-500/50',
+    pillActive:
+      '[&.is-active]:border-emerald-400/50 [&.is-active]:bg-emerald-500/12 [&.is-active]:text-zinc-200',
+    iconHover: 'group-hover:text-emerald-400',
+    iconActive: 'group-[.is-active]:bg-white/10 group-[.is-active]:text-emerald-400',
     chipActive: 'bg-emerald-600',
   },
   rojo: {
@@ -26,6 +33,10 @@ const COLOR_MAP: Record<
     gradient: 'from-red-600/40 via-red-900/20 to-transparent',
     pillHover:
       'hover:border-red-400/90 hover:bg-red-500/30 hover:shadow-lg hover:shadow-red-500/50',
+    pillActive:
+      '[&.is-active]:border-red-400/50 [&.is-active]:bg-red-500/12 [&.is-active]:text-zinc-200',
+    iconHover: 'group-hover:text-red-400',
+    iconActive: 'group-[.is-active]:bg-white/10 group-[.is-active]:text-red-400',
     chipActive: 'bg-red-600',
   },
   azul: {
@@ -35,6 +46,10 @@ const COLOR_MAP: Record<
     gradient: 'from-sky-600/40 via-sky-900/20 to-transparent',
     pillHover:
       'hover:border-sky-400/90 hover:bg-sky-500/30 hover:shadow-lg hover:shadow-sky-500/50',
+    pillActive:
+      '[&.is-active]:border-sky-400/50 [&.is-active]:bg-sky-500/12 [&.is-active]:text-zinc-200',
+    iconHover: 'group-hover:text-sky-400',
+    iconActive: 'group-[.is-active]:bg-white/10 group-[.is-active]:text-sky-400',
     chipActive: 'bg-sky-600',
   },
   amarillo: {
@@ -44,6 +59,10 @@ const COLOR_MAP: Record<
     gradient: 'from-amber-600/40 via-amber-900/20 to-transparent',
     pillHover:
       'hover:border-amber-400/90 hover:bg-amber-500/30 hover:shadow-lg hover:shadow-amber-500/50',
+    pillActive:
+      '[&.is-active]:border-amber-400/50 [&.is-active]:bg-amber-500/12 [&.is-active]:text-zinc-200',
+    iconHover: 'group-hover:text-amber-400',
+    iconActive: 'group-[.is-active]:bg-white/10 group-[.is-active]:text-amber-400',
     chipActive: 'bg-amber-600',
   },
   naranja: {
@@ -53,6 +72,10 @@ const COLOR_MAP: Record<
     gradient: 'from-orange-600/40 via-orange-900/20 to-transparent',
     pillHover:
       'hover:border-orange-400/90 hover:bg-orange-500/30 hover:shadow-lg hover:shadow-orange-500/50',
+    pillActive:
+      '[&.is-active]:border-orange-400/50 [&.is-active]:bg-orange-500/12 [&.is-active]:text-zinc-200',
+    iconHover: 'group-hover:text-orange-400',
+    iconActive: 'group-[.is-active]:bg-white/10 group-[.is-active]:text-orange-400',
     chipActive: 'bg-orange-600',
   },
 };
@@ -64,6 +87,10 @@ const DEFAULT_THEME = {
   gradient: 'from-zinc-600/40 via-zinc-900/20 to-transparent',
   pillHover:
     'hover:border-white/50 hover:bg-white/20 hover:shadow-lg hover:shadow-white/25',
+  pillActive:
+    '[&.is-active]:border-white/35 [&.is-active]:bg-white/10 [&.is-active]:text-zinc-200',
+  iconHover: 'group-hover:text-white',
+  iconActive: 'group-[.is-active]:bg-white/10 group-[.is-active]:text-white',
   chipActive: 'bg-zinc-600',
 };
 

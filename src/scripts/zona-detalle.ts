@@ -69,19 +69,64 @@ function initJornadasSelector(
   render();
 }
 
-function initSectionNav(): void {
+function setActiveSectionNav(sectionId: string): void {
+  document.querySelectorAll<HTMLAnchorElement>('[data-zona-nav-link]').forEach((link) => {
+    const active = link.dataset.section === sectionId;
+    link.classList.toggle('is-active', active);
+    link.toggleAttribute('aria-current', active);
+  });
+}
+
+function initSectionNav(sectionIds: ZonaSectionId[]): void {
   const nav = document.getElementById('zona-section-nav');
   if (!nav) return;
 
-  nav.querySelectorAll('a[href^="#zona-"]').forEach((link) => {
+  nav.querySelectorAll<HTMLAnchorElement>('[data-zona-nav-link]').forEach((link) => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
-      const href = (link as HTMLAnchorElement).getAttribute('href');
+      const href = link.getAttribute('href');
       if (!href) return;
+      const sectionId = link.dataset.section;
+      if (sectionId) setActiveSectionNav(sectionId);
       const target = document.querySelector(href);
       target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
+
+  const sections = sectionIds
+    .map((id) => document.getElementById(`zona-${id}`))
+    .filter((el): el is HTMLElement => el != null);
+
+  if (sections.length === 0) return;
+
+  const visibleSections = new Map<Element, IntersectionObserverEntry>();
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          visibleSections.set(entry.target, entry);
+        } else {
+          visibleSections.delete(entry.target);
+        }
+      });
+
+      if (visibleSections.size === 0) return;
+
+      const topmost = [...visibleSections.values()].sort(
+        (a, b) => a.boundingClientRect.top - b.boundingClientRect.top,
+      )[0];
+      const id = topmost.target.id.replace('zona-', '');
+      setActiveSectionNav(id);
+    },
+    {
+      rootMargin: '-25% 0px -40% 0px',
+      threshold: [0, 0.1, 0.25, 0.5],
+    },
+  );
+
+  sections.forEach((section) => observer.observe(section));
+  setActiveSectionNav(sectionIds[0]);
 }
 
 async function loadZonaDetalle(): Promise<void> {
@@ -142,7 +187,7 @@ async function loadZonaDetalle(): Promise<void> {
     )
     .join('');
 
-  initSectionNav();
+  initSectionNav(secciones.map((s) => s.id));
 
   try {
     const data = await fetchZonaDetalle(params.zonaId, params.tipoDeFase);
