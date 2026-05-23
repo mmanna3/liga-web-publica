@@ -132,7 +132,7 @@ async function loadZonaDetalle(): Promise<void> {
     .map(
       (s) => `<section id="zona-${s.id}" class="scroll-mt-32">
         <div class="mb-4 flex items-center gap-2">
-          ${iconSvg(zonaSectionIcon(s.id), 'h-5 w-5 ' + theme.accent)}
+          ${iconSvg(zonaSectionIcon(s.id), 'h-5 w-5 -translate-y-0.5 ' + theme.accent)}
           <h2 class="font-display text-2xl tracking-wide text-white uppercase">${escapeHtml(s.titulo)}</h2>
         </div>
         <div class="glass rounded-2xl border border-white/10 p-4 sm:p-6" id="zona-content-${s.id}">
