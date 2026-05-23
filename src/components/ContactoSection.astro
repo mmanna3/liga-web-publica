@@ -2,9 +2,12 @@
 import Logo from '@components/Logo.astro';
 import Card from '@components/ui/Card.astro';
 import Icon from '@components/ui/Icon.astro';
+import { googleMapsSearchUrl } from '@lib/html-utils';
 import { siteConfig } from '@lib/site';
 
 const { contacto, redes } = siteConfig;
+const direccionCompleta = `${contacto.direccion} (CP ${contacto.cp})`;
+const mapsUrl = googleMapsSearchUrl(direccionCompleta);
 ---
 
 <section id="contacto" class="relative scroll-mt-24 overflow-hidden border-t border-white/5 py-20 sm:py-28">
@@ -63,19 +66,18 @@ const { contacto, redes } = siteConfig;
             Dirección
           </h3>
         </div>
-        <div class="space-y-2 text-base leading-relaxed text-zinc-400">
-          <p>
-            <a
-              href={contacto.mapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="transition-colors hover:text-white"
-            >
-              {contacto.direccion}
-            </a>
-          </p>
-          <p>CP: {contacto.cp}</p>
-        </div>
+        <p class="text-sm leading-5">
+          <a
+            href={mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-start gap-1.5 text-accent-hot underline-offset-2 transition-colors hover:text-white hover:underline"
+            aria-label={`Ver ${direccionCompleta} en Google Maps`}
+          >
+            <Icon name="map-pin" size="sm" class="translate-y-0.5" />
+            <span>{direccionCompleta}</span>
+          </a>
+        </p>
       </Card>
 
       <Card hover={false} class="stagger-3">

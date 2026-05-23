@@ -18,8 +18,6 @@ export const siteConfig = {
     telefono: '+5491158900516',
     telefonoDisplay: '11 5890-0516',
     email: 'edefiargentina@hotmail.com',
-    mapsUrl:
-      'https://www.google.com/maps/search/?api=1&query=Juan+B.+Justo+550,+Haedo,+Buenos+Aires',
   },
   redes: {
     instagram: 'https://www.instagram.com/liga_edefi/',

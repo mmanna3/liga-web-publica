@@ -120,7 +120,7 @@ function tablaCategoriaHtml(bloque: CategoriasConPosicionesDTO, mostrarGoles: bo
   const titulo = escapeHtml(textoOGuion(bloque.categoria));
   const leyenda = (bloque.leyenda ?? '').trim();
   const leyendaHtml = leyenda
-    ? `<p class="mt-2 text-sm leading-5 text-zinc-500">${escapeHtml(leyenda)}</p>`
+    ? `<p class="mt-2 text-center text-sm leading-relaxed text-zinc-300">${escapeHtml(leyenda)}</p>`
     : '';
 
   if (renglones.length === 0) {
