@@ -36,6 +36,10 @@ export function escudoUrl(escudoRelativo: string | undefined): string | null {
   return `${getApiOrigin()}${path}`;
 }
 
+export function googleMapsSearchUrl(direccion: string): string {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(direccion.trim())}`;
+}
+
 export const CLASE_FILA_TABLA_ESCUDO =
   'tabla-fila-escudo border-b border-black/10 last:border-b-0';
 

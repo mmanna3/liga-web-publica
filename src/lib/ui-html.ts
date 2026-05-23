@@ -4,7 +4,7 @@ import type { IconName as ShapeIconName } from '@types/icon';
 
 type IconName = Extract<
   ShapeIconName,
-  'trophy' | 'ball' | 'layers' | 'grid' | 'alert' | 'calendar' | 'shield'
+  'trophy' | 'ball' | 'layers' | 'grid' | 'alert' | 'calendar' | 'shield' | 'map-pin'
 >;
 
 /** Íconos alineados con la app móvil (Ionicons en zona-detalle). */
