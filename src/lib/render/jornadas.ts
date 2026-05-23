@@ -3,7 +3,14 @@ import {
   celdaResultadoCategoria,
   nombresCategoriasDeFecha,
 } from '@lib/jornadas-utils';
-import { escapeHtml, escudoImgHtml, numeroOGuion, textoOGuion } from '@lib/html-utils';
+import {
+  CLASE_BODY_TABLA_ESCUDO,
+  CLASE_FILA_TABLA_ESCUDO,
+  escapeHtml,
+  escudoImgHtml,
+  numeroOGuion,
+  textoOGuion,
+} from '@lib/html-utils';
 import { emptyStateHtml } from '@lib/ui-html';
 import type { FechasParaJornadasDTO, JornadaPorEquipoDTO, JornadasDTO } from '@types/zona-detalle';
 
@@ -26,7 +33,7 @@ function filaEncabezadoHtml(nombresCategorias: string[]): string {
         celdaHtml(cat, ANCHO.cat, 'center', true),
     )
     .join('');
-  return `<div class="flex border-b border-white/20 bg-white/10">
+  return `<div class="flex w-full border-b border-white/10 bg-zinc-900">
     ${celdaHtml('Esc', ANCHO.esc, 'center', true)}
     ${celdaHtml('Equipo', ANCHO.equipo, 'left', true)}
     ${cats}
@@ -43,10 +50,10 @@ function filaEquipoHtml(
 ): string {
   const bordeClase =
     lado === 'local'
-      ? 'border-b border-white/5'
+      ? CLASE_FILA_TABLA_ESCUDO
       : visitanteConMasPartidosDebajo
-        ? 'border-b border-white/15'
-        : 'border-b border-white/5';
+        ? `${CLASE_FILA_TABLA_ESCUDO} border-black/20`
+        : CLASE_FILA_TABLA_ESCUDO;
 
   const cats = nombresCategorias
     .map((cat) =>
@@ -61,7 +68,7 @@ function filaEquipoHtml(
     .join('');
 
   return `<div class="flex ${bordeClase}">
-    <div class="flex shrink-0 items-center justify-center px-1 py-1.5" style="width:${ANCHO.esc}px;min-width:${ANCHO.esc}px">${escudoImgHtml(equipo?.escudo)}</div>
+    <div class="flex shrink-0 items-center justify-center px-1 py-1.5" style="width:${ANCHO.esc}px;min-width:${ANCHO.esc}px">${escudoImgHtml(equipo?.escudo, 'h-8 w-8', 'bg-zinc-200')}</div>
     ${celdaHtml(textoOGuion(equipo?.equipo), ANCHO.equipo, 'left')}
     ${cats}
     ${celdaHtml(numeroOGuion(equipo?.puntosTotales), ANCHO.pt, 'center', false, true)}
@@ -72,7 +79,7 @@ function filaEquipoHtml(
 export function cardFechaJornadasHtml(fecha: FechasParaJornadasDTO): string {
   const jornadas = fecha.jornadas ?? [];
   const nombresCategorias = nombresCategoriasDeFecha(fecha);
-  const anchoTotal = anchoTablaJornadas(nombresCategorias.length);
+  const anchoTabla = anchoTablaJornadas(nombresCategorias.length);
   const ultimoIndice = jornadas.length - 1;
 
   if (jornadas.length === 0) {
@@ -88,18 +95,21 @@ export function cardFechaJornadasHtml(fecha: FechasParaJornadasDTO): string {
   const filas = jornadas
     .map((j, i) => {
       const hayMas = i < ultimoIndice;
-      return `<div>
+      return `<div class="w-full">
           ${filaEquipoHtml(j.local, nombresCategorias, 'local')}
           ${filaEquipoHtml(j.visitante, nombresCategorias, 'visitante', hayMas)}
         </div>`;
     })
     .join('');
-  const body = `<div class="overflow-x-auto">
-    <div class="mx-auto" style="width:${anchoTotal}px;max-width:100%">${filaEncabezadoHtml(nombresCategorias)}${filas}</div>
+  const body = `<div class="flex justify-center overflow-x-auto py-1">
+    <div class="${CLASE_BODY_TABLA_ESCUDO} jornadas-tabla max-w-full" style="width:min(100%, ${anchoTabla}px)">
+      ${filaEncabezadoHtml(nombresCategorias)}
+      ${filas}
+    </div>
   </div>`;
 
-  return `<div class="overflow-hidden rounded-xl border border-white/10 bg-white/5 px-3 py-2">
-    <div class="mb-1 flex items-baseline justify-between gap-2 border-b border-white/10 px-2 py-2">
+  return `<div class="mx-auto w-fit max-w-full overflow-hidden rounded-xl border border-white/10 bg-white/5">
+    <div class="flex items-baseline justify-between gap-2 border-b border-white/10 px-3 py-2">
       <span class="shrink text-base font-semibold text-white">${escapeHtml(textoOGuion(fecha.titulo))}</span>
       <span class="shrink-0 text-sm font-medium text-white">${escapeHtml(textoOGuion(fecha.dia))}</span>
     </div>

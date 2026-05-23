@@ -1,4 +1,4 @@
-import { escapeHtml, escudoImgHtml, textoOGuion } from '@lib/html-utils';
+import { CLASE_BODY_TABLA_ESCUDO, CLASE_FILA_TABLA_ESCUDO, escapeHtml, escudoImgHtml, textoOGuion } from '@lib/html-utils';
 import { emptyStateHtml } from '@lib/ui-html';
 import type {
   CategoriasConPosicionesDTO,
@@ -105,13 +105,13 @@ function filaEquipoHtml(r: PosicionDelEquipoDTO, mostrarGoles: boolean): string 
       const ancho = anchoCelda(label, i, mostrarGoles, n);
       if (label === 'Esc') {
         const w = anchoColumna(i, mostrarGoles, n);
-        return `<div class="flex shrink-0 items-center justify-center px-1 py-1.5" style="width:${w}px;min-width:${w}px">${escudoImgHtml(r.escudo)}</div>`;
+        return `<div class="flex shrink-0 items-center justify-center px-1 py-1.5" style="width:${w}px;min-width:${w}px">${escudoImgHtml(r.escudo, 'h-8 w-8', 'bg-zinc-200')}</div>`;
       }
       const align: 'left' | 'center' = label === 'Equipo' ? 'left' : 'center';
       return celdaHtml(valorCelda(label, r), ancho, align, false, label !== 'Equipo');
     })
     .join('');
-  return `<div class="flex w-full min-w-0 border-b border-white/5 last:border-b-0">${cells}</div>`;
+  return `<div class="flex w-full min-w-0 ${CLASE_FILA_TABLA_ESCUDO}">${cells}</div>`;
 }
 
 function tablaCategoriaHtml(bloque: CategoriasConPosicionesDTO, mostrarGoles: boolean): string {
@@ -140,8 +140,8 @@ function tablaCategoriaHtml(bloque: CategoriasConPosicionesDTO, mostrarGoles: bo
             </div>
           </div>
         </div>
-        <div class="max-md:overflow-x-auto px-4 py-1">
-          <div class="posiciones-tabla-inner mx-auto w-full" style="--tabla-min:${anchoTotal}px">
+        <div class="${CLASE_BODY_TABLA_ESCUDO} max-md:overflow-x-auto py-1">
+          <div class="posiciones-tabla-inner mx-auto w-full px-4" style="--tabla-min:${anchoTotal}px">
             ${renglones.map((r) => filaEquipoHtml(r, mostrarGoles)).join('')}
           </div>
         </div>

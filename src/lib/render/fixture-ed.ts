@@ -1,4 +1,4 @@
-import { escapeHtml, escudoImgHtml, textoOGuion } from '@lib/html-utils';
+import { CLASE_BODY_TABLA_ESCUDO, CLASE_FILA_TABLA_ESCUDO, escapeHtml, escudoImgHtml, textoOGuion } from '@lib/html-utils';
 import { emptyStateHtml, iconSvg } from '@lib/ui-html';
 import type {
   EliminacionDirectaDTO,
@@ -54,8 +54,8 @@ function filaPartidoHtml(partido: PartidoEliminacionDirectaDTO): string {
   const resL = textoOGuion(partido.resultadoLocal);
   const resV = textoOGuion(partido.resultadoVisitante);
 
-  return `<div class="flex items-center gap-1.5 border-b border-white/5 px-2 py-2.5 last:border-b-0">
-    ${escudoImgHtml(partido.escudoLocal, 'h-9 w-9')}
+  return `<div class="flex items-center gap-1.5 px-2 py-2.5 ${CLASE_FILA_TABLA_ESCUDO}">
+    ${escudoImgHtml(partido.escudoLocal, 'h-9 w-9', 'bg-zinc-200')}
     <span class="min-w-0 flex-1 text-right text-xs font-medium text-zinc-200">${escapeHtml(textoOGuion(partido.local))}</span>
     <div class="flex shrink-0 flex-wrap items-center justify-center gap-x-0.5 rounded-md border border-white/10 bg-white/5 px-2 py-1.5">
       <span class="text-xs font-semibold tabular-nums text-zinc-200">${escapeHtml(resL)}${pLoc != null ? `(${escapeHtml(pLoc)})` : ''}</span>
@@ -63,18 +63,20 @@ function filaPartidoHtml(partido: PartidoEliminacionDirectaDTO): string {
       <span class="text-xs font-semibold tabular-nums text-zinc-200">${escapeHtml(resV)}${pVis != null ? `(${escapeHtml(pVis)})` : ''}</span>
     </div>
     <span class="min-w-0 flex-1 text-left text-xs font-medium text-zinc-200">${escapeHtml(textoOGuion(partido.visitante))}</span>
-    ${escudoImgHtml(partido.escudoVisitante, 'h-9 w-9')}
+    ${escudoImgHtml(partido.escudoVisitante, 'h-9 w-9', 'bg-zinc-200')}
   </div>`;
 }
 
 function cardInstanciaHtml(instancia: InstanciasDTO): string {
   const partidos = instancia.partidos ?? [];
-  return `<div class="min-w-0 overflow-hidden rounded-xl border border-white/10 bg-white/5 px-3 py-2">
-    <div class="mb-1 border-b border-white/10 px-2 py-2 text-center">
+  return `<div class="min-w-0 overflow-hidden rounded-xl border border-white/10 bg-white/5">
+    <div class="border-b border-white/10 px-3 py-2 text-center">
       <p class="text-base font-semibold text-white">${escapeHtml(textoOGuion(instancia.titulo))}</p>
       <p class="mt-1 text-sm font-medium text-white">${escapeHtml(textoOGuion(instancia.dia))}</p>
     </div>
-    ${partidos.map((p) => filaPartidoHtml(p)).join('')}
+    <div class="${CLASE_BODY_TABLA_ESCUDO}">
+      ${partidos.map((p) => filaPartidoHtml(p)).join('')}
+    </div>
   </div>`;
 }
 

@@ -3,12 +3,13 @@ import type { EscudoClubDisplay } from '@lib/escudos';
 
 interface Props {
   escudos: EscudoClubDisplay[];
-  variant?: 'dark' | 'light';
+  variant?: 'dark' | 'light' | 'light-grunge';
   roundedEscudos?: boolean;
 }
 
 const { escudos, variant = 'dark', roundedEscudos = false } = Astro.props;
-const isLight = variant === 'light';
+const isLight = variant === 'light' || variant === 'light-grunge';
+const isLightGrunge = variant === 'light-grunge';
 
 function shuffle<T>(items: T[]): T[] {
   const copy = [...items];
@@ -29,17 +30,32 @@ const scrollDurationSec = Math.max(180, Math.round(escudos.length * 4));
     <section
       class:list={[
         'escudos-bar py-5 sm:py-6',
-        isLight ? 'border-b border-zinc-200 bg-white' : 'border-b border-white/5 bg-surface',
+        isLightGrunge
+          ? 'escudos-bar--light-grunge relative overflow-hidden border-b border-[#0a0a0b]'
+          : isLight
+            ? 'border-b border-[#0a0a0b]/10 bg-white'
+            : 'border-b border-white/5 bg-surface',
       ]}
       aria-label="Clubes de la liga"
     >
+      {isLightGrunge && (
+        <div class="escudos-bar__decor-grunge pointer-events-none absolute inset-0 z-0" aria-hidden="true" />
+      )}
+
       <p
-        class="font-display mb-5 text-center text-[10px] tracking-[0.35em] text-zinc-500 uppercase"
+        class:list={[
+          'font-display relative z-10 mb-5 text-center text-[10px] tracking-[0.35em] uppercase',
+          isLightGrunge
+            ? 'escudos-bar__title-grunge text-[#0a0a0b]'
+            : isLight
+              ? 'text-[#0a0a0b]/55'
+              : 'text-zinc-500',
+        ]}
       >
         Clubes de la liga
       </p>
 
-      <div class="escudos-marquee">
+      <div class="escudos-marquee relative z-10">
         <div
           class="escudos-track"
           style={`--escudos-duration: ${scrollDurationSec}s`}
@@ -71,6 +87,10 @@ const scrollDurationSec = Math.max(180, Math.round(escudos.length * 4));
           ))}
         </div>
       </div>
+
+      {isLightGrunge && (
+        <div class="escudos-bar__decor-shapes pointer-events-none absolute inset-0 z-20" aria-hidden="true" />
+      )}
     </section>
   )
 }
