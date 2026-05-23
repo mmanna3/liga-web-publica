@@ -12,7 +12,7 @@ import { escapeHtml } from '@lib/html-utils';
 import { homeUrl } from '@lib/paths-client';
 import { indiceUltimaFechaConResultados } from '@lib/jornadas-utils';
 import { fetchZonaDetalle, getSeccionesVisibles, parseZonaPageParams } from '@lib/zona-data';
-import { errorBoxHtml, iconSvg, loadingSkeletonHtml, sectionErrorHtml } from '@lib/ui-html';
+import { errorBoxHtml, iconSvg, loadingSkeletonHtml, renderZonaSectionNavLink, sectionErrorHtml, zonaSectionIcon } from '@lib/ui-html';
 import type { FechasParaJornadasDTO, ZonaDetalleData, ZonaSectionId } from '@types/zona-detalle';
 
 function renderSectionContent(
@@ -124,10 +124,7 @@ async function loadZonaDetalle(): Promise<void> {
   const navEl = document.getElementById('zona-section-nav');
   if (navEl) {
     navEl.innerHTML = secciones
-      .map(
-        (s) =>
-          `<a href="#zona-${s.id}" class="shrink-0 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-zinc-300 transition-colors hover:border-white/25 hover:text-white ${theme.accent}">${escapeHtml(s.titulo)}</a>`,
-      )
+      .map((s) => renderZonaSectionNavLink(s.id, s.titulo, theme))
       .join('');
   }
 
@@ -135,7 +132,7 @@ async function loadZonaDetalle(): Promise<void> {
     .map(
       (s) => `<section id="zona-${s.id}" class="scroll-mt-32">
         <div class="mb-4 flex items-center gap-2">
-          ${iconSvg('trophy', 'h-5 w-5 ' + theme.accent)}
+          ${iconSvg(zonaSectionIcon(s.id), 'h-5 w-5 ' + theme.accent)}
           <h2 class="font-display text-2xl tracking-wide text-white uppercase">${escapeHtml(s.titulo)}</h2>
         </div>
         <div class="glass rounded-2xl border border-white/10 p-4 sm:p-6" id="zona-content-${s.id}">

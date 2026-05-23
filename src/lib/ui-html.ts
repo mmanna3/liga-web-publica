@@ -1,19 +1,56 @@
-type IconName = 'trophy' | 'ball' | 'layers' | 'grid' | 'alert' | 'calendar' | 'shield';
+import { escapeHtml } from '@lib/html-utils';
+import { getIconShapes } from '@lib/icon-shapes';
+import type { IconName as ShapeIconName } from '@types/icon';
 
-const paths: Record<IconName, string> = {
-  trophy:
-    'M8 21h8M12 17v4M7 4h10v4a5 5 0 01-10 0V4zM17 4h2a1 1 0 011 1v1a3 3 0 01-3 3h-1M7 4H5a1 1 0 00-1 1v1a3 3 0 003 3h1',
-  ball: 'M12 2a10 10 0 100 20 10 10 0 000-20z M12 7l4.76 3.45-1.76 5.55h-6l-1.76-5.55z',
-  layers: 'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5',
-  grid: 'M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z',
-  alert: 'M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z',
-  calendar: 'M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z',
-  shield: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
-};
+type IconName = Extract<
+  ShapeIconName,
+  'trophy' | 'ball' | 'layers' | 'grid' | 'alert' | 'calendar' | 'shield'
+>;
+
+/** Íconos alineados con la app móvil (Ionicons en zona-detalle). */
+const ZONA_SECTION_ICONS = {
+  posiciones: 'trophy',
+  fixture: 'calendar',
+  jornadas: 'ball',
+  clubes: 'shield',
+} as const satisfies Record<string, IconName>;
 
 export function iconSvg(name: IconName, className = 'h-5 w-5'): string {
-  const d = paths[name];
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="${className}" aria-hidden="true"><path d="${d}"/></svg>`;
+  const shapes = getIconShapes(name);
+  const inner = shapes
+    .map((shape) => {
+      if (shape.type === 'circle') {
+        return `<circle cx="${shape.cx}" cy="${shape.cy}" r="${shape.r}" />`;
+      }
+      const attrs = [
+        `d="${shape.d}"`,
+        shape.linecap ? `stroke-linecap="${shape.linecap}"` : '',
+        shape.linejoin ? `stroke-linejoin="${shape.linejoin}"` : '',
+      ]
+        .filter(Boolean)
+        .join(' ');
+      return `<path ${attrs} />`;
+    })
+    .join('');
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" class="${className}" aria-hidden="true">${inner}</svg>`;
+}
+
+export function zonaSectionIcon(sectionId: keyof typeof ZONA_SECTION_ICONS): IconName {
+  return ZONA_SECTION_ICONS[sectionId];
+}
+
+export function renderZonaSectionNavLink(
+  sectionId: keyof typeof ZONA_SECTION_ICONS,
+  titulo: string,
+  theme: { accent: string; pillHover: string },
+): string {
+  const icon = ZONA_SECTION_ICONS[sectionId];
+  return `<a href="#zona-${sectionId}" class="group inline-flex shrink-0 items-center gap-3 rounded-full border border-border-glass bg-white/5 px-4 py-2.5 text-sm font-medium tracking-wide text-zinc-300 backdrop-blur-xl transition-all duration-300 ease-out hover:-translate-y-1 hover:text-white sm:px-5 sm:text-base ${theme.pillHover} hover:scale-[1.05]">
+    <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/5 transition-all duration-300 group-hover:scale-110 group-hover:bg-white/20 ${theme.accent}" aria-hidden="true">
+      ${iconSvg(icon, 'h-5 w-5')}
+    </span>
+    ${escapeHtml(titulo)}
+  </a>`;
 }
 
 export function loadingSkeletonHtml(lines = 3): string {
