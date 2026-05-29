@@ -133,15 +133,23 @@
   }
 
   .sponsors-logo {
-    @apply flex shrink-0 items-center justify-center px-8 sm:px-12;
+    @apply flex shrink-0 items-center justify-center px-10 sm:px-14;
   }
 
   .sponsors-logo img {
-    @apply h-8 w-auto max-w-[120px] object-contain opacity-45 brightness-0 invert transition-opacity duration-300 sm:h-9 sm:max-w-[140px];
+    @apply h-20 w-auto max-w-[280px] object-contain opacity-45 brightness-0 invert transition-opacity duration-300 sm:h-24 sm:max-w-[340px];
+  }
+
+  .sponsors-logo img.sponsors-logo__img--color {
+    @apply h-20 max-w-[280px] rounded-md opacity-80 brightness-100 invert-0 sm:h-24 sm:max-w-[340px];
   }
 
   .sponsors-logo:hover img {
     @apply opacity-75;
+  }
+
+  .sponsors-logo:hover img.sponsors-logo__img--color {
+    @apply opacity-100;
   }
 
   .escudos-marquee {

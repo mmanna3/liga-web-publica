@@ -2,6 +2,8 @@
 import { assetUrl } from '@lib/paths';
 
 const sponsors = [
+  { name: 'Redes Power', src: assetUrl('sponsors/redes-power.jpeg'), color: true },
+  { name: 'Trofeos Deportivos', src: assetUrl('sponsors/trofeos-deportivos.jpeg'), color: true },
   { name: 'Nike', src: assetUrl('sponsors/nike.svg') },
   { name: 'Adidas', src: assetUrl('sponsors/adidas.svg') },
   { name: 'Puma', src: assetUrl('sponsors/puma.svg') },
@@ -31,10 +33,11 @@ const sponsors = [
         sponsors.map((sponsor) => (
           <div class="sponsors-logo">
             <img
+              class:list={[{ 'sponsors-logo__img--color': sponsor.color }]}
               src={sponsor.src}
               alt={sponsor.name}
-              width="160"
-              height="48"
+              width="340"
+              height="96"
               loading="lazy"
               decoding="async"
             />
@@ -45,10 +48,11 @@ const sponsors = [
         sponsors.map((sponsor) => (
           <div class="sponsors-logo sponsors-logo--clone" aria-hidden="true">
             <img
+              class:list={[{ 'sponsors-logo__img--color': sponsor.color }]}
               src={sponsor.src}
               alt=""
-              width="160"
-              height="48"
+              width="340"
+              height="96"
               loading="lazy"
               decoding="async"
             />
