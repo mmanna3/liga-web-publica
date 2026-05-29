@@ -1,5 +1,5 @@
 import { getAgrupadorTheme } from '@lib/colors';
-import { escapeHtml } from '@lib/html-utils';
+import { escapeHtml, formatZonaNombre } from '@lib/html-utils';
 import { zonaUrl } from '@lib/paths-client';
 import { iconSvg } from '@lib/ui-html';
 import type { AgrupadorDeTorneo, Fase, Torneo, Zona } from '@types/torneo';
@@ -15,7 +15,7 @@ function zonaBadgeHtml(
   const href = zonaUrl({
     zonaId: zona.id,
     tipoDeFase: fase.tipoDeFase,
-    zonaNombre: zona.nombre,
+    zonaNombre: formatZonaNombre(zona.nombre),
     faseNombre: fase.nombre,
     torneoNombre: torneo.nombre,
     agrupadorNombre: agrupador.nombre,
@@ -25,12 +25,12 @@ function zonaBadgeHtml(
 
   return `<a
     href="${escapeHtml(href)}"
-    class="group inline-flex cursor-pointer items-center gap-3 rounded-full border border-border-glass bg-white/5 px-5 py-2.5 backdrop-blur-xl text-base font-medium tracking-wide text-zinc-300 transition-all duration-300 ease-out hover:scale-[1.05] hover:-translate-y-1 hover:text-white ${pillHoverClass}"
+    class="group inline-flex cursor-pointer items-center gap-3 rounded-full border border-border-glass bg-white/5 px-5 py-2.5 backdrop-blur-xl font-display text-base font-medium tracking-wide text-zinc-300 uppercase transition-all duration-300 ease-out hover:scale-[1.05] hover:-translate-y-1 hover:text-white ${pillHoverClass}"
   >
     <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/5 transition-all duration-300 group-hover:scale-110 group-hover:bg-white/20 ${accentClass}" aria-hidden="true">
       ${iconSvg('ball', 'h-4 w-4')}
     </span>
-    ${escapeHtml(zona.nombre)}
+    ${escapeHtml(formatZonaNombre(zona.nombre))}
   </a>`;
 }
 

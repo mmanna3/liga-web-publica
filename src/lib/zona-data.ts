@@ -1,3 +1,4 @@
+import { formatZonaNombre } from '@lib/html-utils';
 import {
   getClubes,
   getEliminacionDirecta,
@@ -27,7 +28,7 @@ export function parseZonaPageParams(search: URLSearchParams): ZonaPageParams | n
     agrupadorId,
     agrupadorNombre: search.get('agrupadorNombre') ?? '',
     tipoDeFase: search.get('tipoDeFase') ?? '',
-    zonaNombre: search.get('zonaNombre') ?? '',
+    zonaNombre: formatZonaNombre(search.get('zonaNombre') ?? ''),
     faseNombre: search.get('faseNombre') ?? '',
     torneoNombre: search.get('torneoNombre') ?? '',
     color: search.get('color') ?? '',

@@ -7,6 +7,11 @@ export function escapeHtml(value: string): string {
     .replace(/'/g, '&#39;');
 }
 
+/** Nombre de zona siempre en mayúsculas (listados, URL y detalle). */
+export function formatZonaNombre(nombre: string): string {
+  return (nombre ?? '').trim().toLocaleUpperCase('es-AR');
+}
+
 export function textoOGuion(s: string | undefined): string {
   const t = (s ?? '').trim();
   return t.length > 0 ? t : '—';

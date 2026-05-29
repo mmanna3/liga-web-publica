@@ -159,7 +159,7 @@ async function loadZonaDetalle(): Promise<void> {
       <span class="text-zinc-600">/</span>
       <a href="${escapeHtml(homeUrl(`agrupador-${params.agrupadorId}`))}" class="text-zinc-500 transition-colors hover:text-white">${escapeHtml(params.agrupadorNombre || params.torneoNombre)}</a>
       <span class="text-zinc-600">/</span>
-      <span class="${theme.accent}">${escapeHtml(params.faseNombre)} · ${escapeHtml(params.zonaNombre)}</span>`;
+      <span class="${theme.accent} font-display uppercase">${escapeHtml(params.faseNombre)} · ${escapeHtml(params.zonaNombre)}</span>`;
   }
 
   const resumenEl = document.getElementById('zona-resumen');
