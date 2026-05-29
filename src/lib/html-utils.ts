@@ -28,6 +28,11 @@ function getApiOrigin(): string {
   return base.replace(CARNET_DIGITAL_SUFFIX, '').replace(/\/$/, '');
 }
 
+/** URL del logo de sponsor vía API (evita rutas bloqueadas por ad blockers). */
+export function sponsorLogoUrl(sponsorId: number): string {
+  return `${getApiOrigin()}/api/publico/sponsor-logo/${sponsorId}`;
+}
+
 export function escudoUrl(escudoRelativo: string | undefined): string | null {
   const r = (escudoRelativo ?? '').trim();
   if (!r) return null;

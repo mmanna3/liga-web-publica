@@ -55,8 +55,9 @@ export async function getAgrupadoresDeTorneo(): Promise<AgrupadorDeTorneo[]> {
   }
 }
 
-export function sponsorLogoUrl(logoRelativo: string): string {
-  return escudoUrl(logoRelativo);
+export function sponsorLogoUrl(sponsorId: number): string {
+  const origin = getApiOrigin();
+  return `${origin}/api/publico/sponsor-logo/${sponsorId}`;
 }
 
 export async function getSponsorsWebPublica(): Promise<SponsorWebPublica[]> {

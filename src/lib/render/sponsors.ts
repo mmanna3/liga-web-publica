@@ -1,13 +1,14 @@
 import type { SponsorWebPublica } from '@types/sponsor';
-import { escudoUrl, escapeHtml } from '@lib/html-utils';
+import { sponsorLogoUrl, escapeHtml } from '@lib/html-utils';
 
 function sponsorLogoItem(
   sponsor: SponsorWebPublica,
   alt: string,
   clone = false,
 ): string {
-  const src = escudoUrl(sponsor.logoUrl);
-  if (!src) return '';
+  if (!Number.isFinite(sponsor.id) || sponsor.id <= 0) return '';
+
+  const src = sponsorLogoUrl(sponsor.id);
 
   return `<div class="sponsors-logo${clone ? ' sponsors-logo--clone' : ''}"${clone ? ' aria-hidden="true"' : ''}>
     <img
