@@ -15,8 +15,24 @@ async function loadSponsors(): Promise<void> {
       return;
     }
 
-    marqueeRoot.innerHTML = renderSponsorsMarqueeHtml(sponsors);
     section.hidden = false;
+    marqueeRoot.innerHTML = renderSponsorsMarqueeHtml(sponsors);
+    marqueeRoot.setAttribute('aria-busy', 'false');
+
+    const images = marqueeRoot.querySelectorAll('img');
+    images.forEach((img) => {
+      img.loading = 'eager';
+    });
+    await Promise.all(
+      [...images].map((img) =>
+        img.complete
+          ? Promise.resolve()
+          : new Promise<void>((resolve) => {
+              img.addEventListener('load', () => resolve(), { once: true });
+              img.addEventListener('error', () => resolve(), { once: true });
+            }),
+      ),
+    );
   } catch (error) {
     console.error('[sponsors] No se pudieron cargar los sponsors:', error);
     section.hidden = true;

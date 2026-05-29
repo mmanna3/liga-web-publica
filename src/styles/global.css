@@ -116,7 +116,16 @@
   }
 
   .sponsors-marquee {
+    @apply relative w-full max-w-full min-h-20 sm:min-h-24;
     overflow: hidden;
+    overflow-x: clip;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%
+    );
     mask-image: linear-gradient(
       to right,
       transparent 0%,
@@ -124,11 +133,14 @@
       black 92%,
       transparent 100%
     );
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
   }
 
   .sponsors-track {
     display: flex;
     width: max-content;
+    will-change: transform;
     animation: sponsors-scroll 40s linear infinite;
   }
 
@@ -374,10 +386,10 @@
 
 @keyframes sponsors-scroll {
   from {
-    transform: translateX(-50%);
+    transform: translate3d(0, 0, 0);
   }
   to {
-    transform: translateX(0);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 

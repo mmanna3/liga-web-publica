@@ -15,7 +15,7 @@ function sponsorLogoItem(
       alt="${escapeHtml(alt)}"
       width="340"
       height="96"
-      loading="lazy"
+      loading="eager"
       decoding="async"
     />
   </div>`;
