@@ -3,9 +3,10 @@ import { siteConfig } from '@lib/site';
 import { assetUrl } from '@lib/paths';
 
 const heroImages = [
-  { src: assetUrl('from-ball-white-line.jpg'), position: 'hero-bg-slide--ball' },
-  { src: assetUrl('mate.png'), position: 'hero-bg-slide--mate' },
-  { src: assetUrl('persona-edefi.jpg'), position: 'hero-bg-slide--persona' },
+  assetUrl('imagenes-home/1.jpeg'),
+  assetUrl('imagenes-home/2.jpeg'),
+  assetUrl('imagenes-home/3.jpeg'),
+  assetUrl('imagenes-home/4.jpeg'),
 ];
 ---
 
@@ -13,13 +14,13 @@ const heroImages = [
   <div class="pointer-events-none absolute inset-0" aria-hidden="true">
     <div class="hero-bg-carousel">
       {
-        heroImages.map((image, index) => (
+        heroImages.map((src, index) => (
           <img
-            src={image.src}
+            src={src}
             alt=""
             width="1920"
             height="1080"
-            class:list={['hero-bg-slide', image.position]}
+            class="hero-bg-slide"
             loading={index === 0 ? 'eager' : 'lazy'}
             fetchpriority={index === 0 ? 'high' : 'auto'}
             decoding="async"
