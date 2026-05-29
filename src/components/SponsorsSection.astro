@@ -1,59 +1,24 @@
----
-import type { SponsorWebPublica } from '@types/sponsor';
-import { sponsorLogoUrl } from '@lib/api';
+<section
+  id="sponsors-section"
+  class="sponsors-bar border-y border-white/5 bg-surface py-8 sm:py-10"
+  aria-label="Sponsors de la liga"
+  hidden
+>
+  <p
+    class="font-display mb-8 text-center text-[10px] tracking-[0.35em] text-zinc-500 uppercase"
+  >
+    Nuestros sponsors
+  </p>
 
-interface Props {
-  sponsors: SponsorWebPublica[];
-}
+  <div id="sponsors-marquee-root" class="sponsors-marquee" aria-busy="true">
+    <div class="sponsors-track sponsors-track--loading">
+      <div class="sponsors-logo sponsors-logo--skeleton" aria-hidden="true"></div>
+      <div class="sponsors-logo sponsors-logo--skeleton" aria-hidden="true"></div>
+      <div class="sponsors-logo sponsors-logo--skeleton" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
 
-const { sponsors } = Astro.props;
-const hasSponsors = sponsors.length > 0;
----
-
-{
-  hasSponsors && (
-    <section
-      class="sponsors-bar border-y border-white/5 bg-surface py-8 sm:py-10"
-      aria-label="Sponsors de la liga"
-    >
-      <p
-        class="font-display mb-8 text-center text-[10px] tracking-[0.35em] text-zinc-500 uppercase"
-      >
-        Nuestros sponsors
-      </p>
-
-      <div class="sponsors-marquee">
-        <div class="sponsors-track">
-          {
-            sponsors.map((sponsor) => (
-              <div class="sponsors-logo">
-                <img
-                  src={sponsorLogoUrl(sponsor.logoUrl)}
-                  alt={sponsor.nombre}
-                  width="340"
-                  height="96"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-            ))
-          }
-          {
-            sponsors.map((sponsor) => (
-              <div class="sponsors-logo sponsors-logo--clone" aria-hidden="true">
-                <img
-                  src={sponsorLogoUrl(sponsor.logoUrl)}
-                  alt=""
-                  width="340"
-                  height="96"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-            ))
-          }
-        </div>
-      </div>
-    </section>
-  )
-}
+<script>
+  import '../scripts/home-sponsors.ts';
+</script>

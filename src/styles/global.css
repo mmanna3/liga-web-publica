@@ -144,6 +144,10 @@
     @apply scale-110 opacity-100;
   }
 
+  .sponsors-logo--skeleton {
+    @apply h-20 w-40 rounded-md bg-white/10 animate-pulse sm:h-24 sm:w-48;
+  }
+
   .escudos-marquee {
     @apply relative w-full max-w-full py-1;
     overflow: hidden;

@@ -7,20 +7,17 @@ import SponsorsSection from '@components/SponsorsSection.astro';
 import EscudosClubesSection from '@components/EscudosClubesSection.astro';
 import TorneosSection from '@components/TorneosSection.astro';
 import { getEscudosDeApiParaUi, getEscudosProcesadosParaUi } from '@lib/escudos';
-import { getSponsorsWebPublica } from '@lib/api';
 
 const showEscudosClubesSection = false;
 
-const [escudos, escudosApi, sponsors] = await Promise.all([
-  showEscudosClubesSection ? getEscudosProcesadosParaUi() : Promise.resolve([]),
-  showEscudosClubesSection ? getEscudosDeApiParaUi() : Promise.resolve([]),
-  getSponsorsWebPublica().catch(() => []),
-]);
+const [escudos, escudosApi] = showEscudosClubesSection
+  ? await Promise.all([getEscudosProcesadosParaUi(), getEscudosDeApiParaUi()])
+  : [[], []];
 ---
 
 <BaseLayout>
   <Hero />
-  <SponsorsSection sponsors={sponsors} />
+  <SponsorsSection />
   {
     showEscudosClubesSection && (
       <>
