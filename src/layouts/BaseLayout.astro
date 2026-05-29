@@ -4,6 +4,8 @@ import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
 import { siteConfig } from '@lib/site';
 import { assetUrl } from '@lib/paths';
+import coalitionFont from '../assets/fonts/Coalition.woff2';
+import euronismFont from '../assets/fonts/D3Euronism.woff2';
 
 interface Props {
   title?: string;
@@ -50,6 +52,20 @@ const faviconUrl = assetUrl('logo.png');
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />
 
+    <link
+      rel="preload"
+      href={coalitionFont}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href={euronismFont}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
