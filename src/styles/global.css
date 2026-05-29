@@ -141,7 +141,16 @@
     display: flex;
     width: max-content;
     will-change: transform;
-    animation: sponsors-scroll 40s linear infinite;
+  }
+
+  .sponsors-track--active {
+    animation: sponsors-scroll var(--sponsors-duration, 40s) linear infinite;
+  }
+
+  .sponsors-set {
+    display: flex;
+    width: max-content;
+    flex-shrink: 0;
   }
 
   .sponsors-logo {
@@ -389,7 +398,7 @@
     transform: translate3d(0, 0, 0);
   }
   to {
-    transform: translate3d(-50%, 0, 0);
+    transform: translate3d(calc(-1 * var(--sponsors-loop-width, 0px)), 0, 0);
   }
 }
 

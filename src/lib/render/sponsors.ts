@@ -1,19 +1,15 @@
 import type { SponsorWebPublica } from '@types/sponsor';
 import { sponsorLogoUrl, escapeHtml } from '@lib/html-utils';
 
-function sponsorLogoItem(
-  sponsor: SponsorWebPublica,
-  alt: string,
-  clone = false,
-): string {
+function sponsorLogoItem(sponsor: SponsorWebPublica): string {
   if (!Number.isFinite(sponsor.id) || sponsor.id <= 0) return '';
 
   const src = sponsorLogoUrl(sponsor.id);
 
-  return `<div class="sponsors-logo${clone ? ' sponsors-logo--clone' : ''}"${clone ? ' aria-hidden="true"' : ''}>
+  return `<div class="sponsors-logo">
     <img
       src="${escapeHtml(src)}"
-      alt="${escapeHtml(alt)}"
+      alt="${escapeHtml(sponsor.nombre)}"
       width="340"
       height="96"
       loading="eager"
@@ -22,13 +18,15 @@ function sponsorLogoItem(
   </div>`;
 }
 
-export function renderSponsorsMarqueeHtml(sponsors: SponsorWebPublica[]): string {
-  const items = sponsors
-    .map((sponsor) => sponsorLogoItem(sponsor, sponsor.nombre))
-    .join('');
-  const clones = sponsors
-    .map((sponsor) => sponsorLogoItem(sponsor, '', true))
-    .join('');
+function renderSponsorsSet(sponsors: SponsorWebPublica[]): string {
+  return sponsors.map((sponsor) => sponsorLogoItem(sponsor)).join('');
+}
 
-  return `<div class="sponsors-track">${items}${clones}</div>`;
+export function renderSponsorsMarqueeHtml(sponsors: SponsorWebPublica[]): string {
+  const setHtml = renderSponsorsSet(sponsors);
+
+  return `<div class="sponsors-track">
+    <div class="sponsors-set">${setHtml}</div>
+    <div class="sponsors-set" aria-hidden="true">${setHtml}</div>
+  </div>`;
 }
