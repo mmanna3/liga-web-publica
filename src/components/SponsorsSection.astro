@@ -1,64 +1,59 @@
 ---
-import { assetUrl } from '@lib/paths';
+import type { SponsorWebPublica } from '@types/sponsor';
+import { sponsorLogoUrl } from '@lib/api';
 
-const sponsors = [
-  { name: 'Redes Power', src: assetUrl('sponsors/redes-power.jpeg'), color: true },
-  { name: 'Trofeos Deportivos', src: assetUrl('sponsors/trofeos-deportivos.jpeg'), color: true },
-  { name: 'Nike', src: assetUrl('sponsors/nike.svg') },
-  { name: 'Adidas', src: assetUrl('sponsors/adidas.svg') },
-  { name: 'Puma', src: assetUrl('sponsors/puma.svg') },
-  { name: 'Reebok', src: assetUrl('sponsors/reebok.svg') },
-  { name: 'Under Armour', src: assetUrl('sponsors/under-armour.svg') },
-  { name: 'New Balance', src: assetUrl('sponsors/new-balance.svg') },
-  { name: 'Asics', src: assetUrl('sponsors/asics.svg') },
-  { name: 'Umbro', src: assetUrl('sponsors/umbro.svg') },
-  { name: 'Gatorade', src: assetUrl('sponsors/gatorade.svg') },
-  { name: 'Coca-Cola', src: assetUrl('sponsors/coca-cola.svg') },
-];
+interface Props {
+  sponsors: SponsorWebPublica[];
+}
+
+const { sponsors } = Astro.props;
+const hasSponsors = sponsors.length > 0;
 ---
 
-<section
-  class="sponsors-bar border-y border-white/5 bg-surface py-8 sm:py-10"
-  aria-label="Sponsors de la liga"
->
-  <p
-    class="font-display mb-8 text-center text-[10px] tracking-[0.35em] text-zinc-500 uppercase"
-  >
-    Nuestros sponsors
-  </p>
+{
+  hasSponsors && (
+    <section
+      class="sponsors-bar border-y border-white/5 bg-surface py-8 sm:py-10"
+      aria-label="Sponsors de la liga"
+    >
+      <p
+        class="font-display mb-8 text-center text-[10px] tracking-[0.35em] text-zinc-500 uppercase"
+      >
+        Nuestros sponsors
+      </p>
 
-  <div class="sponsors-marquee">
-    <div class="sponsors-track">
-      {
-        sponsors.map((sponsor) => (
-          <div class="sponsors-logo">
-            <img
-              class:list={[{ 'sponsors-logo__img--color': sponsor.color }]}
-              src={sponsor.src}
-              alt={sponsor.name}
-              width="340"
-              height="96"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-        ))
-      }
-      {
-        sponsors.map((sponsor) => (
-          <div class="sponsors-logo sponsors-logo--clone" aria-hidden="true">
-            <img
-              class:list={[{ 'sponsors-logo__img--color': sponsor.color }]}
-              src={sponsor.src}
-              alt=""
-              width="340"
-              height="96"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-        ))
-      }
-    </div>
-  </div>
-</section>
+      <div class="sponsors-marquee">
+        <div class="sponsors-track">
+          {
+            sponsors.map((sponsor) => (
+              <div class="sponsors-logo">
+                <img
+                  src={sponsorLogoUrl(sponsor.logoUrl)}
+                  alt={sponsor.nombre}
+                  width="340"
+                  height="96"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            ))
+          }
+          {
+            sponsors.map((sponsor) => (
+              <div class="sponsors-logo sponsors-logo--clone" aria-hidden="true">
+                <img
+                  src={sponsorLogoUrl(sponsor.logoUrl)}
+                  alt=""
+                  width="340"
+                  height="96"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+  )
+}

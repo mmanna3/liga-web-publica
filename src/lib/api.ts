@@ -1,5 +1,6 @@
 import type { EscudoClub } from '@types/club';
 import type { AgrupadorDeTorneo } from '@types/torneo';
+import type { SponsorWebPublica } from '@types/sponsor';
 
 const API_BASE_URL =
   import.meta.env.API_BASE_URL ?? 'https://admin.edefi.com.ar/api/carnet-digital';
@@ -48,6 +49,35 @@ export async function getAgrupadoresDeTorneo(): Promise<AgrupadorDeTorneo[]> {
     }
 
     return data as AgrupadorDeTorneo[];
+  } catch (error) {
+    if (error instanceof ApiError) throw error;
+    throw new ApiError(error instanceof Error ? error.message : 'Error de red al consultar la API');
+  }
+}
+
+export function sponsorLogoUrl(logoRelativo: string): string {
+  return escudoUrl(logoRelativo);
+}
+
+export async function getSponsorsWebPublica(): Promise<SponsorWebPublica[]> {
+  const url = `${getApiOrigin()}/api/publico/sponsors-web-publica`;
+
+  try {
+    const response = await fetch(url, {
+      headers: { Accept: 'application/json' },
+    });
+
+    if (!response.ok) {
+      throw new ApiError(`No se pudieron cargar los sponsors (${response.status})`, response.status);
+    }
+
+    const data: unknown = await response.json();
+
+    if (!Array.isArray(data)) {
+      throw new ApiError('La respuesta de la API no tiene el formato esperado');
+    }
+
+    return data as SponsorWebPublica[];
   } catch (error) {
     if (error instanceof ApiError) throw error;
     throw new ApiError(error instanceof Error ? error.message : 'Error de red al consultar la API');

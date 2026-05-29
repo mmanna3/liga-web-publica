@@ -137,19 +137,11 @@
   }
 
   .sponsors-logo img {
-    @apply h-20 w-auto max-w-[280px] object-contain opacity-45 brightness-0 invert transition-opacity duration-300 sm:h-24 sm:max-w-[340px];
-  }
-
-  .sponsors-logo img.sponsors-logo__img--color {
-    @apply h-20 max-w-[280px] rounded-md opacity-80 brightness-100 invert-0 sm:h-24 sm:max-w-[340px];
+    @apply h-20 w-auto max-w-[280px] cursor-pointer object-contain opacity-80 transition-[transform,opacity] duration-300 ease-out sm:h-24 sm:max-w-[340px];
   }
 
   .sponsors-logo:hover img {
-    @apply opacity-75;
-  }
-
-  .sponsors-logo:hover img.sponsors-logo__img--color {
-    @apply opacity-100;
+    @apply scale-110 opacity-100;
   }
 
   .escudos-marquee {
