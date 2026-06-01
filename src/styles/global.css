@@ -115,6 +115,18 @@
     animation: hero-bg-fade-4 28s ease-in-out infinite;
   }
 
+  .hero-bg-slide:nth-child(5) {
+    animation: hero-bg-fade-5 28s ease-in-out infinite;
+  }
+
+  .hero-bg-slide:nth-child(6) {
+    animation: hero-bg-fade-6 28s ease-in-out infinite;
+  }
+
+  .hero-bg-slide:nth-child(7) {
+    animation: hero-bg-fade-7 28s ease-in-out infinite;
+  }
+
   .sponsors-marquee {
     @apply relative w-full max-w-full min-h-20 sm:min-h-24;
     overflow: hidden;
@@ -337,11 +349,11 @@
 
 @keyframes hero-bg-fade-1 {
   0%,
-  20% {
+  11.43% {
     opacity: 1;
   }
-  25%,
-  95% {
+  14.29%,
+  97.14% {
     opacity: 0;
   }
   100% {
@@ -351,14 +363,14 @@
 
 @keyframes hero-bg-fade-2 {
   0%,
-  20% {
+  11.43% {
     opacity: 0;
   }
-  25%,
-  45% {
+  17.14%,
+  25.71% {
     opacity: 1;
   }
-  50%,
+  28.57%,
   100% {
     opacity: 0;
   }
@@ -366,14 +378,14 @@
 
 @keyframes hero-bg-fade-3 {
   0%,
-  45% {
+  25.71% {
     opacity: 0;
   }
-  50%,
-  70% {
+  31.43%,
+  39.99% {
     opacity: 1;
   }
-  75%,
+  42.86%,
   100% {
     opacity: 0;
   }
@@ -381,11 +393,56 @@
 
 @keyframes hero-bg-fade-4 {
   0%,
-  70% {
+  39.99% {
     opacity: 0;
   }
-  75%,
-  95% {
+  45.71%,
+  54.28% {
+    opacity: 1;
+  }
+  57.14%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes hero-bg-fade-5 {
+  0%,
+  54.28% {
+    opacity: 0;
+  }
+  60%,
+  68.57% {
+    opacity: 1;
+  }
+  71.43%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes hero-bg-fade-6 {
+  0%,
+  68.57% {
+    opacity: 0;
+  }
+  74.29%,
+  82.86% {
+    opacity: 1;
+  }
+  85.71%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes hero-bg-fade-7 {
+  0%,
+  82.86% {
+    opacity: 0;
+  }
+  88.57%,
+  97.14% {
     opacity: 1;
   }
   100% {

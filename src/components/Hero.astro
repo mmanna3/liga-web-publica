@@ -3,10 +3,13 @@ import { siteConfig } from '@lib/site';
 import { assetUrl } from '@lib/paths';
 
 const heroImages = [
-  assetUrl('imagenes-home/1.jpeg'),
-  assetUrl('imagenes-home/2.jpeg'),
-  assetUrl('imagenes-home/3.jpeg'),
-  assetUrl('imagenes-home/4.jpeg'),
+  assetUrl('imagenes-home/1.png'),
+  assetUrl('imagenes-home/2.png'),
+  assetUrl('imagenes-home/3.png'),
+  assetUrl('imagenes-home/4.png'),
+  assetUrl('imagenes-home/5.png'),
+  assetUrl('imagenes-home/6.png'),
+  assetUrl('imagenes-home/7.png'),
 ];
 ---
 
@@ -18,8 +21,8 @@ const heroImages = [
           <img
             src={src}
             alt=""
-            width="1920"
-            height="1080"
+            width="2048"
+            height="1365"
             class="hero-bg-slide"
             loading={index === 0 ? 'eager' : 'lazy'}
             fetchpriority={index === 0 ? 'high' : 'auto'}

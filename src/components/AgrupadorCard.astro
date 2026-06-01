@@ -40,7 +40,7 @@ const staggerClass = `stagger-${Math.min(index + 1, 4)}`;
   />
 
   <header
-    class="relative z-10 mb-10 flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-8"
+    class="relative z-10 mb-10 flex flex-wrap items-end gap-4 border-b border-white/10 pb-8"
   >
     <div class="flex items-center gap-4">
       <span
@@ -59,10 +59,6 @@ const staggerClass = `stagger-${Math.min(index + 1, 4)}`;
         {agrupador.nombre}
       </h3>
     </div>
-    <span class="glass inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium text-zinc-400">
-      <Icon name="trophy" size="sm" class={theme.accent} />
-      {agrupador.torneos.length} torneos
-    </span>
   </header>
 
   <div class="relative z-10 grid grid-cols-1 gap-6">

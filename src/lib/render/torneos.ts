@@ -94,16 +94,13 @@ function agrupadorCardHtml(agrupador: AgrupadorDeTorneo, index: number): string 
   return `<article id="agrupador-${agrupador.id}" class="animate-fade-up relative scroll-mt-28 overflow-hidden rounded-3xl border p-6 sm:p-8 md:p-10 ${theme.border} ${theme.glow} shadow-2xl transition-shadow duration-500 hover:shadow-[0_24px_80px_-12px_rgba(0,0,0,0.6)] ${staggerClass}">
     <div class="pointer-events-none absolute inset-0 bg-linear-to-br opacity-60 ${theme.gradient}" aria-hidden="true"></div>
     <div class="noise-overlay pointer-events-none absolute inset-0 opacity-30" aria-hidden="true"></div>
-    <header class="relative z-10 mb-10 flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-8">
+    <header class="relative z-10 mb-10 flex flex-wrap items-end gap-4 border-b border-white/10 pb-8">
       <div class="flex items-center gap-4">
         <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border bg-white/5 ${theme.border} ${theme.accent}" aria-hidden="true">
           ${iconSvg('trophy', 'h-7 w-7')}
         </span>
         <h3 class="font-display pt-1.5 text-4xl leading-none tracking-wide text-white uppercase sm:pt-2 sm:text-5xl md:pt-2.5 md:text-6xl">${escapeHtml(agrupador.nombre)}</h3>
       </div>
-      <span class="glass inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium text-zinc-400">
-        ${iconSvg('trophy', 'h-4 w-4')} ${agrupador.torneos.length} torneos
-      </span>
     </header>
     <div class="relative z-10 grid grid-cols-1 gap-6">${torneosHtml}</div>
   </article>`;
