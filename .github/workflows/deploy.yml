@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy
 
 on:
   push:
@@ -39,6 +39,28 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
+
+      - name: Build for FTP (production)
+        run: npm run build:local
+        env:
+          API_BASE_URL: https://admin.edefi.com.ar/api/carnet-digital
+          API_ORIGIN: https://admin.edefi.com.ar
+          PUBLIC_API_BASE_URL: https://admin.edefi.com.ar/api/carnet-digital
+          PUBLIC_API_ORIGIN: https://admin.edefi.com.ar
+          PUBLIC_SITE_URL: https://edefi.com.ar
+          PUBLIC_LIGA_NOMBRE: EDEFI
+
+      - name: Sync files (FTP)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          exclude: |
+            **/.git*
+            **/.git*/**
 
   deploy:
     needs: build
