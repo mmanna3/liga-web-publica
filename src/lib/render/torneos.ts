@@ -2,7 +2,7 @@ import { getAgrupadorTheme } from '@lib/colors';
 import { escapeHtml, formatZonaNombre } from '@lib/html-utils';
 import { zonaUrl } from '@lib/paths-client';
 import { iconSvg } from '@lib/ui-html';
-import type { AgrupadorDeTorneo, Fase, Torneo, Zona } from '@types/torneo';
+import type { AgrupadorDeTorneo, ElementoTorneo, Fase, Torneo, Zona } from '@types/torneo';
 
 function zonaBadgeHtml(
   zona: Zona,
@@ -62,14 +62,73 @@ function faseCardHtml(
   </div>`;
 }
 
+function grupoDeFasesCardHtml(
+  nombreGrupo: string,
+  elementos: ElementoTorneo[],
+  torneo: Torneo,
+  agrupador: AgrupadorDeTorneo,
+  accentClass: string,
+  pillHoverClass: string,
+  profundidad = 1,
+): string {
+  const indentClass = profundidad > 1 ? 'ml-4 border-l border-white/10 pl-4' : '';
+  const hijosHtml = elementos
+    .map((el) =>
+      elementoTorneoHtml(el, torneo, agrupador, accentClass, pillHoverClass, profundidad),
+    )
+    .join('');
+
+  return `<div class="glass rounded-2xl border border-dashed border-white/15 p-5 ${indentClass}">
+    <div class="mb-4 flex items-center gap-2.5">
+      ${iconSvg('layers', 'h-5 w-5 text-zinc-500')}
+      <h4 class="font-display text-lg tracking-wide text-zinc-200 uppercase">${escapeHtml(nombreGrupo)}</h4>
+    </div>
+    <div class="space-y-4">${hijosHtml}</div>
+  </div>`;
+}
+
+function elementoTorneoHtml(
+  elemento: ElementoTorneo,
+  torneo: Torneo,
+  agrupador: AgrupadorDeTorneo,
+  accentClass: string,
+  pillHoverClass: string,
+  profundidadGrupo = 1,
+): string {
+  if (elemento.tipo === 'fase') {
+    return faseCardHtml(
+      {
+        id: elemento.id,
+        nombre: elemento.nombre,
+        tipoDeFase: elemento.tipoDeFase,
+        zonas: elemento.zonas,
+      },
+      torneo,
+      agrupador,
+      accentClass,
+      pillHoverClass,
+    );
+  }
+
+  return grupoDeFasesCardHtml(
+    elemento.nombreGrupo,
+    elemento.elementos,
+    torneo,
+    agrupador,
+    accentClass,
+    pillHoverClass,
+    profundidadGrupo + 1,
+  );
+}
+
 function torneoCardHtml(
   torneo: Torneo,
   agrupador: AgrupadorDeTorneo,
   accentClass: string,
   pillHoverClass: string,
 ): string {
-  const fasesHtml = torneo.fases
-    .map((f) => faseCardHtml(f, torneo, agrupador, accentClass, pillHoverClass))
+  const contenidoHtml = torneo.elementos
+    .map((el) => elementoTorneoHtml(el, torneo, agrupador, accentClass, pillHoverClass))
     .join('');
 
   return `<div class="glass glass-hover rounded-2xl border border-white/10 p-6">
@@ -78,7 +137,7 @@ function torneoCardHtml(
         <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 ${accentClass}" aria-hidden="true">${iconSvg('trophy', 'h-5 w-5')}</span>
         <h3 class="font-display pt-0.5 text-2xl leading-tight tracking-wide text-white uppercase sm:text-3xl">${escapeHtml(torneo.nombre)}</h3>
       </summary>
-      <div class="mt-6 space-y-4 border-t border-white/5 pt-6">${fasesHtml}</div>
+      <div class="mt-6 space-y-4 border-t border-white/5 pt-6">${contenidoHtml}</div>
     </details>
   </div>`;
 }
@@ -153,3 +212,5 @@ export function renderTorneosSectionHtml(agrupadores: AgrupadorDeTorneo[]): stri
 
   return `<div class="space-y-12 md:space-y-16">${agrupadores.map((a, i) => agrupadorCardHtml(a, i)).join('')}</div>`;
 }
+
+export { elementoTorneoHtml, grupoDeFasesCardHtml, faseCardHtml };

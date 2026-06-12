@@ -1,5 +1,6 @@
 import type { EscudoClub } from '@types/club';
 import type { AgrupadorDeTorneo } from '@types/torneo';
+import { normalizarAgrupadores } from '@types/torneo';
 import type { SponsorWebPublica } from '@types/sponsor';
 
 const API_BASE_URL =
@@ -48,7 +49,7 @@ export async function getAgrupadoresDeTorneo(): Promise<AgrupadorDeTorneo[]> {
       throw new ApiError('La respuesta de la API no tiene el formato esperado');
     }
 
-    return data as AgrupadorDeTorneo[];
+    return normalizarAgrupadores(data as Parameters<typeof normalizarAgrupadores>[0]);
   } catch (error) {
     if (error instanceof ApiError) throw error;
     throw new ApiError(error instanceof Error ? error.message : 'Error de red al consultar la API');
