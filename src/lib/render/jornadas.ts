@@ -5,7 +5,6 @@ import {
 } from '@lib/jornadas-utils';
 import {
   CLASE_BODY_TABLA_ESCUDO,
-  CLASE_FILA_TABLA_ESCUDO,
   escapeHtml,
   escudoImgHtml,
   numeroOGuion,
@@ -46,14 +45,11 @@ function filaEquipoHtml(
   equipo: JornadaPorEquipoDTO | undefined,
   nombresCategorias: string[],
   lado: 'local' | 'visitante',
-  visitanteConMasPartidosDebajo = false,
+  separarPartidoDebajo = false,
 ): string {
-  const bordeClase =
-    lado === 'local'
-      ? CLASE_FILA_TABLA_ESCUDO
-      : visitanteConMasPartidosDebajo
-        ? `${CLASE_FILA_TABLA_ESCUDO} border-black/20`
-        : CLASE_FILA_TABLA_ESCUDO;
+  const bordeClase = separarPartidoDebajo
+    ? 'tabla-fila-escudo border-b border-black/20'
+    : 'tabla-fila-escudo';
 
   const cats = nombresCategorias
     .map((cat) =>
