@@ -7,6 +7,11 @@ import type { AgrupadorDeTorneo, ElementoTorneo, Fase, Torneo, Zona } from '@typ
 const DISCLOSURE_SUMMARY_BASE =
   'flex cursor-pointer list-none items-center gap-2.5 rounded-xl -mx-1 px-1 py-0.5 transition-colors hover:bg-white/5 active:bg-white/5 [&::-webkit-details-marker]:hidden';
 
+const ELEMENTO_CARD_PADDING = 'p-5';
+
+const FASE_CARD_BORDER = 'border border-white/10 border-l-2 border-l-white/10';
+const GRUPO_CARD_BORDER = 'border border-dashed border-white/15';
+
 function disclosureChevronHtml(): string {
   return `<span class="disclosure-chevron ml-auto shrink-0 text-zinc-500" aria-hidden="true">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -23,10 +28,25 @@ function disclosureSummaryHtml(
   return `<summary class="${DISCLOSURE_SUMMARY_BASE}">
     ${iconSvg(icon, `h-5 w-5 shrink-0 ${accentClass}`)}
     <span class="min-w-0 flex-1">
-      <span class="font-display ${titleSizeClass} leading-tight tracking-wide ${titleColorClass} uppercase">${escapeHtml(title)}</span>
+      <span class="font-display ${titleSizeClass} leading-tight tracking-wide ${titleColorClass} wrap-break-word whitespace-normal uppercase">${escapeHtml(title)}</span>
     </span>
     ${disclosureChevronHtml()}
   </summary>`;
+}
+
+function elementoCardShellHtml(
+  borderClass: string,
+  indentClass: string,
+  summaryHtml: string,
+  bodyHtml: string,
+  bodyExtraClass = '',
+): string {
+  return `<div class="glass min-w-0 rounded-2xl ${borderClass} ${ELEMENTO_CARD_PADDING} ${indentClass}">
+    <details class="torneo-disclosure min-w-0">
+      ${summaryHtml}
+      <div class="mt-4 min-w-0 border-t border-white/5 pt-4 ${bodyExtraClass}">${bodyHtml}</div>
+    </details>
+  </div>`;
 }
 
 function zonaBadgeHtml(
@@ -78,12 +98,12 @@ function faseCardHtml(
         </div>`
       : `<p class="flex items-center gap-2 text-sm text-zinc-600 italic">${iconSvg('grid', 'h-4 w-4')} Sin zonas asignadas</p>`;
 
-  return `<div class="glass rounded-2xl border border-white/10 border-l-2 border-l-white/10 p-6">
-    <details class="torneo-disclosure">
-      ${disclosureSummaryHtml('layers', fase.nombre, accentClass)}
-      <div class="mt-4 min-w-0 border-t border-white/5 pt-4">${zonasHtml}</div>
-    </details>
-  </div>`;
+  return elementoCardShellHtml(
+    FASE_CARD_BORDER,
+    '',
+    disclosureSummaryHtml('layers', fase.nombre, accentClass),
+    zonasHtml,
+  );
 }
 
 function grupoDeFasesCardHtml(
@@ -102,12 +122,13 @@ function grupoDeFasesCardHtml(
     )
     .join('');
 
-  return `<div class="glass rounded-2xl border border-dashed border-white/15 p-5 ${indentClass}">
-    <details class="torneo-disclosure">
-      ${disclosureSummaryHtml('layers', nombreGrupo, accentClass, 'text-lg', 'text-zinc-200')}
-      <div class="mt-4 min-w-0 space-y-4 border-t border-white/5 pt-4">${hijosHtml}</div>
-    </details>
-  </div>`;
+  return elementoCardShellHtml(
+    GRUPO_CARD_BORDER,
+    indentClass,
+    disclosureSummaryHtml('layers', nombreGrupo, accentClass),
+    hijosHtml,
+    'space-y-4',
+  );
 }
 
 function elementoTorneoHtml(
@@ -158,7 +179,7 @@ function torneoCardHtml(
     <details class="torneo-disclosure">
       <summary class="${DISCLOSURE_SUMMARY_BASE}">
         <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 ${accentClass}" aria-hidden="true">${iconSvg('trophy', 'h-5 w-5')}</span>
-        <h3 class="min-w-0 flex-1 font-display pt-0.5 text-2xl leading-tight tracking-wide text-white uppercase sm:text-3xl">${escapeHtml(torneo.nombre)}</h3>
+        <h3 class="min-w-0 flex-1 font-display pt-0.5 text-2xl leading-tight tracking-wide text-white wrap-break-word whitespace-normal uppercase sm:text-3xl">${escapeHtml(torneo.nombre)}</h3>
         ${disclosureChevronHtml()}
       </summary>
       <div class="mt-6 min-w-0 space-y-4 border-t border-white/5 pt-6">${contenidoHtml}</div>

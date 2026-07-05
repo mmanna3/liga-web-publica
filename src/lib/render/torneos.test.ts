@@ -63,9 +63,57 @@ describe('render jerárquico', () => {
       'text-blue-400',
       'hover:border-blue-400',
     );
-    expect(html).toContain('<details class="torneo-disclosure">');
+    expect(html).toContain('class="torneo-disclosure min-w-0"');
     expect(html).toContain('<summary');
     expect(html).not.toMatch(/\bopen=/);
+  });
+
+  it('fase y grupo al mismo nivel comparten padding y tipografía del summary', () => {
+    const faseHtml = faseCardHtml(
+      { id: 1, nombre: 'Fase A', tipoDeFase: 'Regular', zonas: [] },
+      torneoBase,
+      agrupador,
+      'text-blue-400',
+      'hover:border-blue-400',
+    );
+    const grupoHtml = grupoDeFasesCardHtml(
+      'Grupo A',
+      [],
+      torneoBase,
+      agrupador,
+      'text-blue-400',
+      'hover:border-blue-400',
+    );
+
+    expect(faseHtml).toContain(' p-5 ');
+    expect(grupoHtml).toContain(' p-5 ');
+    expect(faseHtml).toContain('text-xl');
+    expect(grupoHtml).toContain('text-xl');
+    expect(faseHtml).toContain('text-white');
+    expect(grupoHtml).toContain('text-white');
+    expect(faseHtml).not.toContain('p-6');
+    expect(grupoHtml).not.toContain('text-lg');
+    expect(grupoHtml).not.toContain('text-zinc-200');
+  });
+
+  it('summary de fase permite wrap en nombres largos', () => {
+    const html = faseCardHtml(
+      {
+        id: 1,
+        nombre: 'Fase Eliminatoria Semifinal Norte Sur',
+        tipoDeFase: 'Regular',
+        zonas: [],
+      },
+      torneoBase,
+      agrupador,
+      'text-blue-400',
+      'hover:border-blue-400',
+    );
+    const summaryEnd = html.indexOf('</summary>');
+    const summary = html.slice(0, summaryEnd);
+    expect(summary).toContain('wrap-break-word');
+    expect(summary).toContain('whitespace-normal');
+    expect(summary).toContain('min-w-0');
   });
 
   it('faseCardHtml usa color del agrupador en el ícono del summary', () => {
@@ -126,7 +174,7 @@ describe('render jerárquico', () => {
       'text-blue-400',
       'hover:border-blue-400',
     );
-    expect(html).toContain('<details class="torneo-disclosure">');
+    expect(html).toContain('class="torneo-disclosure min-w-0"');
     expect(html).not.toMatch(/\bopen=/);
     expect(html).toContain('text-blue-400');
   });
