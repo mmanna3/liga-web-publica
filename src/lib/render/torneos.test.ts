@@ -96,11 +96,11 @@ describe('render jerárquico', () => {
     expect(grupoHtml).not.toContain('text-zinc-200');
   });
 
-  it('summary de fase permite wrap en nombres largos', () => {
+  it('summary de fase usa scroll horizontal para nombres largos', () => {
     const html = faseCardHtml(
       {
         id: 1,
-        nombre: 'Fase Eliminatoria Semifinal Norte Sur',
+        nombre: 'SUDAMERICANA',
         tipoDeFase: 'Regular',
         zonas: [],
       },
@@ -111,9 +111,10 @@ describe('render jerárquico', () => {
     );
     const summaryEnd = html.indexOf('</summary>');
     const summary = html.slice(0, summaryEnd);
-    expect(summary).toContain('wrap-break-word');
-    expect(summary).toContain('whitespace-normal');
-    expect(summary).toContain('min-w-0');
+    expect(summary).toContain('disclosure-title-scroll');
+    expect(summary).toContain('whitespace-nowrap');
+    expect(summary).not.toContain('wrap-break-word');
+    expect(summary).toContain('SUDAMERICANA');
   });
 
   it('faseCardHtml usa color del agrupador en el ícono del summary', () => {

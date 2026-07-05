@@ -18,6 +18,17 @@ function disclosureChevronHtml(): string {
   </span>`;
 }
 
+function disclosureTitleScrollHtml(
+  title: string,
+  titleSizeClass: string,
+  titleColorClass: string,
+  extraTitleClass = '',
+): string {
+  return `<span class="disclosure-title-scroll min-w-0 flex-1">
+      <span class="inline-block font-display ${titleSizeClass} leading-tight tracking-wide ${titleColorClass} whitespace-nowrap uppercase ${extraTitleClass}">${escapeHtml(title)}</span>
+    </span>`;
+}
+
 function disclosureSummaryHtml(
   icon: 'layers' | 'trophy',
   title: string,
@@ -27,9 +38,7 @@ function disclosureSummaryHtml(
 ): string {
   return `<summary class="${DISCLOSURE_SUMMARY_BASE}">
     ${iconSvg(icon, `h-5 w-5 shrink-0 ${accentClass}`)}
-    <span class="min-w-0 flex-1">
-      <span class="font-display ${titleSizeClass} leading-tight tracking-wide ${titleColorClass} wrap-break-word whitespace-normal uppercase">${escapeHtml(title)}</span>
-    </span>
+    ${disclosureTitleScrollHtml(title, titleSizeClass, titleColorClass)}
     ${disclosureChevronHtml()}
   </summary>`;
 }
@@ -179,7 +188,7 @@ function torneoCardHtml(
     <details class="torneo-disclosure">
       <summary class="${DISCLOSURE_SUMMARY_BASE}">
         <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 ${accentClass}" aria-hidden="true">${iconSvg('trophy', 'h-5 w-5')}</span>
-        <h3 class="min-w-0 flex-1 font-display pt-0.5 text-2xl leading-tight tracking-wide text-white wrap-break-word whitespace-normal uppercase sm:text-3xl">${escapeHtml(torneo.nombre)}</h3>
+        ${disclosureTitleScrollHtml(torneo.nombre, 'text-2xl sm:text-3xl', 'text-white', 'pt-0.5')}
         ${disclosureChevronHtml()}
       </summary>
       <div class="mt-6 min-w-0 space-y-4 border-t border-white/5 pt-6">${contenidoHtml}</div>

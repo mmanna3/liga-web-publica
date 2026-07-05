@@ -477,6 +477,18 @@
   transform: rotate(180deg);
 }
 
+.disclosure-title-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x;
+}
+
+.disclosure-title-scroll::-webkit-scrollbar {
+  display: none;
+}
+
 @media (max-width: 767px) {
   .posiciones-tabla-inner {
     min-width: var(--tabla-min);
