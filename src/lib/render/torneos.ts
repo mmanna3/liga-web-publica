@@ -83,10 +83,12 @@ function zonaBadgeHtml(
 ): string {
   const nombreDisplay = formatZonaNombre(zona.nombre);
   const multiWord = isMultiWordTitle(nombreDisplay);
-  const linkWidthClass = multiWord ? 'max-w-full min-w-0' : 'w-max min-w-0';
+  const linkWidthClass = multiWord
+    ? 'w-full min-w-0 md:max-w-full md:min-w-0'
+    : 'w-full min-w-0 md:w-max md:min-w-0';
   const textClass = multiWord
-    ? 'min-w-0 leading-tight whitespace-normal'
-    : 'whitespace-nowrap';
+    ? 'zona-badge-label zona-badge-label--wrap min-w-0 leading-tight whitespace-normal'
+    : 'zona-badge-label zona-badge-label--single whitespace-nowrap';
 
   const href = zonaUrl({
     zonaId: zona.id,
@@ -101,6 +103,7 @@ function zonaBadgeHtml(
 
   return `<a
     href="${escapeHtml(href)}"
+    title="${escapeHtml(nombreDisplay)}"
     class="group flex ${linkWidthClass} cursor-pointer items-center gap-2 rounded-full border border-border-glass bg-white/5 px-3 py-2 font-display text-sm font-medium tracking-wide text-zinc-300 uppercase backdrop-blur-xl transition-all duration-300 ease-out hover:-translate-y-1 hover:text-white sm:gap-3 sm:px-5 sm:py-2.5 sm:text-base sm:hover:scale-[1.05] ${pillHoverClass}"
   >
     <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/5 transition-all duration-300 group-hover:scale-110 group-hover:bg-white/20 sm:h-9 sm:w-9 ${accentClass}" aria-hidden="true">
@@ -123,7 +126,7 @@ function faseCardHtml(
           <p class="mb-2 inline-flex items-center gap-1.5 text-[10px] font-bold tracking-[0.3em] uppercase ${accentClass}">
             ${iconSvg('grid', 'h-3.5 w-3.5')} Zonas
           </p>
-          <div class="flex min-w-0 flex-wrap gap-3">
+          <div class="zonas-grid gap-3">
             ${fase.zonas.map((z) => zonaBadgeHtml(z, fase, torneo, agrupador, accentClass, pillHoverClass)).join('')}
           </div>
         </div>`

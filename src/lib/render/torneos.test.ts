@@ -231,6 +231,12 @@ describe('render jerárquico', () => {
     expect(html).not.toContain('ml-4');
   });
 
+  it('faseCardHtml usa grid de 2 columnas para zonas en mobile', () => {
+    const html = faseCardHtml(faseBase, torneoBase, agrupador, 'text-blue-400', 'hover:border-blue-400');
+    expect(html).toContain('zonas-grid');
+    expect(html).not.toContain('flex min-w-0 flex-wrap gap-3');
+  });
+
   it('zonaBadgeHtml multi-palabra permite wrap', () => {
     const html = zonaBadgeHtml(
       { id: 10, nombre: 'Zona Larga Norte' },
@@ -240,13 +246,13 @@ describe('render jerárquico', () => {
       'text-blue-400',
       'hover:border-blue-400',
     );
-    expect(html).toContain('max-w-full');
-    expect(html).toContain('min-w-0');
+    expect(html).toContain('w-full min-w-0');
     expect(html).toContain('whitespace-normal');
+    expect(html).toContain('zona-badge-label');
     expect(html).toContain('sm:hover:scale-[1.05]');
   });
 
-  it('zonaBadgeHtml palabra única usa nowrap y ancho natural', () => {
+  it('zonaBadgeHtml palabra única usa nowrap en desktop y ancho completo en mobile', () => {
     const html = zonaBadgeHtml(
       { id: 10, nombre: 'SUDAMERICANA' },
       faseBase,
@@ -256,7 +262,7 @@ describe('render jerárquico', () => {
       'hover:border-blue-400',
     );
     expect(html).toContain('whitespace-nowrap');
-    expect(html).toContain('w-max min-w-0');
+    expect(html).toContain('w-full min-w-0 md:w-max');
     expect(html).toContain('SUDAMERICANA');
   });
 });

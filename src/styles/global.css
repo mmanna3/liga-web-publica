@@ -487,6 +487,36 @@
   display: none;
 }
 
+.zonas-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  min-width: 0;
+}
+
+.zonas-grid > a {
+  width: 100%;
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .zonas-grid {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .zonas-grid > a {
+    width: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .zonas-grid > a .zona-badge-label--single {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
 @media (max-width: 767px) {
   .posiciones-tabla-inner {
     min-width: var(--tabla-min);
