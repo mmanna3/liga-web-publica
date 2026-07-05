@@ -4,6 +4,31 @@ import { zonaUrl } from '@lib/paths-client';
 import { iconSvg } from '@lib/ui-html';
 import type { AgrupadorDeTorneo, ElementoTorneo, Fase, Torneo, Zona } from '@types/torneo';
 
+const DISCLOSURE_SUMMARY_BASE =
+  'flex cursor-pointer list-none items-center gap-2.5 rounded-xl -mx-1 px-1 py-0.5 transition-colors hover:bg-white/5 active:bg-white/5 [&::-webkit-details-marker]:hidden';
+
+function disclosureChevronHtml(): string {
+  return `<span class="disclosure-chevron ml-auto shrink-0 text-zinc-500" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </span>`;
+}
+
+function disclosureSummaryHtml(
+  icon: 'layers' | 'trophy',
+  title: string,
+  accentClass: string,
+  titleSizeClass = 'text-xl',
+  titleColorClass = 'text-white',
+): string {
+  return `<summary class="${DISCLOSURE_SUMMARY_BASE}">
+    ${iconSvg(icon, `h-5 w-5 shrink-0 ${accentClass}`)}
+    <span class="min-w-0 flex-1">
+      <span class="font-display ${titleSizeClass} leading-tight tracking-wide ${titleColorClass} uppercase">${escapeHtml(title)}</span>
+    </span>
+    ${disclosureChevronHtml()}
+  </summary>`;
+}
+
 function zonaBadgeHtml(
   zona: Zona,
   fase: Fase,
@@ -25,12 +50,12 @@ function zonaBadgeHtml(
 
   return `<a
     href="${escapeHtml(href)}"
-    class="group inline-flex cursor-pointer items-center gap-3 rounded-full border border-border-glass bg-white/5 px-5 py-2.5 backdrop-blur-xl font-display text-base font-medium tracking-wide text-zinc-300 uppercase transition-all duration-300 ease-out hover:scale-[1.05] hover:-translate-y-1 hover:text-white ${pillHoverClass}"
+    class="group flex max-w-full min-w-0 cursor-pointer items-center gap-2 rounded-full border border-border-glass bg-white/5 px-3 py-2 font-display text-sm font-medium tracking-wide text-zinc-300 uppercase backdrop-blur-xl transition-all duration-300 ease-out hover:-translate-y-1 hover:text-white sm:gap-3 sm:px-5 sm:py-2.5 sm:text-base sm:hover:scale-[1.05] ${pillHoverClass}"
   >
-    <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/5 transition-all duration-300 group-hover:scale-110 group-hover:bg-white/20 ${accentClass}" aria-hidden="true">
+    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/5 transition-all duration-300 group-hover:scale-110 group-hover:bg-white/20 sm:h-9 sm:w-9 ${accentClass}" aria-hidden="true">
       ${iconSvg('ball', 'h-4 w-4')}
     </span>
-    ${escapeHtml(formatZonaNombre(zona.nombre))}
+    <span class="min-w-0 leading-tight wrap-break-word whitespace-normal">${escapeHtml(formatZonaNombre(zona.nombre))}</span>
   </a>`;
 }
 
@@ -43,22 +68,21 @@ function faseCardHtml(
 ): string {
   const zonasHtml =
     fase.zonas.length > 0
-      ? `<div class="mt-4">
+      ? `<div class="min-w-0">
           <p class="mb-2 inline-flex items-center gap-1.5 text-[10px] font-bold tracking-[0.3em] uppercase ${accentClass}">
             ${iconSvg('grid', 'h-3.5 w-3.5')} Zonas
           </p>
-          <div class="flex flex-wrap gap-3">
+          <div class="flex min-w-0 flex-wrap gap-3">
             ${fase.zonas.map((z) => zonaBadgeHtml(z, fase, torneo, agrupador, accentClass, pillHoverClass)).join('')}
           </div>
         </div>`
-      : `<p class="mt-3 flex items-center gap-2 text-sm text-zinc-600 italic">${iconSvg('grid', 'h-4 w-4')} Sin zonas asignadas</p>`;
+      : `<p class="flex items-center gap-2 text-sm text-zinc-600 italic">${iconSvg('grid', 'h-4 w-4')} Sin zonas asignadas</p>`;
 
   return `<div class="glass rounded-2xl border border-white/10 border-l-2 border-l-white/10 p-6">
-    <div class="flex items-center gap-2.5">
-      ${iconSvg('layers', 'h-5 w-5 text-zinc-500')}
-      <h4 class="font-display text-xl tracking-wide text-white uppercase">${escapeHtml(fase.nombre)}</h4>
-    </div>
-    ${zonasHtml}
+    <details class="torneo-disclosure">
+      ${disclosureSummaryHtml('layers', fase.nombre, accentClass)}
+      <div class="mt-4 min-w-0 border-t border-white/5 pt-4">${zonasHtml}</div>
+    </details>
   </div>`;
 }
 
@@ -71,7 +95,7 @@ function grupoDeFasesCardHtml(
   pillHoverClass: string,
   profundidad = 1,
 ): string {
-  const indentClass = profundidad > 1 ? 'ml-4 border-l border-white/10 pl-4' : '';
+  const indentClass = profundidad > 1 ? 'border-l border-white/10 pl-3 sm:pl-4' : '';
   const hijosHtml = elementos
     .map((el) =>
       elementoTorneoHtml(el, torneo, agrupador, accentClass, pillHoverClass, profundidad),
@@ -79,11 +103,10 @@ function grupoDeFasesCardHtml(
     .join('');
 
   return `<div class="glass rounded-2xl border border-dashed border-white/15 p-5 ${indentClass}">
-    <div class="mb-4 flex items-center gap-2.5">
-      ${iconSvg('layers', 'h-5 w-5 text-zinc-500')}
-      <h4 class="font-display text-lg tracking-wide text-zinc-200 uppercase">${escapeHtml(nombreGrupo)}</h4>
-    </div>
-    <div class="space-y-4">${hijosHtml}</div>
+    <details class="torneo-disclosure">
+      ${disclosureSummaryHtml('layers', nombreGrupo, accentClass, 'text-lg', 'text-zinc-200')}
+      <div class="mt-4 min-w-0 space-y-4 border-t border-white/5 pt-4">${hijosHtml}</div>
+    </details>
   </div>`;
 }
 
@@ -132,12 +155,13 @@ function torneoCardHtml(
     .join('');
 
   return `<div class="glass glass-hover rounded-2xl border border-white/10 p-6">
-    <details>
-      <summary class="flex cursor-pointer list-none items-center gap-3 rounded-xl -mx-1 px-1 py-0.5 transition-colors hover:bg-white/5 active:bg-white/5 [&::-webkit-details-marker]:hidden">
+    <details class="torneo-disclosure">
+      <summary class="${DISCLOSURE_SUMMARY_BASE}">
         <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 ${accentClass}" aria-hidden="true">${iconSvg('trophy', 'h-5 w-5')}</span>
-        <h3 class="font-display pt-0.5 text-2xl leading-tight tracking-wide text-white uppercase sm:text-3xl">${escapeHtml(torneo.nombre)}</h3>
+        <h3 class="min-w-0 flex-1 font-display pt-0.5 text-2xl leading-tight tracking-wide text-white uppercase sm:text-3xl">${escapeHtml(torneo.nombre)}</h3>
+        ${disclosureChevronHtml()}
       </summary>
-      <div class="mt-6 space-y-4 border-t border-white/5 pt-6">${contenidoHtml}</div>
+      <div class="mt-6 min-w-0 space-y-4 border-t border-white/5 pt-6">${contenidoHtml}</div>
     </details>
   </div>`;
 }
@@ -150,9 +174,9 @@ function agrupadorCardHtml(agrupador: AgrupadorDeTorneo, index: number): string 
     .map((t) => torneoCardHtml(t, agrupador, theme.accent, theme.pillHover))
     .join('');
 
-  return `<article id="agrupador-${agrupador.id}" class="animate-fade-up relative scroll-mt-28 overflow-hidden rounded-3xl border p-6 sm:p-8 md:p-10 ${theme.border} ${theme.glow} shadow-2xl transition-shadow duration-500 hover:shadow-[0_24px_80px_-12px_rgba(0,0,0,0.6)] ${staggerClass}">
-    <div class="pointer-events-none absolute inset-0 bg-linear-to-br opacity-60 ${theme.gradient}" aria-hidden="true"></div>
-    <div class="noise-overlay pointer-events-none absolute inset-0 opacity-30" aria-hidden="true"></div>
+  return `<article id="agrupador-${agrupador.id}" class="animate-fade-up relative scroll-mt-28 rounded-3xl border p-6 sm:p-8 md:p-10 ${theme.border} ${theme.glow} shadow-2xl transition-shadow duration-500 hover:shadow-[0_24px_80px_-12px_rgba(0,0,0,0.6)] ${staggerClass}">
+    <div class="pointer-events-none absolute inset-0 overflow-hidden rounded-3xl bg-linear-to-br opacity-60 ${theme.gradient}" aria-hidden="true"></div>
+    <div class="noise-overlay pointer-events-none absolute inset-0 overflow-hidden rounded-3xl opacity-30" aria-hidden="true"></div>
     <header class="relative z-10 mb-10 flex flex-wrap items-end gap-4 border-b border-white/10 pb-8">
       <div class="flex items-center gap-4">
         <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border bg-white/5 ${theme.border} ${theme.accent}" aria-hidden="true">
@@ -213,4 +237,4 @@ export function renderTorneosSectionHtml(agrupadores: AgrupadorDeTorneo[]): stri
   return `<div class="space-y-12 md:space-y-16">${agrupadores.map((a, i) => agrupadorCardHtml(a, i)).join('')}</div>`;
 }
 
-export { elementoTorneoHtml, grupoDeFasesCardHtml, faseCardHtml };
+export { elementoTorneoHtml, grupoDeFasesCardHtml, faseCardHtml, zonaBadgeHtml };

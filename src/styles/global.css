@@ -469,6 +469,14 @@
 }
 
 
+.torneo-disclosure > summary .disclosure-chevron {
+  transition: transform 0.2s ease;
+}
+
+.torneo-disclosure[open] > summary .disclosure-chevron {
+  transform: rotate(180deg);
+}
+
 @media (max-width: 767px) {
   .posiciones-tabla-inner {
     min-width: var(--tabla-min);

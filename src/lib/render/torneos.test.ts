@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { normalizarTorneo } from '@types/torneo';
-import { grupoDeFasesCardHtml, faseCardHtml } from '@lib/render/torneos';
+import { grupoDeFasesCardHtml, faseCardHtml, zonaBadgeHtml } from '@lib/render/torneos';
 import type { AgrupadorDeTorneo, ElementoTorneo, Torneo } from '@types/torneo';
 
 const torneoBase: Torneo = {
@@ -14,6 +14,13 @@ const agrupador: AgrupadorDeTorneo = {
   nombre: 'Agrupador',
   color: 'Azul',
   torneos: [torneoBase],
+};
+
+const faseBase = {
+  id: 1,
+  nombre: 'Fase A',
+  tipoDeFase: 'Regular',
+  zonas: [{ id: 10, nombre: 'Zona 1' }],
 };
 
 describe('normalizarTorneo', () => {
@@ -48,6 +55,46 @@ describe('render jerárquico', () => {
     expect(html).toContain('Fase A');
   });
 
+  it('faseCardHtml genera details colapsable sin open', () => {
+    const html = faseCardHtml(
+      faseBase,
+      torneoBase,
+      agrupador,
+      'text-blue-400',
+      'hover:border-blue-400',
+    );
+    expect(html).toContain('<details class="torneo-disclosure">');
+    expect(html).toContain('<summary');
+    expect(html).not.toMatch(/\bopen=/);
+  });
+
+  it('faseCardHtml usa color del agrupador en el ícono del summary', () => {
+    const html = faseCardHtml(
+      faseBase,
+      torneoBase,
+      agrupador,
+      'text-blue-400',
+      'hover:border-blue-400',
+    );
+    const summaryEnd = html.indexOf('</summary>');
+    const summary = html.slice(0, summaryEnd);
+    expect(summary).toContain('text-blue-400');
+    expect(summary).not.toContain('1 zona');
+  });
+
+  it('faseCardHtml oculta badges de zona en el body del details', () => {
+    const html = faseCardHtml(
+      faseBase,
+      torneoBase,
+      agrupador,
+      'text-blue-400',
+      'hover:border-blue-400',
+    );
+    const summaryEnd = html.indexOf('</summary>');
+    const body = html.slice(summaryEnd);
+    expect(body).toContain('ZONA 1');
+  });
+
   it('renderiza grupo con sub-elementos', () => {
     const html = grupoDeFasesCardHtml(
       'Grupo A',
@@ -68,5 +115,49 @@ describe('render jerárquico', () => {
     expect(html).toContain('Grupo A');
     expect(html).toContain('Fase B');
     expect(html).toContain('ZONA 1');
+  });
+
+  it('grupoDeFasesCardHtml genera details colapsable', () => {
+    const html = grupoDeFasesCardHtml(
+      'Grupo A',
+      [{ tipo: 'fase', id: 1, nombre: 'Fase B', tipoDeFase: 'Regular', zonas: [] }],
+      torneoBase,
+      agrupador,
+      'text-blue-400',
+      'hover:border-blue-400',
+    );
+    expect(html).toContain('<details class="torneo-disclosure">');
+    expect(html).not.toMatch(/\bopen=/);
+    expect(html).toContain('text-blue-400');
+  });
+
+  it('grupo anidado usa indentación sin margin-left', () => {
+    const html = grupoDeFasesCardHtml(
+      'Subgrupo',
+      [],
+      torneoBase,
+      agrupador,
+      'text-blue-400',
+      'hover:border-blue-400',
+      2,
+    );
+    expect(html).toContain('border-l border-white/10 pl-3');
+    expect(html).not.toContain('ml-4');
+  });
+
+  it('zonaBadgeHtml incluye clases responsive para mobile', () => {
+    const html = zonaBadgeHtml(
+      { id: 10, nombre: 'Zona Larga Norte' },
+      faseBase,
+      torneoBase,
+      agrupador,
+      'text-blue-400',
+      'hover:border-blue-400',
+    );
+    expect(html).toContain('max-w-full');
+    expect(html).toContain('min-w-0');
+    expect(html).toContain('wrap-break-word');
+    expect(html).toContain('whitespace-normal');
+    expect(html).toContain('sm:hover:scale-[1.05]');
   });
 });
