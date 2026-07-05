@@ -11,10 +11,14 @@ import LoadingSkeleton from '@components/ui/LoadingSkeleton.astro';
       description="Explorá torneos y zonas de la liga. Datos en tiempo real."
       icon="trophy"
     />
+  </div>
 
-    <div id="torneos-root" class="min-h-[200px]">
-      <div class="glass rounded-2xl p-8">
-        <LoadingSkeleton lines={5} />
+  <div class="torneos-scroll-host overflow-x-auto px-4 sm:px-6 md:overflow-x-visible lg:px-8">
+    <div class="mx-auto w-max min-w-full max-w-7xl">
+      <div id="torneos-root" class="min-h-[200px]">
+        <div class="glass rounded-2xl p-8">
+          <LoadingSkeleton lines={5} />
+        </div>
       </div>
     </div>
   </div>

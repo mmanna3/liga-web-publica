@@ -18,15 +18,21 @@ function disclosureChevronHtml(): string {
   </span>`;
 }
 
-function disclosureTitleScrollHtml(
+function disclosureTitleHtml(
   title: string,
   titleSizeClass: string,
   titleColorClass: string,
   extraTitleClass = '',
 ): string {
-  return `<span class="disclosure-title-scroll min-w-0 flex-1">
-      <span class="inline-block font-display ${titleSizeClass} leading-tight tracking-wide ${titleColorClass} whitespace-nowrap uppercase ${extraTitleClass}">${escapeHtml(title)}</span>
+  if (isMultiWordTitle(title)) {
+    return `<span class="min-w-0 flex-1">
+      <span class="font-display ${titleSizeClass} leading-tight tracking-wide ${titleColorClass} whitespace-normal uppercase ${extraTitleClass}">${escapeHtml(title)}</span>
     </span>`;
+  }
+
+  return `<span class="shrink-0 flex-1">
+    <span class="inline-block font-display ${titleSizeClass} leading-tight tracking-wide ${titleColorClass} whitespace-nowrap uppercase ${extraTitleClass}">${escapeHtml(title)}</span>
+  </span>`;
 }
 
 function disclosureSummaryHtml(
@@ -38,22 +44,31 @@ function disclosureSummaryHtml(
 ): string {
   return `<summary class="${DISCLOSURE_SUMMARY_BASE}">
     ${iconSvg(icon, `h-5 w-5 shrink-0 ${accentClass}`)}
-    ${disclosureTitleScrollHtml(title, titleSizeClass, titleColorClass)}
+    ${disclosureTitleHtml(title, titleSizeClass, titleColorClass)}
     ${disclosureChevronHtml()}
   </summary>`;
+}
+
+function elementoCardWidthClass(title: string): string {
+  return isMultiWordTitle(title) ? 'min-w-0' : 'w-max min-w-full';
 }
 
 function elementoCardShellHtml(
   borderClass: string,
   indentClass: string,
+  title: string,
   summaryHtml: string,
   bodyHtml: string,
   bodyExtraClass = '',
 ): string {
-  return `<div class="glass min-w-0 rounded-2xl ${borderClass} ${ELEMENTO_CARD_PADDING} ${indentClass}">
-    <details class="torneo-disclosure min-w-0">
+  const widthClass = elementoCardWidthClass(title);
+  const detailsWidthClass = isMultiWordTitle(title) ? 'min-w-0' : 'min-w-min';
+  const bodyWidthClass = bodyExtraClass.includes('space-y-4') ? 'min-w-min' : 'min-w-0';
+
+  return `<div class="glass ${widthClass} rounded-2xl ${borderClass} ${ELEMENTO_CARD_PADDING} ${indentClass}">
+    <details class="torneo-disclosure ${detailsWidthClass}">
       ${summaryHtml}
-      <div class="mt-4 min-w-0 border-t border-white/5 pt-4 ${bodyExtraClass}">${bodyHtml}</div>
+      <div class="mt-4 ${bodyWidthClass} border-t border-white/5 pt-4 ${bodyExtraClass}">${bodyHtml}</div>
     </details>
   </div>`;
 }
@@ -66,10 +81,17 @@ function zonaBadgeHtml(
   accentClass: string,
   pillHoverClass: string,
 ): string {
+  const nombreDisplay = formatZonaNombre(zona.nombre);
+  const multiWord = isMultiWordTitle(nombreDisplay);
+  const linkWidthClass = multiWord ? 'max-w-full min-w-0' : 'w-max min-w-0';
+  const textClass = multiWord
+    ? 'min-w-0 leading-tight whitespace-normal'
+    : 'whitespace-nowrap';
+
   const href = zonaUrl({
     zonaId: zona.id,
     tipoDeFase: fase.tipoDeFase,
-    zonaNombre: formatZonaNombre(zona.nombre),
+    zonaNombre: nombreDisplay,
     faseNombre: fase.nombre,
     torneoNombre: torneo.nombre,
     agrupadorNombre: agrupador.nombre,
@@ -79,12 +101,12 @@ function zonaBadgeHtml(
 
   return `<a
     href="${escapeHtml(href)}"
-    class="group flex max-w-full min-w-0 cursor-pointer items-center gap-2 rounded-full border border-border-glass bg-white/5 px-3 py-2 font-display text-sm font-medium tracking-wide text-zinc-300 uppercase backdrop-blur-xl transition-all duration-300 ease-out hover:-translate-y-1 hover:text-white sm:gap-3 sm:px-5 sm:py-2.5 sm:text-base sm:hover:scale-[1.05] ${pillHoverClass}"
+    class="group flex ${linkWidthClass} cursor-pointer items-center gap-2 rounded-full border border-border-glass bg-white/5 px-3 py-2 font-display text-sm font-medium tracking-wide text-zinc-300 uppercase backdrop-blur-xl transition-all duration-300 ease-out hover:-translate-y-1 hover:text-white sm:gap-3 sm:px-5 sm:py-2.5 sm:text-base sm:hover:scale-[1.05] ${pillHoverClass}"
   >
     <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/5 transition-all duration-300 group-hover:scale-110 group-hover:bg-white/20 sm:h-9 sm:w-9 ${accentClass}" aria-hidden="true">
       ${iconSvg('ball', 'h-4 w-4')}
     </span>
-    <span class="min-w-0 leading-tight wrap-break-word whitespace-normal">${escapeHtml(formatZonaNombre(zona.nombre))}</span>
+    <span class="${textClass}">${escapeHtml(nombreDisplay)}</span>
   </a>`;
 }
 
@@ -110,6 +132,7 @@ function faseCardHtml(
   return elementoCardShellHtml(
     FASE_CARD_BORDER,
     '',
+    fase.nombre,
     disclosureSummaryHtml('layers', fase.nombre, accentClass),
     zonasHtml,
   );
@@ -134,6 +157,7 @@ function grupoDeFasesCardHtml(
   return elementoCardShellHtml(
     GRUPO_CARD_BORDER,
     indentClass,
+    nombreGrupo,
     disclosureSummaryHtml('layers', nombreGrupo, accentClass),
     hijosHtml,
     'space-y-4',
@@ -184,14 +208,17 @@ function torneoCardHtml(
     .map((el) => elementoTorneoHtml(el, torneo, agrupador, accentClass, pillHoverClass))
     .join('');
 
-  return `<div class="glass glass-hover rounded-2xl border border-white/10 p-6">
-    <details class="torneo-disclosure">
+  const torneoWidthClass = elementoCardWidthClass(torneo.nombre);
+  const torneoDetailsWidthClass = isMultiWordTitle(torneo.nombre) ? 'min-w-0' : 'min-w-min';
+
+  return `<div class="glass glass-hover ${torneoWidthClass} rounded-2xl border border-white/10 p-6">
+    <details class="torneo-disclosure ${torneoDetailsWidthClass}">
       <summary class="${DISCLOSURE_SUMMARY_BASE}">
         <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 ${accentClass}" aria-hidden="true">${iconSvg('trophy', 'h-5 w-5')}</span>
-        ${disclosureTitleScrollHtml(torneo.nombre, 'text-2xl sm:text-3xl', 'text-white', 'pt-0.5')}
+        ${disclosureTitleHtml(torneo.nombre, 'text-2xl sm:text-3xl', 'text-white', 'pt-0.5')}
         ${disclosureChevronHtml()}
       </summary>
-      <div class="mt-6 min-w-0 space-y-4 border-t border-white/5 pt-6">${contenidoHtml}</div>
+      <div class="mt-6 min-w-min space-y-4 border-t border-white/5 pt-6">${contenidoHtml}</div>
     </details>
   </div>`;
 }
@@ -204,7 +231,7 @@ function agrupadorCardHtml(agrupador: AgrupadorDeTorneo, index: number): string 
     .map((t) => torneoCardHtml(t, agrupador, theme.accent, theme.pillHover))
     .join('');
 
-  return `<article id="agrupador-${agrupador.id}" class="animate-fade-up relative scroll-mt-28 rounded-3xl border p-6 sm:p-8 md:p-10 ${theme.border} ${theme.glow} shadow-2xl transition-shadow duration-500 hover:shadow-[0_24px_80px_-12px_rgba(0,0,0,0.6)] ${staggerClass}">
+  return `<article id="agrupador-${agrupador.id}" class="animate-fade-up relative w-max min-w-full scroll-mt-28 rounded-3xl border p-6 sm:p-8 md:p-10 ${theme.border} ${theme.glow} shadow-2xl transition-shadow duration-500 hover:shadow-[0_24px_80px_-12px_rgba(0,0,0,0.6)] ${staggerClass}">
     <div class="pointer-events-none absolute inset-0 overflow-hidden rounded-3xl bg-linear-to-br opacity-60 ${theme.gradient}" aria-hidden="true"></div>
     <div class="noise-overlay pointer-events-none absolute inset-0 overflow-hidden rounded-3xl opacity-30" aria-hidden="true"></div>
     <header class="relative z-10 mb-10 flex flex-wrap items-end gap-4 border-b border-white/10 pb-8">
@@ -215,7 +242,7 @@ function agrupadorCardHtml(agrupador: AgrupadorDeTorneo, index: number): string 
         <h3 class="font-display pt-1.5 text-4xl leading-none tracking-wide text-white uppercase sm:pt-2 sm:text-5xl md:pt-2.5 md:text-6xl">${escapeHtml(agrupador.nombre)}</h3>
       </div>
     </header>
-    <div class="relative z-10 grid grid-cols-1 gap-6">${torneosHtml}</div>
+    <div class="relative z-10 grid min-w-min grid-cols-1 gap-6">${torneosHtml}</div>
   </article>`;
 }
 
@@ -264,7 +291,11 @@ export function renderTorneosSectionHtml(agrupadores: AgrupadorDeTorneo[]): stri
     </div>`;
   }
 
-  return `<div class="space-y-12 md:space-y-16">${agrupadores.map((a, i) => agrupadorCardHtml(a, i)).join('')}</div>`;
+  return `<div class="min-w-min space-y-12 md:space-y-16">${agrupadores.map((a, i) => agrupadorCardHtml(a, i)).join('')}</div>`;
+}
+
+export function isMultiWordTitle(title: string): boolean {
+  return title.trim().split(/\s+/).filter(Boolean).length > 1;
 }
 
 export { elementoTorneoHtml, grupoDeFasesCardHtml, faseCardHtml, zonaBadgeHtml };

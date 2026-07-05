@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { normalizarTorneo } from '@types/torneo';
-import { grupoDeFasesCardHtml, faseCardHtml, zonaBadgeHtml } from '@lib/render/torneos';
+import {
+  grupoDeFasesCardHtml,
+  faseCardHtml,
+  isMultiWordTitle,
+  zonaBadgeHtml,
+} from '@lib/render/torneos';
 import type { AgrupadorDeTorneo, ElementoTorneo, Torneo } from '@types/torneo';
 
 const torneoBase: Torneo = {
@@ -22,6 +27,18 @@ const faseBase = {
   tipoDeFase: 'Regular',
   zonas: [{ id: 10, nombre: 'Zona 1' }],
 };
+
+describe('isMultiWordTitle', () => {
+  it('detecta títulos con varias palabras', () => {
+    expect(isMultiWordTitle('Fase Norte')).toBe(true);
+    expect(isMultiWordTitle('Fase A')).toBe(true);
+  });
+
+  it('detecta títulos de una sola palabra', () => {
+    expect(isMultiWordTitle('SUDAMERICANA')).toBe(false);
+    expect(isMultiWordTitle('LIBERTADORES')).toBe(false);
+  });
+});
 
 describe('normalizarTorneo', () => {
   it('convierte fases legacy a elementos', () => {
@@ -96,7 +113,27 @@ describe('render jerárquico', () => {
     expect(grupoHtml).not.toContain('text-zinc-200');
   });
 
-  it('summary de fase usa scroll horizontal para nombres largos', () => {
+  it('fase multi-palabra usa wrap normal y card contenido', () => {
+    const html = faseCardHtml(
+      {
+        id: 1,
+        nombre: 'Copa Eliminatoria Final',
+        tipoDeFase: 'Regular',
+        zonas: [],
+      },
+      torneoBase,
+      agrupador,
+      'text-blue-400',
+      'hover:border-blue-400',
+    );
+    const summaryEnd = html.indexOf('</summary>');
+    const summary = html.slice(0, summaryEnd);
+    expect(summary).toContain('whitespace-normal');
+    expect(summary).not.toContain('disclosure-title-scroll');
+    expect(html).toContain('glass min-w-0 rounded-2xl');
+  });
+
+  it('fase palabra única expande card y mantiene una sola línea', () => {
     const html = faseCardHtml(
       {
         id: 1,
@@ -111,10 +148,10 @@ describe('render jerárquico', () => {
     );
     const summaryEnd = html.indexOf('</summary>');
     const summary = html.slice(0, summaryEnd);
-    expect(summary).toContain('disclosure-title-scroll');
     expect(summary).toContain('whitespace-nowrap');
-    expect(summary).not.toContain('wrap-break-word');
+    expect(summary).not.toContain('disclosure-title-scroll');
     expect(summary).toContain('SUDAMERICANA');
+    expect(html).toContain('glass w-max min-w-full rounded-2xl');
   });
 
   it('faseCardHtml usa color del agrupador en el ícono del summary', () => {
@@ -194,7 +231,7 @@ describe('render jerárquico', () => {
     expect(html).not.toContain('ml-4');
   });
 
-  it('zonaBadgeHtml incluye clases responsive para mobile', () => {
+  it('zonaBadgeHtml multi-palabra permite wrap', () => {
     const html = zonaBadgeHtml(
       { id: 10, nombre: 'Zona Larga Norte' },
       faseBase,
@@ -205,8 +242,21 @@ describe('render jerárquico', () => {
     );
     expect(html).toContain('max-w-full');
     expect(html).toContain('min-w-0');
-    expect(html).toContain('wrap-break-word');
     expect(html).toContain('whitespace-normal');
     expect(html).toContain('sm:hover:scale-[1.05]');
+  });
+
+  it('zonaBadgeHtml palabra única usa nowrap y ancho natural', () => {
+    const html = zonaBadgeHtml(
+      { id: 10, nombre: 'SUDAMERICANA' },
+      faseBase,
+      torneoBase,
+      agrupador,
+      'text-blue-400',
+      'hover:border-blue-400',
+    );
+    expect(html).toContain('whitespace-nowrap');
+    expect(html).toContain('w-max min-w-0');
+    expect(html).toContain('SUDAMERICANA');
   });
 });
