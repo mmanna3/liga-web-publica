@@ -217,6 +217,18 @@ describe('render jerárquico', () => {
     expect(html).toContain('text-blue-400');
   });
 
+  it('grupoDeFasesCardHtml incluye contenedor acordeón para hijos', () => {
+    const html = grupoDeFasesCardHtml(
+      'Grupo A',
+      [{ tipo: 'fase', id: 1, nombre: 'Fase B', tipoDeFase: 'Regular', zonas: [] }],
+      torneoBase,
+      agrupador,
+      'text-blue-400',
+      'hover:border-blue-400',
+    );
+    expect(html).toContain('torneo-accordion-group');
+  });
+
   it('grupo anidado usa indentación sin margin-left', () => {
     const html = grupoDeFasesCardHtml(
       'Subgrupo',

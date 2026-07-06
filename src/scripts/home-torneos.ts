@@ -4,6 +4,7 @@ import {
   renderHeroStatsHtml,
   renderTorneosSectionHtml,
 } from '@lib/render/torneos';
+import { initTorneoAccordion } from '@lib/torneo-accordion';
 import { errorBoxHtml } from '@lib/ui-html';
 
 function scrollToHashTarget(): void {
@@ -26,6 +27,7 @@ async function loadTorneos(): Promise<void> {
 
     if (torneosRoot) {
       torneosRoot.innerHTML = renderTorneosSectionHtml(agrupadores);
+      initTorneoAccordion(torneosRoot);
     }
     if (heroNav) {
       heroNav.innerHTML = renderHeroAgrupadoresHtml(agrupadores);

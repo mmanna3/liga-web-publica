@@ -11,6 +11,7 @@ const ELEMENTO_CARD_PADDING = 'p-5';
 
 const FASE_CARD_BORDER = 'border border-white/10 border-l-2 border-l-white/10';
 const GRUPO_CARD_BORDER = 'border border-dashed border-white/15';
+const ACCORDION_GROUP_CLASS = 'torneo-accordion-group';
 
 function disclosureChevronHtml(): string {
   return `<span class="disclosure-chevron ml-auto shrink-0 text-zinc-500" aria-hidden="true">
@@ -64,11 +65,12 @@ function elementoCardShellHtml(
   const widthClass = elementoCardWidthClass(title);
   const detailsWidthClass = isMultiWordTitle(title) ? 'min-w-0' : 'min-w-min';
   const bodyWidthClass = bodyExtraClass.includes('space-y-4') ? 'min-w-min' : 'min-w-0';
+  const accordionClass = bodyExtraClass.includes('space-y-4') ? ACCORDION_GROUP_CLASS : '';
 
   return `<div class="glass ${widthClass} rounded-2xl ${borderClass} ${ELEMENTO_CARD_PADDING} ${indentClass}">
     <details class="torneo-disclosure ${detailsWidthClass}">
       ${summaryHtml}
-      <div class="mt-4 ${bodyWidthClass} border-t border-white/5 pt-4 ${bodyExtraClass}">${bodyHtml}</div>
+      <div class="mt-4 ${bodyWidthClass} border-t border-white/5 pt-4 ${accordionClass} ${bodyExtraClass}">${bodyHtml}</div>
     </details>
   </div>`;
 }
@@ -221,7 +223,7 @@ function torneoCardHtml(
         ${disclosureTitleHtml(torneo.nombre, 'text-2xl sm:text-3xl', 'text-white', 'pt-0.5')}
         ${disclosureChevronHtml()}
       </summary>
-      <div class="mt-6 min-w-min space-y-4 border-t border-white/5 pt-6">${contenidoHtml}</div>
+      <div class="mt-6 min-w-min space-y-4 border-t border-white/5 pt-6 ${ACCORDION_GROUP_CLASS}">${contenidoHtml}</div>
     </details>
   </div>`;
 }
@@ -245,7 +247,7 @@ function agrupadorCardHtml(agrupador: AgrupadorDeTorneo, index: number): string 
         <h3 class="font-display pt-1.5 text-4xl leading-none tracking-wide text-white uppercase sm:pt-2 sm:text-5xl md:pt-2.5 md:text-6xl">${escapeHtml(agrupador.nombre)}</h3>
       </div>
     </header>
-    <div class="relative z-10 grid min-w-min grid-cols-1 gap-6">${torneosHtml}</div>
+    <div class="relative z-10 grid min-w-min grid-cols-1 gap-6 ${ACCORDION_GROUP_CLASS}">${torneosHtml}</div>
   </article>`;
 }
 
