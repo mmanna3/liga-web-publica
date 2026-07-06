@@ -7,6 +7,7 @@
   },
   "scripts": {
     "dev": "BASE_PATH=/ astro dev",
+    "dev:lan": "BASE_PATH=/ astro dev --host",
     "preview:gh-pages": "BASE_PATH=/liga-web-publica/ astro preview",
     "process-escudos": "node scripts/process-escudos.mjs",
     "dedupe-escudos": "node scripts/dedupe-escudos.mjs",

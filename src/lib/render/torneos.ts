@@ -51,7 +51,8 @@ function disclosureSummaryHtml(
 }
 
 function elementoCardWidthClass(title: string): string {
-  return isMultiWordTitle(title) ? 'min-w-0' : 'w-max min-w-full';
+  if (isMultiWordTitle(title)) return 'min-w-0';
+  return 'w-max min-w-full md:w-full md:min-w-0';
 }
 
 function elementoCardShellHtml(
@@ -63,8 +64,8 @@ function elementoCardShellHtml(
   bodyExtraClass = '',
 ): string {
   const widthClass = elementoCardWidthClass(title);
-  const detailsWidthClass = isMultiWordTitle(title) ? 'min-w-0' : 'min-w-min';
-  const bodyWidthClass = bodyExtraClass.includes('space-y-4') ? 'min-w-min' : 'min-w-0';
+  const detailsWidthClass = isMultiWordTitle(title) ? 'min-w-0' : 'min-w-min md:min-w-0';
+  const bodyWidthClass = bodyExtraClass.includes('space-y-4') ? 'min-w-min md:min-w-0' : 'min-w-0';
   const accordionClass = bodyExtraClass.includes('space-y-4') ? ACCORDION_GROUP_CLASS : '';
 
   return `<div class="glass ${widthClass} rounded-2xl ${borderClass} ${ELEMENTO_CARD_PADDING} ${indentClass}">
@@ -214,7 +215,7 @@ function torneoCardHtml(
     .join('');
 
   const torneoWidthClass = elementoCardWidthClass(torneo.nombre);
-  const torneoDetailsWidthClass = isMultiWordTitle(torneo.nombre) ? 'min-w-0' : 'min-w-min';
+  const torneoDetailsWidthClass = isMultiWordTitle(torneo.nombre) ? 'min-w-0' : 'min-w-min md:min-w-0';
 
   return `<div class="glass glass-hover ${torneoWidthClass} rounded-2xl border border-white/10 p-6">
     <details class="torneo-disclosure ${torneoDetailsWidthClass}">
@@ -223,7 +224,7 @@ function torneoCardHtml(
         ${disclosureTitleHtml(torneo.nombre, 'text-2xl sm:text-3xl', 'text-white', 'pt-0.5')}
         ${disclosureChevronHtml()}
       </summary>
-      <div class="mt-6 min-w-min space-y-4 border-t border-white/5 pt-6 ${ACCORDION_GROUP_CLASS}">${contenidoHtml}</div>
+      <div class="mt-6 min-w-min space-y-4 border-t border-white/5 pt-6 md:min-w-0 ${ACCORDION_GROUP_CLASS}">${contenidoHtml}</div>
     </details>
   </div>`;
 }
@@ -236,7 +237,7 @@ function agrupadorCardHtml(agrupador: AgrupadorDeTorneo, index: number): string 
     .map((t) => torneoCardHtml(t, agrupador, theme.accent, theme.pillHover))
     .join('');
 
-  return `<article id="agrupador-${agrupador.id}" class="animate-fade-up relative w-max min-w-full scroll-mt-28 rounded-3xl border p-6 sm:p-8 md:p-10 ${theme.border} ${theme.glow} shadow-2xl transition-shadow duration-500 hover:shadow-[0_24px_80px_-12px_rgba(0,0,0,0.6)] ${staggerClass}">
+  return `<article id="agrupador-${agrupador.id}" class="animate-fade-up relative w-max min-w-full scroll-mt-28 rounded-3xl border p-6 sm:p-8 md:w-full md:min-w-0 md:p-10 ${theme.border} ${theme.glow} shadow-2xl transition-shadow duration-500 hover:shadow-[0_24px_80px_-12px_rgba(0,0,0,0.6)] ${staggerClass}">
     <div class="pointer-events-none absolute inset-0 overflow-hidden rounded-3xl bg-linear-to-br opacity-60 ${theme.gradient}" aria-hidden="true"></div>
     <div class="noise-overlay pointer-events-none absolute inset-0 overflow-hidden rounded-3xl opacity-30" aria-hidden="true"></div>
     <header class="relative z-10 mb-10 flex flex-wrap items-end gap-4 border-b border-white/10 pb-8">
@@ -247,7 +248,7 @@ function agrupadorCardHtml(agrupador: AgrupadorDeTorneo, index: number): string 
         <h3 class="font-display pt-1.5 text-4xl leading-none tracking-wide text-white uppercase sm:pt-2 sm:text-5xl md:pt-2.5 md:text-6xl">${escapeHtml(agrupador.nombre)}</h3>
       </div>
     </header>
-    <div class="relative z-10 grid min-w-min grid-cols-1 gap-6 ${ACCORDION_GROUP_CLASS}">${torneosHtml}</div>
+    <div class="relative z-10 grid min-w-min grid-cols-1 gap-6 md:min-w-0 ${ACCORDION_GROUP_CLASS}">${torneosHtml}</div>
   </article>`;
 }
 
@@ -296,7 +297,7 @@ export function renderTorneosSectionHtml(agrupadores: AgrupadorDeTorneo[]): stri
     </div>`;
   }
 
-  return `<div class="min-w-min space-y-12 md:space-y-16">${agrupadores.map((a, i) => agrupadorCardHtml(a, i)).join('')}</div>`;
+  return `<div class="min-w-min w-full space-y-12 md:min-w-0 md:space-y-16">${agrupadores.map((a, i) => agrupadorCardHtml(a, i)).join('')}</div>`;
 }
 
 export function isMultiWordTitle(title: string): boolean {

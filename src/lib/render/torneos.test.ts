@@ -151,7 +151,7 @@ describe('render jerárquico', () => {
     expect(summary).toContain('whitespace-nowrap');
     expect(summary).not.toContain('disclosure-title-scroll');
     expect(summary).toContain('SUDAMERICANA');
-    expect(html).toContain('glass w-max min-w-full rounded-2xl');
+    expect(html).toContain('glass w-max min-w-full md:w-full md:min-w-0 rounded-2xl');
   });
 
   it('faseCardHtml usa color del agrupador en el ícono del summary', () => {
