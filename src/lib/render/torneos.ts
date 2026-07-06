@@ -5,9 +5,14 @@ import { iconSvg } from '@lib/ui-html';
 import type { AgrupadorDeTorneo, ElementoTorneo, Fase, Torneo, Zona } from '@types/torneo';
 
 const DISCLOSURE_SUMMARY_BASE =
-  'flex cursor-pointer list-none items-center gap-2.5 rounded-xl -mx-1 px-1 py-0.5 transition-colors hover:bg-white/5 active:bg-white/5 [&::-webkit-details-marker]:hidden';
+  'flex cursor-pointer list-none items-center gap-2 md:gap-2.5 rounded-xl -mx-1 px-1 py-0.5 transition-colors hover:bg-white/5 active:bg-white/5 [&::-webkit-details-marker]:hidden';
 
-const ELEMENTO_CARD_PADDING = 'p-5';
+const ELEMENTO_CARD_PADDING = 'p-4 md:p-5';
+const FASE_TITLE_SIZE = 'text-lg md:text-xl';
+const TORNEO_TITLE_SIZE = 'text-xl md:text-2xl lg:text-3xl';
+const SUMMARY_ICON_SIZE = 'h-4 w-4 md:h-5 md:w-5';
+const CHEVRON_ICON_SIZE = 'h-4 w-4 md:h-5 md:w-5';
+const ACCORDION_CHILDREN_SPACING = 'space-y-3 md:space-y-4';
 
 const FASE_CARD_BORDER = 'border border-white/10 border-l-2 border-l-white/10';
 const GRUPO_CARD_BORDER = 'border border-dashed border-white/15';
@@ -15,7 +20,7 @@ const ACCORDION_GROUP_CLASS = 'torneo-accordion-group';
 
 function disclosureChevronHtml(): string {
   return `<span class="disclosure-chevron ml-auto shrink-0 text-zinc-500" aria-hidden="true">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="${CHEVRON_ICON_SIZE}"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </span>`;
 }
 
@@ -40,11 +45,11 @@ function disclosureSummaryHtml(
   icon: 'layers' | 'trophy',
   title: string,
   accentClass: string,
-  titleSizeClass = 'text-xl',
+  titleSizeClass = FASE_TITLE_SIZE,
   titleColorClass = 'text-white',
 ): string {
   return `<summary class="${DISCLOSURE_SUMMARY_BASE}">
-    ${iconSvg(icon, `h-5 w-5 shrink-0 ${accentClass}`)}
+    ${iconSvg(icon, `${SUMMARY_ICON_SIZE} shrink-0 ${accentClass}`)}
     ${disclosureTitleHtml(title, titleSizeClass, titleColorClass)}
     ${disclosureChevronHtml()}
   </summary>`;
@@ -65,13 +70,13 @@ function elementoCardShellHtml(
 ): string {
   const widthClass = elementoCardWidthClass(title);
   const detailsWidthClass = isMultiWordTitle(title) ? 'min-w-0' : 'min-w-min md:min-w-0';
-  const bodyWidthClass = bodyExtraClass.includes('space-y-4') ? 'min-w-min md:min-w-0' : 'min-w-0';
-  const accordionClass = bodyExtraClass.includes('space-y-4') ? ACCORDION_GROUP_CLASS : '';
+  const bodyWidthClass = bodyExtraClass.includes('space-y-3') ? 'min-w-min md:min-w-0' : 'min-w-0';
+  const accordionClass = bodyExtraClass.includes('space-y-3') ? ACCORDION_GROUP_CLASS : '';
 
   return `<div class="glass ${widthClass} rounded-2xl ${borderClass} ${ELEMENTO_CARD_PADDING} ${indentClass}">
     <details class="torneo-disclosure ${detailsWidthClass}">
       ${summaryHtml}
-      <div class="mt-4 ${bodyWidthClass} border-t border-white/5 pt-4 ${accordionClass} ${bodyExtraClass}">${bodyHtml}</div>
+      <div class="mt-3 ${bodyWidthClass} border-t border-white/5 pt-3 md:mt-4 md:pt-4 ${accordionClass} ${bodyExtraClass}">${bodyHtml}</div>
     </details>
   </div>`;
 }
@@ -107,9 +112,9 @@ function zonaBadgeHtml(
   return `<a
     href="${escapeHtml(href)}"
     title="${escapeHtml(nombreDisplay)}"
-    class="group flex ${linkWidthClass} cursor-pointer items-center gap-2 rounded-full border border-border-glass bg-white/5 px-3 py-2 font-display text-sm font-medium tracking-wide text-zinc-300 uppercase backdrop-blur-xl transition-all duration-300 ease-out hover:-translate-y-1 hover:text-white sm:gap-3 sm:px-5 sm:py-2.5 sm:text-base sm:hover:scale-[1.05] ${pillHoverClass}"
+    class="group flex ${linkWidthClass} cursor-pointer items-center gap-2 rounded-full border border-border-glass bg-white/5 px-2.5 py-1.5 font-display text-xs font-medium tracking-wide text-zinc-300 uppercase backdrop-blur-xl transition-all duration-300 ease-out hover:-translate-y-1 hover:text-white md:gap-3 md:px-3 md:py-2 md:text-sm md:hover:scale-[1.05] ${pillHoverClass}"
   >
-    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/5 transition-all duration-300 group-hover:scale-110 group-hover:bg-white/20 sm:h-9 sm:w-9 ${accentClass}" aria-hidden="true">
+    <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/5 transition-all duration-300 group-hover:scale-110 group-hover:bg-white/20 md:h-8 md:w-8 ${accentClass}" aria-hidden="true">
       ${iconSvg('ball', 'h-4 w-4')}
     </span>
     <span class="${textClass}">${escapeHtml(nombreDisplay)}</span>
@@ -126,10 +131,10 @@ function faseCardHtml(
   const zonasHtml =
     fase.zonas.length > 0
       ? `<div class="min-w-0">
-          <p class="mb-2 inline-flex items-center gap-1.5 text-[10px] font-bold tracking-[0.3em] uppercase ${accentClass}">
+          <p class="mb-2 inline-flex items-center gap-1.5 text-[9px] font-bold tracking-[0.3em] uppercase md:text-[10px] ${accentClass}">
             ${iconSvg('grid', 'h-3.5 w-3.5')} Zonas
           </p>
-          <div class="zonas-grid gap-3">
+          <div class="zonas-grid gap-2 md:gap-3">
             ${fase.zonas.map((z) => zonaBadgeHtml(z, fase, torneo, agrupador, accentClass, pillHoverClass)).join('')}
           </div>
         </div>`
@@ -166,7 +171,7 @@ function grupoDeFasesCardHtml(
     nombreGrupo,
     disclosureSummaryHtml('layers', nombreGrupo, accentClass),
     hijosHtml,
-    'space-y-4',
+    ACCORDION_CHILDREN_SPACING,
   );
 }
 
@@ -217,14 +222,14 @@ function torneoCardHtml(
   const torneoWidthClass = elementoCardWidthClass(torneo.nombre);
   const torneoDetailsWidthClass = isMultiWordTitle(torneo.nombre) ? 'min-w-0' : 'min-w-min md:min-w-0';
 
-  return `<div class="glass glass-hover ${torneoWidthClass} rounded-2xl border border-white/10 p-6">
+  return `<div class="glass glass-hover ${torneoWidthClass} rounded-2xl border border-white/10 p-4 md:p-6">
     <details class="torneo-disclosure ${torneoDetailsWidthClass}">
       <summary class="${DISCLOSURE_SUMMARY_BASE}">
-        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 ${accentClass}" aria-hidden="true">${iconSvg('trophy', 'h-5 w-5')}</span>
-        ${disclosureTitleHtml(torneo.nombre, 'text-2xl sm:text-3xl', 'text-white', 'pt-0.5')}
+        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 md:h-11 md:w-11 ${accentClass}" aria-hidden="true">${iconSvg('trophy', `${SUMMARY_ICON_SIZE}`)}</span>
+        ${disclosureTitleHtml(torneo.nombre, TORNEO_TITLE_SIZE, 'text-white', 'pt-0.5')}
         ${disclosureChevronHtml()}
       </summary>
-      <div class="mt-6 min-w-min space-y-4 border-t border-white/5 pt-6 md:min-w-0 ${ACCORDION_GROUP_CLASS}">${contenidoHtml}</div>
+      <div class="mt-4 min-w-min space-y-3 border-t border-white/5 pt-4 md:mt-6 md:min-w-0 md:space-y-4 md:pt-6 ${ACCORDION_GROUP_CLASS}">${contenidoHtml}</div>
     </details>
   </div>`;
 }
@@ -237,18 +242,18 @@ function agrupadorCardHtml(agrupador: AgrupadorDeTorneo, index: number): string 
     .map((t) => torneoCardHtml(t, agrupador, theme.accent, theme.pillHover))
     .join('');
 
-  return `<article id="agrupador-${agrupador.id}" class="animate-fade-up relative w-max min-w-full scroll-mt-28 rounded-3xl border p-6 sm:p-8 md:w-full md:min-w-0 md:p-10 ${theme.border} ${theme.glow} shadow-2xl transition-shadow duration-500 hover:shadow-[0_24px_80px_-12px_rgba(0,0,0,0.6)] ${staggerClass}">
+  return `<article id="agrupador-${agrupador.id}" class="animate-fade-up relative w-max min-w-full scroll-mt-28 rounded-3xl border p-4 md:w-full md:min-w-0 md:p-8 lg:p-10 ${theme.border} ${theme.glow} shadow-2xl transition-shadow duration-500 hover:shadow-[0_24px_80px_-12px_rgba(0,0,0,0.6)] ${staggerClass}">
     <div class="pointer-events-none absolute inset-0 overflow-hidden rounded-3xl bg-linear-to-br opacity-60 ${theme.gradient}" aria-hidden="true"></div>
     <div class="noise-overlay pointer-events-none absolute inset-0 overflow-hidden rounded-3xl opacity-30" aria-hidden="true"></div>
-    <header class="relative z-10 mb-10 flex flex-wrap items-end gap-4 border-b border-white/10 pb-8">
+    <header class="relative z-10 mb-6 flex flex-wrap items-end gap-4 border-b border-white/10 pb-5 md:mb-10 md:pb-8">
       <div class="flex items-center gap-4">
-        <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border bg-white/5 ${theme.border} ${theme.accent}" aria-hidden="true">
-          ${iconSvg('trophy', 'h-7 w-7')}
+        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border bg-white/5 md:h-14 md:w-14 ${theme.border} ${theme.accent}" aria-hidden="true">
+          ${iconSvg('trophy', 'h-6 w-6 md:h-7 md:w-7')}
         </span>
-        <h3 class="font-display pt-1.5 text-4xl leading-none tracking-wide text-white uppercase sm:pt-2 sm:text-5xl md:pt-2.5 md:text-6xl">${escapeHtml(agrupador.nombre)}</h3>
+        <h3 class="font-display pt-1.5 text-3xl leading-none tracking-wide text-white uppercase md:pt-2 md:text-5xl lg:pt-2.5 lg:text-6xl">${escapeHtml(agrupador.nombre)}</h3>
       </div>
     </header>
-    <div class="relative z-10 grid min-w-min grid-cols-1 gap-6 md:min-w-0 ${ACCORDION_GROUP_CLASS}">${torneosHtml}</div>
+    <div class="relative z-10 grid min-w-min grid-cols-1 gap-4 md:min-w-0 md:gap-6 ${ACCORDION_GROUP_CLASS}">${torneosHtml}</div>
   </article>`;
 }
 
@@ -297,7 +302,7 @@ export function renderTorneosSectionHtml(agrupadores: AgrupadorDeTorneo[]): stri
     </div>`;
   }
 
-  return `<div class="min-w-min w-full space-y-12 md:min-w-0 md:space-y-16">${agrupadores.map((a, i) => agrupadorCardHtml(a, i)).join('')}</div>`;
+  return `<div class="min-w-min w-full space-y-8 md:min-w-0 md:space-y-16">${agrupadores.map((a, i) => agrupadorCardHtml(a, i)).join('')}</div>`;
 }
 
 export function isMultiWordTitle(title: string): boolean {

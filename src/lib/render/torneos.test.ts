@@ -102,14 +102,13 @@ describe('render jerárquico', () => {
       'hover:border-blue-400',
     );
 
-    expect(faseHtml).toContain(' p-5 ');
-    expect(grupoHtml).toContain(' p-5 ');
-    expect(faseHtml).toContain('text-xl');
-    expect(grupoHtml).toContain('text-xl');
+    expect(faseHtml).toContain('p-4 md:p-5');
+    expect(grupoHtml).toContain('p-4 md:p-5');
+    expect(faseHtml).toContain('text-lg md:text-xl');
+    expect(grupoHtml).toContain('text-lg md:text-xl');
     expect(faseHtml).toContain('text-white');
     expect(grupoHtml).toContain('text-white');
     expect(faseHtml).not.toContain('p-6');
-    expect(grupoHtml).not.toContain('text-lg');
     expect(grupoHtml).not.toContain('text-zinc-200');
   });
 
@@ -258,10 +257,10 @@ describe('render jerárquico', () => {
       'text-blue-400',
       'hover:border-blue-400',
     );
-    expect(html).toContain('w-full min-w-0');
-    expect(html).toContain('whitespace-normal');
+    expect(html).toContain('text-xs');
+    expect(html).toContain('md:text-sm');
     expect(html).toContain('zona-badge-label');
-    expect(html).toContain('sm:hover:scale-[1.05]');
+    expect(html).toContain('md:hover:scale-[1.05]');
   });
 
   it('zonaBadgeHtml palabra única usa nowrap en desktop y ancho completo en mobile', () => {
