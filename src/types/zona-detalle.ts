@@ -58,8 +58,15 @@ export type InstanciasDTO = {
   partidos?: PartidoEliminacionDirectaDTO[];
 };
 
+export type CampeonEliminacionDirectaDTO = {
+  equipo?: string;
+  escudo?: string;
+};
+
 export type EliminacionDirectaDTO = {
   instancias?: InstanciasDTO[];
+  /** Zona de un único equipo: no hay partidos, ese equipo es campeón directo. */
+  campeonSinJugar?: CampeonEliminacionDirectaDTO;
 };
 
 export type ResultadoCategoriaDTO = {

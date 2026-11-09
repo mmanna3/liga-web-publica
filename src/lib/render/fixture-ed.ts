@@ -85,6 +85,10 @@ function bloqueCampeonHtml(partido: PartidoEliminacionDirectaDTO): string {
   if (lado === null) return '';
   const nombre = lado === 'local' ? partido.local : partido.visitante;
   const escudo = lado === 'local' ? partido.escudoLocal : partido.escudoVisitante;
+  return bloqueCampeonEquipoHtml(nombre, escudo);
+}
+
+function bloqueCampeonEquipoHtml(nombre: string | undefined, escudo: string | undefined): string {
   const nombreLimpio = (nombre ?? '').trim();
   if (!nombreLimpio) return '';
 
@@ -97,6 +101,11 @@ function bloqueCampeonHtml(partido: PartidoEliminacionDirectaDTO): string {
 }
 
 export function renderFixtureEdHtml(data: EliminacionDirectaDTO | undefined): string {
+  // Zona de un único equipo: no hay partidos, ese equipo es campeón directo.
+  if (data?.campeonSinJugar) {
+    return bloqueCampeonEquipoHtml(data.campeonSinJugar.equipo, data.campeonSinJugar.escudo);
+  }
+
   const instancias = data?.instancias ?? [];
   if (instancias.length === 0) {
     return emptyStateHtml('No hay partidos para esta zona.');
